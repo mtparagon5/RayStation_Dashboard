@@ -1,0 +1,582 @@
+<style>
+  /* NOTE: some of this may be redundant or unnecessary */
+
+  body {
+  }
+
+  table {
+    width: 100%;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  input {
+    margin-left: 30px;
+  }
+
+  #cbDiv {
+    margin-left: 100px;
+  }
+
+  /*table, tr, td {
+
+		border: 1px solid black;
+
+		text-align:center;
+
+   }*/
+
+  /*tbody {
+
+		overflow:auto;
+
+   }*/
+
+  /* .tableData {
+    margin-top: 3%;
+
+    float: left;
+  } */
+
+  /* #table {
+    width: auto;
+
+    height: 500px;
+
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    border-collapse: collapse;
+
+    margin-bottom: 2%;
+  } */
+
+  #planParameters {
+    /*width: 300px;*/
+
+    height: auto;
+
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    /*float: left;*/
+
+    border-collapse: collapse;
+
+    margin-bottom: 2%;
+
+    /*border: 1px solid black;*/
+  }
+
+  /* #table tr:hover {
+    background-color: lightblue;
+  }
+
+  #planParameters tr:hover {
+    background-color: white;
+  }
+
+  #table thead tr:hover {
+    background-color: lightblue;
+  }
+
+  #planParameters thead tr:hover {
+    background-color: lightblue;
+  }
+
+  #table thead {
+    display: block;
+
+    background-color: lightblue;
+
+    color: black;
+  } */
+
+  #planParameters thead {
+    display: block;
+
+    background-color: lightblue;
+
+    /*border: 0px solid black;*/
+
+    color: black;
+  }
+
+  /* #table thead th {
+    width: auto;
+  } */
+
+  #table tbody {
+    display: block;
+
+    overflow: auto;
+
+    width: auto;
+
+    height: 500px;
+  }
+
+  #planParameters tbody {
+    display: block;
+
+    width: 100px;
+  }
+
+  #planParameters td {
+    min-width: 23px;
+
+    padding-left: 10px;
+
+    text-align: right;
+  }
+
+  #planParameters th {
+    padding-left: 11px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #ddd;
+  }
+
+  #table tr {
+    /*border: 1px solid black;*/
+  }
+
+  #table td {
+    /*border: 1px solid black;*/
+  }
+
+  /* table body col widths */
+
+  /* #table td:nth-child(1),
+  #table th:nth-child(1),
+  #table thead th:nth-child(1),
+  #table th:nth-child(1) {
+    min-width: 75px;
+  }
+
+  #table td:nth-child(2),
+  #table th:nth-child(2),
+  #table thead th:nth-child(2),
+  #table th:nth-child(2) {
+    min-width: 130px;
+  }
+
+  #table td:nth-child(3),
+  #table th:nth-child(3),
+  #table thead th:nth-child(3),
+  #table th:nth-child(3) {
+    min-width: 100px;
+  }
+
+  #table td:nth-child(4),
+  #table th:nth-child(4),
+  #table thead th:nth-child(4),
+  #table th:nth-child(4) {
+    min-width: 75px;
+  }
+
+  #table td:nth-child(5),
+  #table th:nth-child(5),
+  #table thead th:nth-child(5),
+  #table th:nth-child(5) {
+    min-width: 75px;
+  }
+
+  #table td:nth-child(6),
+  #table th:nth-child(6),
+  #table thead th:nth-child(6),
+  #table th:nth-child(6) {
+    min-width: 125px;
+  }
+
+  #table thead th:nth-child(1) {
+    min-width: 75px;
+  }
+
+  #table thead th:nth-child(2) {
+    min-width: 142px;
+  }
+
+  #table thead th:nth-child(3) {
+    min-width: 100px;
+  }
+
+  #table thead th:nth-child(4) {
+    min-width: 75px;
+  }
+
+  #table thead th:nth-child(5) {
+    min-width: 75px;
+  }
+
+  #table thead th:nth-child(6) {
+    min-width: 125px;
+  } */
+
+  #planParameters td:nth-child(1) {
+    min-width: 48px;
+  }
+
+  #planParameters td:nth-child(2) {
+    padding-left: 10px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters td:nth-child(3) {
+    padding-left: 10px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters td:nth-child(4) {
+    padding-left: 10px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters td:nth-child(5) {
+    padding-left: 15px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters td:nth-child(6) {
+    padding-left: 10px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters td:nth-child(7) {
+    padding-left: 5px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters td:nth-child(8) {
+    padding-left: 11px;
+
+    min-width: 15px;
+
+    text-align: center;
+  }
+
+  #planParameters thead th:nth-child(1) {
+    padding-left: 11px;
+
+    min-width: 0px;
+
+    text-align: center;
+  }
+
+  #planParameters thead th:nth-child(2) {
+    padding-left: 11px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters thead th:nth-child(3) {
+    padding-left: 12px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters thead th:nth-child(4) {
+    padding-left: 10px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters thead th:nth-child(5) {
+    padding-left: 11px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters thead th:nth-child(6) {
+    padding-left: 11px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters thead th:nth-child(7) {
+    padding-left: 13px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #planParameters thead th:nth-child(8) {
+    padding-left: 15px;
+
+    min-width: 20px;
+
+    text-align: center;
+  }
+
+  #loadPatientDiv {
+    text-align: center;
+
+    margin-left: 10px;
+  }
+
+  #loadPatientHeader {
+    text-align: center;
+  }
+
+  #instructionLabel {
+    text-align: center;
+  }
+
+  #fileinput {
+  }
+
+  #btnLoad {
+    margin-left: 50px;
+
+    width: 150px;
+  }
+
+  /* keep */
+  #ptBlockDislay {
+    margin-left: 80%;
+
+    text-align: left;
+  }
+
+  #dvh {
+    float: left;
+
+    z-index: 0;
+
+    height: 800px;
+
+    width: 60%;
+
+    /*margin-left: 200px;*/
+
+    margin: auto;
+
+    padding-top: 0px;
+  }
+
+  #planStats {
+    z-index: 0;
+
+    height: 800px;
+
+    width: 1600px;
+
+    /*margin-left: 200px;*/
+
+    margin: auto;
+
+    padding-top: 0px;
+  }
+
+  #structureStats {
+    z-index: 0;
+
+    height: 600px;
+
+    width: 1600px;
+
+    /*margin-left: 200px;*/
+
+    margin: auto;
+
+    padding-top: 0px;
+
+    padding-bottom: 100px;
+  }
+
+  #proxStats {
+    z-index: 0;
+
+    height: 800px;
+
+    width: 1600px;
+
+    /*margin-left: 200px;*/
+
+    margin: auto;
+
+    padding-top: 0px;
+  }
+
+  #canvas {
+    display: inline;
+  }
+
+  /* .pBtn {
+    z-index: 1;
+
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    margin-right: 74%;
+
+    margin-bottom: 1px;
+
+    top: 2%;
+
+    width: 215px;
+  } */
+
+  .tabPhysician {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    display: inline-block;
+
+    margin-left: 58px;
+  }
+
+  .tabPtName {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    display: inline-block;
+
+    margin-left: 72px;
+  }
+
+  .tabMrn {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    display: inline-block;
+
+    margin-left: 86px;
+  }
+
+  .tabPlanName {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    display: inline-block;
+
+    margin-left: 90px;
+  }
+
+  .tabBeamSetName {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+    font-size: 13px;
+    display: inline-block;
+    margin-left: 63px;
+  }
+
+  .tabPlanStatus {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    display: inline-block;
+
+    margin-left: 22px;
+  }
+
+  p {
+    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+      Helvetica, sans-serif;
+
+    font-size: 13px;
+
+    margin-top: 0px;
+
+    margin-bottom: 1px;
+  }
+
+  /* @media print {
+    #ptBlockDislay {
+      z-index: 1;
+
+      font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
+        Helvetica, sans-serif;
+
+      font-size: 13px;
+
+      margin-left: 70%;
+
+      top: 1%;
+
+      margin-bottom: 2%;
+
+      width: 400px;
+
+      text-align: left;
+    }
+
+    .tableClass {
+      page-break-after: always;
+    }
+
+    .tableData {
+      margin-left: 20%;
+    }
+
+    #table tbody {
+      display: table-row-group;
+
+      overflow: auto;
+
+      width: auto;
+
+      height: auto;
+    }
+
+    #table thead {
+      display: table-header-group;
+    }
+
+    #table th {
+      break-inside: avoid;
+    }
+  } */
+</style>

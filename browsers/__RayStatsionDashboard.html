@@ -31,10 +31,10 @@
     />
   </head>
 
-  <body>
+  <body >
     <div
       id="main-nav"
-      class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm"
+      class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm "
     >
       <h6 class="my-0 mr-md-auto font-weight-normal">RayStation Dashboard</h6>
       <nav class="my-2 my-md-0 mr-md-3">
@@ -61,7 +61,7 @@
       </nav>
     </div>
 
-    <div class="container-fluid ">
+    <div class="container-fluid w-75">
       <div class="row">
         <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4 ">
           <!-- print button -->
@@ -78,7 +78,7 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-            <h1 class="h2">Robust Plan Review</h1>
+            <h2>Robust Plan Review</h2>
           </div>
           <!-- /Dashboard Header -->
 
@@ -113,101 +113,141 @@
             <!--<p>ApprovalStatus:<span class='tabPlanStatus'><label id="approvalStatus"></label></span></p>-->
           </div>
           <!-- /Patient Information Display -->
-          <h6>Select Contours:</h6>
-          <hr />
-          <form id="check-boxes">
-            <!-- <fieldset> -->
-
-            <label
-              ><input
-                id="CTV"
-                name="CTV"
-                val="CTV"
-                checked="checked"
-                type="checkbox"
-              />CTV</label
-            >
-
-            <!-- </fieldset> -->
-          </form>
 
           <!-- Placeholder for the DVH -->
+          <div class="row">
+            <div class="dvh col-md-12 m-auto h-100" id="dvh"></div>
+          </div>
+          <div class="row">
+            <div class="m-auto ">
+              <h6 class="text-center">Available Contours</h6>
+              <hr />
+              <form class="" id="check-boxes">
+                <!-- <fieldset> -->
+                <!-- labels are populated dynamically, don't think this is needed -->
+                <!-- <label
+                        ><input
+                          id="CTV"
+                          name="CTV"
+                          val="CTV"
+                          checked="checked"
+                          type="checkbox"
+                        />CTV</label
+                      > -->
 
-          <div class="dvh" id="dvh"></div>
+                <!-- </fieldset> -->
+              </form>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-md-12">
+                <!-- <div class="col-md-12 tableData" id="tableData"> -->
+                <!-- Plan Parameters Table -->
+                <h2>Robust Planning Parameters</h2>
+                <div class="table-responsive">
+                  <table
+                    class="table table-striped table-sm"
+                    id="plan-params-table"
+                    cellpadding="8"
+                    cellspacing="15"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Range [%]</th>
+                        <th>Left [cm]</th>
+                        <th>Right [cm]</th>
+                        <th>Ant [cm]</th>
+                        <th>Post [cm]</th>
+                        <th>Sup [cm]</th>
+                        <th>Inf [cm]</th>
+                        <th>Ind. Beams?</th>
+                      </tr>
+                    </thead>
+                    <tbody id="plan-params-tbody"></tbody>
+                  </table>
+                </div>
 
-          <!-- Placeholder for Table Data -->
+                <!-- //     "<tr>" +
+                    //     '<th rowspan="1" align="center">Range [%]</th>' +
+                    //     '<th rowspan="1" align="center">Left [cm]</th>' +
+                    //     '<th rowspan="1" align="center">Right [cm]</th>' +
+                    //     '<th rowspan="1" align="center">Ant [cm]</th>' +
+                    //     '<th rowspan="1" align="center">Post [cm]</th>' +
+                    //     '<th rowspan="1" align="center">Sup [cm]</th>' +
+                    //     '<th rowspan="1" align="center">Inf [cm]</th>' +
+                    //     '<th rowspan="1" align="center">Ind. Beams?</th>' +
+                    //     "</tr></thead>" -->
 
-          <div class="tableData" id="tableData">
-            <!-- Plan Parameters Table -->
+                <!-- DVH Stats Table -->
 
-            <table
-              class="tableClass"
-              id="planParameters"
-              cellpadding="8"
-              cellspacing="15"
-            ></table>
-
-            <!-- DVH Stats Table -->
-
-            <!-- <table id="table" cellpadding="8" cellspacing="15"></table> -->
-            <h2>DVH Statistics</h2>
-            <div class="table-responsive col-md-5">
-              <table class="table table-striped table-sm" id="table">
-                <thead>
-                  <tr>
-                    <th>Structure</th>
-                    <th>Plan</th>
-                    <th>Max Dose (Gy)</th>
-                    <th>Max %&#916;</th>
-                    <th>D95 (Gy)</th>
-                    <th>D95 %&#916;</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
+                <!-- <table id="table" cellpadding="8" cellspacing="15"></table> -->
+                <h2>DVH Statistics</h2>
+                <div class="table-responsive">
+                  <table
+                    class="table table-striped table-sm table-fixed-6 "
+                    id="dvh-stats-table"
+                  >
+                    <thead>
+                      <tr>
+                        <th>Structure</th>
+                        <th>Plan</th>
+                        <th>Max Dose (Gy)</th>
+                        <th>Max %&#916;</th>
+                        <th>D95 (Gy)</th>
+                        <th>D95 %&#916;</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dvh-stats-tbody"></tbody>
+                  </table>
+                </div>
+                <!-- </div> -->
             </div>
           </div>
 
-          <table>
-            <tr>
-              <td style="width: 800px;">
-                <div id="wdr-component"></div>
-              </td>
+            <!-- Placeholder for Table Data -->
+            
 
-              <td>
-                <div
-                  id="highchartsContainer"
-                  style="width:700px;height:400px;"
-                ></div>
-              </td>
-            </tr>
+        <table style="display:none;">
+          <tr>
+            <td style="width: 800px;">
+              <div id="wdr-component"></div>
+            </td>
+
+            <td>
+              <div
+                id="highchartsContainer"
+                style="width:700px;height:400px;"
+              ></div>
+            </td>
+          </tr>
+        </table>
+
+        <canvas style="display:none;"
+          class="my-4 w-100 mb-10"
+          id="myChart"
+          width="900"
+          height="380"
+        ></canvas>
+
+        <!-- <h2>DVH Statistics</h2>
+        <div class="table-responsive col-md-5">
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>Structure</th>
+                <th>Plan</th>
+                <th>Max Dose (Gy)</th>
+                <th>Max %&#916;</th>
+                <th>D95 (Gy)</th>
+                <th>D95 %&#916;</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
           </table>
-
-          <canvas
-            class="my-4 w-100"
-            id="myChart"
-            width="900"
-            height="380"
-          ></canvas>
-
-          <h2>DVH Statistics</h2>
-          <div class="table-responsive col-md-5">
-            <table class="table table-striped table-sm">
-              <thead>
-                <tr>
-                  <th>Structure</th>
-                  <th>Plan</th>
-                  <th>Max Dose (Gy)</th>
-                  <th>Max %&#916;</th>
-                  <th>D95 (Gy)</th>
-                  <th>D95 %&#916;</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+        </div> -->
+        
         </main>
-      </div>
+        <footer class="w-100 text-center mt-5">&copy;Copyright 2019</footer>
     </div>
 
     <!-- jQuery -->
@@ -642,23 +682,8 @@
             });
           });
 
-          $("#planParameters").empty();
-
-          $("#planParameters").append(
-            "<thead><tr>" +
-              '<th colspan="8" align="center">Robust Planning Parameters</th>' +
-              "</tr>" +
-              "<tr>" +
-              '<th rowspan="1" align="center">Range [%]</th>' +
-              '<th rowspan="1" align="center">Left [cm]</th>' +
-              '<th rowspan="1" align="center">Right [cm]</th>' +
-              '<th rowspan="1" align="center">Ant [cm]</th>' +
-              '<th rowspan="1" align="center">Post [cm]</th>' +
-              '<th rowspan="1" align="center">Sup [cm]</th>' +
-              '<th rowspan="1" align="center">Inf [cm]</th>' +
-              '<th rowspan="1" align="center">Ind. Beams?</th>' +
-              "</tr></thead>"
-          );
+          // not sure this is necessary
+          // $("#plan-params-table tbody").empty();
 
           if (jsonArray.optShifts != null) {
             // this processes the robust shift information
@@ -683,38 +708,34 @@
 
             /*Robust Shift Order: [S, I, A, P, R, L]*/
 
-            $("#planParameters").append("<tbody>");
-
-            $("#planParameters").append(
+            $("#plan-params-tbody").append(
               '<tr class="paramsRow" align="center">' +
               "<td>" +
               jsonArray.optDensity.replace('"', "") +
-              "<td>" +
+              "</td>" +
               "<td>" +
               robustShiftsArr[5].toFixed(1) +
-              "<td>" /*left*/ +
+              "</td>" /*left*/ +
               "<td>" +
               robustShiftsArr[4].toFixed(1) +
-              "<td>" /*right*/ +
+              "</td>" /*right*/ +
               "<td>" +
               robustShiftsArr[2].toFixed(1) +
-              "<td>" /*ant*/ +
+              "</td>" /*ant*/ +
               "<td>" +
               robustShiftsArr[3].toFixed(1) +
-              "<td>" /*post*/ +
+              "</td>" /*post*/ +
               "<td>" +
               robustShiftsArr[0].toFixed(1) +
-              "<td>" /*sup*/ +
+              "</td>" /*sup*/ +
               "<td>" +
               robustShiftsArr[1].toFixed(1) +
-              "<td>" /*inf*/ +
+              "</td>" /*inf*/ +
                 "<td>" +
                 jsonArray.indBeams.replace('"', "") +
-                "<td>" +
+                "</td>" +
                 "</tr>"
             );
-
-            $("#planParameters").append("</tbody>");
           }
 
           // sorting data alphabetically by structure
@@ -723,23 +744,8 @@
 
           // Create DVH Stats Table
 
-          $("#table tbody").empty();
-
-          //   $("#table").append(
-          //     "<thead><tr>" +
-          //       '<th colspan="6" align="center">DVH Stats</th>' +
-          //       "</tr>" +
-          //       '<tr align="center">' +
-          //       '<th align="center">Structure</th>' +
-          //       '<th align="center">Plan</th>' +
-          //       '<th align="center">Max Dose (Gy)</th>' +
-          //       '<th align="center">Max %&#916;</th>' +
-          //       '<th align="center">D95 (Gy)</th>' +
-          //       '<th align="center">D95 %&#916;</th>' +
-          //       "</tr></thead>"
-          //   );
-
-          //   $("#table").append("<tbody>");
+          // don't think this is necessary anymore
+          // $("#table tbody").empty();
 
           data.forEach(function(arr, i) {
             JSON_Data.push({
@@ -759,64 +765,63 @@
 
             if (data[i][7] == "Organ") {
               if (data[i][1] == nomData[0][1]) {
-                $("#table tbody").append(
-                  '<tr style="font-weight:bold;color:green;"><td align="center">' +
+                $("#dvh-stats-tbody").append(
+                  '<tr style="font-weight:bold;color:green;"><td>' +
                     data[i][0] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][1] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][2] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][3] +
-                    '</td><td align="center">' +
-                    /*data[i][4] +*/ '</td><td align="center">' +
-                    /* data[i][5] +*/ "</td></tr>"
+                    "</td><td>" +
+                    data[i][4] +
+                    "</td><td>" +
+                    data[i][5] +
+                    "</td></tr>"
                 );
               } else if (
                 Math.abs(parseFloat(data[i][5])) > 3.0 ||
                 Math.abs(parseFloat(data[i][3])) > 3.0
               ) {
                 var maxStyle = "";
-
                 var d95Style = "";
-
                 if (Math.abs(parseFloat(data[i][3])) > 10.0) {
-                  maxStyle = 'style="font-weight:bold;color:black"';
+                  maxStyle = 'style="font-weight:bold;color:red"';
                 }
-
                 if (Math.abs(parseFloat(data[i][5])) > 3.0) {
                   d95Style = 'style="font-weight:bold;color:red;"';
                 }
 
-                $("#table tbody").append(
-                  '<tr><td align="center">' +
+                $("#dvh-stats-tbody").append(
+                  "<tr><td>" +
                     data[i][0] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][1] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][2] +
-                    '</td><td align="center"' +
+                    "</td><td " +
                     maxStyle +
                     ">" +
                     data[i][3] +
-                    '</td><td align="center">' +
-                    /*data[i][4] +*/ '</td><td align="center"' +
+                    "</td><td>" +
+                    /*data[i][4] +*/ "</td><td " +
                     d95Style +
                     ">" +
                     /*data[i][5] +*/ "</td></tr>"
                 );
               } else {
-                $("#table tbody").append(
-                  '<tr><td align="center">' +
+                $("#dvh-stats-tbody").append(
+                  "<tr><td>" +
                     data[i][0] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][1] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][2] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][3] +
-                    '</td><td align="center">' +
-                    /*data[i][4] +*/ '</td><td align="center">' +
+                    "</td><td>--" +
+                    /*data[i][4] +*/ "</td><td>--" +
                     /*data[i][5] +*/ "</td></tr>"
                 );
               }
@@ -824,78 +829,83 @@
 
             // If the structure is a "Target", populate all data columns
             else {
+              if (!data[i][4]) {
+                d95 = "--";
+              } else {
+                d95 = data[i][4];
+              }
+              if (!data[i][5]) {
+                delta_d95 = "--";
+              } else {
+                delta_d95 = data[i][5];
+              }
               if (data[i][1] == nomData[0][1]) {
-                $("#table").append(
-                  '<tr style="font-weight:bold;color:green;"><td align="center">' +
+                $("#dvh-stats-tbody").append(
+                  '<tr style="font-weight:bold;color:green;"><td>' +
                     data[i][0] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][1] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][2] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][3] +
-                    '</td><td align="center">' +
-                    data[i][4] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
+                    d95 +
+                    "</td><td>" +
                     data[i][5] +
                     "</td></tr>"
                 );
               } else if (
-                Math.abs(parseFloat(data[i][5])) > 3.0 ||
-                Math.abs(parseFloat(data[i][3])) > 3.0
+                Math.abs(parseFloat(data[i][3])) > 3.0 ||
+                Math.abs(parseFloat(data[i][5])) > 3.0
               ) {
                 var maxStyle = "";
-
                 var d95Style = "";
-
                 if (Math.abs(parseFloat(data[i][3])) > 10.0) {
                   maxStyle = 'style="font-weight:bold;color:red;"';
                 }
-
                 if (Math.abs(parseFloat(data[i][5])) > 3.0) {
                   d95Style = 'style="font-weight:bold;color:red;"';
                 }
 
-                $("#table").append(
-                  '<tr><td align="center">' +
+                $("#dvh-stats-tbody").append(
+                  "<tr><td>" +
                     data[i][0] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][1] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][2] +
-                    '</td><td align="center"' +
+                    "</td><td " +
                     maxStyle +
                     ">" +
                     data[i][3] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][4] +
-                    '</td><td align="center"' +
+                    "</td><td " +
                     d95Style +
                     ">" +
                     data[i][5] +
                     "</td></tr>"
                 );
               } else {
-                $("#table").append(
-                  '<tr><td align="center">' +
+                $("#dvh-stats-tbody").append(
+                  "<tr><td>" +
                     data[i][0] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][1] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][2] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][3] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][4] +
-                    '</td><td align="center">' +
+                    "</td><td>" +
                     data[i][5] +
                     "</td></tr>"
                 );
               }
             }
           });
-
-          $("#table").append("</tbody>");
 
           // the options are defined in a dictionary object essentially and then loaded after to simplify the code that creates the chart
 
@@ -909,7 +919,16 @@
 
               panning: true,
 
-              panKey: "shift"
+              panKey: "shift",
+
+              height: 600,
+
+              // this will keep the x axis the same when series are removed (won't rescale)
+              ignoreHiddenSeries: false
+            },
+            // this removes the highcharts label/credit in the lower rt hand corner
+            credits: {
+              enabled: false
             },
 
             // this disables the built in print/exporting buttons to ensure the data is not sent to HCs servers
@@ -986,19 +1005,63 @@
 
             tooltip: {
               positioner: function() {
-                return { x: 40, y: 50 };
+                return { x: 100, y: 0 };
               },
 
               shared: true,
 
               useHTML: true,
 
-              headerFormat: "<table>",
+              // headerFormat: "<table>",
 
-              pointFormat:
-                '<tr><td style="color:{series.color}; text-shadow: -1px 0 #353839, 0 1px #353839, 1px 0 #353839, 0 -1px #353839;">{series.name}: </td><td style="text-align: left; color:#282827">V{point.x} cGy = {point.y:.3f} cc</td></tr>',
+              // pointFormat:
+              //   // original
+              //   // '<tr><td style="color:{series.color}; text-shadow: -1px 0 #353839, 0 1px #353839, 1px 0 #353839, 0 -1px #353839;">{series.name}: </td><td style="text-align: left; color:#282827">V{point.x} cGy = {point.y:.3f} cc</td></tr>',
+              //   '<tr><td style="color:#282827;">{series.name}: </td><td></td><td style="text-align: left; color:#282827">V{point.x} cGy = {point.y:.3f} cc</td></tr>',
 
-              footerFormat: "</table>"
+              // footerFormat: "</table>"
+              formatter: function() {
+                var s =
+                  '<table><strong style="color:#0a114a;">V' +
+                  this.x +
+                  " cGy:</strong>";
+
+                // var sortedPoints = this.points.sort(function(a, b) {
+                //     return a.y > b.y ? -1 : a.y < b.y ? 1 : 0;
+                // });
+
+                var sortedPoints = this.points.sort(function(a, b) {
+                  return a.series.name < b.series.name
+                    ? -1
+                    : a.series.name > b.series.name
+                    ? 1
+                    : 0;
+                });
+
+                $.each(sortedPoints, function(i, point) {
+                  if (point.y < 100 && point.y > 0) {
+                    var last_ = point.series.name.lastIndexOf("_");
+                    var plan = point.series.name.slice(0, last_);
+                    var structure = point.series.name.slice(last_ + 1);
+                    // s += '<tr><td style=\"color:' + point.series.color + '; text-shadow: -1px 0 #353839, 0 1px #353839, 1px 0 #353839, 0 -1px #353839;\">' + point.series.name + ': </td><td style=\"text-align: left; color:#282827\">&nbsp;&nbsp;&nbsp;&nbsp;' + Highcharts.numberFormat(point.y, 3, '.') + ' %</td></tr>';
+                    s +=
+                      // '<tr><td style="color:#0a114a;">' +
+                      // point.series.name +
+                      // ': </td><td style="text-align: left; color:#0a114a">&nbsp;&nbsp;&nbsp;&nbsp;' +
+                      // Highcharts.numberFormat(point.y, 2, ".") +
+                      // " %</td></tr>";
+                      '<tr><td style="color:#0a114a;">' +
+                      plan +
+                      '</td><td style="color:#0a114a;">&nbsp;&nbsp;&nbsp;&nbsp;' +
+                      structure +
+                      '</td><td style="text-align: left; color:#0a114a">&nbsp;&nbsp;&nbsp;&nbsp;' +
+                      Highcharts.numberFormat(point.y, 2, ".") +
+                      "%</td></tr>";
+                  }
+                });
+                s += "</table>";
+                return s;
+              }
 
               // NOTE: You can use the formatter toolip to format the data while hovering over various points. See documentation.
 
@@ -1044,30 +1107,57 @@
 
               x: 0
             },
-
+            // use this to change position of legend
             legend: {
-              layout: "horizontal",
-
               align: "center",
-
               verticalAlign: "bottom",
-
-              borderWidth: 0,
-
-              floating: false,
-
-              width: 420,
-
-              itemWidth: 210,
-
+              itemDistance: 50,
               itemStyle: {
-                width: 205
+                color: "#0a114a",
+                fontWeight: "regular"
               },
-
               itemHiddenStyle: {
-                color: "#ff4d4d"
+                color: "red"
               }
             },
+            // legend: {
+            //   align: "right",
+            //   verticalAlign: "top",
+            //   layout: "vertical",
+            //   x: 0,
+            //   y: 250,
+            //   itemDistance: 50,
+            //   itemStyle: {
+            //     color: "#0a114a",
+            //     fontWeight: "regular"
+            //   },
+            //   itemHiddenStyle: {
+            //     color: "red"
+            //   }
+            // },
+            // legend: {
+            //   layout: "horizontal",
+
+            //   align: "center",
+
+            //   verticalAlign: "bottom",
+
+            //   borderWidth: 0,
+
+            //   floating: false,
+
+            //   width: 420,
+
+            //   itemWidth: 210,
+
+            //   itemStyle: {
+            //     width: 205
+            //   },
+
+            //   itemHiddenStyle: {
+            //     color: "#ff4d4d"
+            //   }
+            // },
 
             // the settings for the individual series are defined below but loaded here
 
@@ -1216,9 +1306,28 @@
             );
 
             category.visible = checkbox.checked;
+            
+
+          });
+
+          $('#check-boxes input').click(function(){
+            var checkbox = this;
+
+            var category = contourCategories.find(
+              category => category.name === checkbox.id
+            );
+            
+            $("#dvh-stats-table tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(category.name.toLowerCase()) > -1)
+            });
           });
 
           var chart = $("#dvh").highcharts();
+          
+          // // var value = checkbox.val().toLowerCase();
+          // $("#dvh-stats-table tr").filter(function() {
+          //   $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+          // });
 
           // while(chart.series.length > 0){
 
@@ -1696,601 +1805,58 @@
 
 <!-- Sample Style -->
 
-<style>
-  /* NOTE: some of this may be redundant or unnecessary */
-
-  body {
-  }
-
-  table {
-    width: 100%;
-  }
-
-  thead {
-    display: table-header-group;
-  }
-
-  input {
-    margin-left: 30px;
-  }
-
-  #cbDiv {
-    margin-left: 100px;
-  }
-
-  /*table, tr, td {
-
-		border: 1px solid black;
-
-		text-align:center;
-
-   }*/
-
-  /*tbody {
-
-		overflow:auto;
-
-   }*/
-
-  .tableData {
-    margin-top: 3%;
-
-    float: left;
-
-    /*table-layout: fixed;*/
-
-    /*overflow: auto;*/
-
-    /*height: 750px;*/
-  }
-
-  /* #table {
-    width: auto;
-
-    height: 500px;
-
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-
-    font-size: 13px;
-
-    border-collapse: collapse;
-
-    margin-bottom: 2%;
-  } */
-
-  #planParameters {
-    /*width: 300px;*/
-
-    height: auto;
-
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-
-    font-size: 13px;
-
-    /*float: left;*/
-
-    border-collapse: collapse;
-
-    margin-bottom: 2%;
-
-    /*border: 1px solid black;*/
-  }
-
-  /* #table tr:hover {
-    background-color: lightblue;
-  }
-
-  #planParameters tr:hover {
-    background-color: white;
-  }
-
-  #table thead tr:hover {
-    background-color: lightblue;
-  }
-
-  #planParameters thead tr:hover {
-    background-color: lightblue;
-  }
-
-  #table thead {
-    display: block;
-
-    background-color: lightblue;
-
-    color: black;
-  } */
-
-  #planParameters thead {
-    display: block;
-
-    background-color: lightblue;
-
-    /*border: 0px solid black;*/
-
-    color: black;
-  }
-
-  /* #table thead th {
-    width: auto;
-  } */
-
-  #table tbody {
-    display: block;
-
-    overflow: auto;
-
-    width: auto;
-
-    height: 500px;
-  }
-
-  #planParameters tbody {
-    display: block;
-
-    width: 100px;
-  }
-
-  #planParameters td {
-    min-width: 23px;
-
-    padding-left: 10px;
-
-    text-align: right;
-  }
-
-  #planParameters th {
-    padding-left: 11px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  tbody tr:nth-child(even) {
-    background-color: #ddd;
-  }
-
-  #table tr {
-    /*border: 1px solid black;*/
-  }
-
-  #table td {
-    /*border: 1px solid black;*/
-  }
-
-  /* table body col widths */
-
-  /* #table td:nth-child(1),
-  #table th:nth-child(1),
-  #table thead th:nth-child(1),
-  #table th:nth-child(1) {
-    min-width: 75px;
-  }
-
-  #table td:nth-child(2),
-  #table th:nth-child(2),
-  #table thead th:nth-child(2),
-  #table th:nth-child(2) {
-    min-width: 130px;
-  }
-
-  #table td:nth-child(3),
-  #table th:nth-child(3),
-  #table thead th:nth-child(3),
-  #table th:nth-child(3) {
-    min-width: 100px;
-  }
-
-  #table td:nth-child(4),
-  #table th:nth-child(4),
-  #table thead th:nth-child(4),
-  #table th:nth-child(4) {
-    min-width: 75px;
-  }
-
-  #table td:nth-child(5),
-  #table th:nth-child(5),
-  #table thead th:nth-child(5),
-  #table th:nth-child(5) {
-    min-width: 75px;
-  }
-
-  #table td:nth-child(6),
-  #table th:nth-child(6),
-  #table thead th:nth-child(6),
-  #table th:nth-child(6) {
-    min-width: 125px;
-  }
-
-  #table thead th:nth-child(1) {
-    min-width: 75px;
-  }
-
-  #table thead th:nth-child(2) {
-    min-width: 142px;
-  }
-
-  #table thead th:nth-child(3) {
-    min-width: 100px;
-  }
-
-  #table thead th:nth-child(4) {
-    min-width: 75px;
-  }
-
-  #table thead th:nth-child(5) {
-    min-width: 75px;
-  }
-
-  #table thead th:nth-child(6) {
-    min-width: 125px;
-  } */
-
-  #planParameters td:nth-child(1) {
-    min-width: 48px;
-  }
-
-  #planParameters td:nth-child(2) {
-    padding-left: 10px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters td:nth-child(3) {
-    padding-left: 10px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters td:nth-child(4) {
-    padding-left: 10px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters td:nth-child(5) {
-    padding-left: 15px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters td:nth-child(6) {
-    padding-left: 10px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters td:nth-child(7) {
-    padding-left: 5px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters td:nth-child(8) {
-    padding-left: 11px;
-
-    min-width: 15px;
-
-    text-align: center;
-  }
-
-  #planParameters thead th:nth-child(1) {
-    padding-left: 11px;
-
-    min-width: 0px;
-
-    text-align: center;
-  }
-
-  #planParameters thead th:nth-child(2) {
-    padding-left: 11px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters thead th:nth-child(3) {
-    padding-left: 12px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters thead th:nth-child(4) {
-    padding-left: 10px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters thead th:nth-child(5) {
-    padding-left: 11px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters thead th:nth-child(6) {
-    padding-left: 11px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters thead th:nth-child(7) {
-    padding-left: 13px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #planParameters thead th:nth-child(8) {
-    padding-left: 15px;
-
-    min-width: 20px;
-
-    text-align: center;
-  }
-
-  #loadPatientDiv {
-    text-align: center;
-
-    margin-left: 10px;
-  }
-
-  #loadPatientHeader {
-    text-align: center;
-  }
-
-  #instructionLabel {
-    text-align: center;
-  }
-
-  #fileinput {
-  }
-
-  #btnLoad {
-    margin-left: 50px;
-
-    width: 150px;
-  }
-
-  /* keep */
-  #ptBlockDislay {
-    margin-left: 80%;
-
-    text-align: left;
-  }
-
-  #dvh {
-    float: left;
-
-    z-index: 0;
-
-    height: 800px;
-
-    width: 60%;
-
-    /*margin-left: 200px;*/
-
-    margin: auto;
-
-    padding-top: 0px;
-  }
-
-  #planStats {
-    z-index: 0;
-
-    height: 800px;
-
-    width: 1600px;
-
-    /*margin-left: 200px;*/
-
-    margin: auto;
-
-    padding-top: 0px;
-  }
-
-  #structureStats {
-    z-index: 0;
-
-    height: 600px;
-
-    width: 1600px;
-
-    /*margin-left: 200px;*/
-
-    margin: auto;
-
-    padding-top: 0px;
-
-    padding-bottom: 100px;
-  }
-
-  #proxStats {
-    z-index: 0;
-
-    height: 800px;
-
-    width: 1600px;
-
-    /*margin-left: 200px;*/
-
-    margin: auto;
-
-    padding-top: 0px;
-  }
-
-  #canvas {
-    display: inline;
-  }
-
-  /* .pBtn {
-    z-index: 1;
-
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-
-    font-size: 13px;
-
-    margin-right: 74%;
-
-    margin-bottom: 1px;
-
-    top: 2%;
-
-    width: 215px;
-  } */
-
-  .tabPhysician {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-
-    font-size: 13px;
-
-    display: inline-block;
-
-    margin-left: 58px;
-  }
-
-  .tabPtName {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-
-    font-size: 13px;
-
-    display: inline-block;
-
-    margin-left: 72px;
-  }
-
-  .tabMrn {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-
-    font-size: 13px;
-
-    display: inline-block;
-
-    margin-left: 86px;
-  }
-
-  .tabPlanName {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-
-    font-size: 13px;
-
-    display: inline-block;
-
-    margin-left: 90px;
-  }
-
-  .tabBeamSetName {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-    font-size: 13px;
-    display: inline-block;
-    margin-left: 63px;
-  }
-
-  .tabPlanStatus {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-
-    font-size: 13px;
-
-    display: inline-block;
-
-    margin-left: 22px;
-  }
-
-  p {
-    font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-      Helvetica, sans-serif;
-
-    font-size: 13px;
-
-    margin-top: 0px;
-
-    margin-bottom: 1px;
-  }
-
-  /* @media print {
-    #ptBlockDislay {
-      z-index: 1;
-
-      font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Arial,
-        Helvetica, sans-serif;
-
-      font-size: 13px;
-
-      margin-left: 70%;
-
-      top: 1%;
-
-      margin-bottom: 2%;
-
-      width: 400px;
-
-      text-align: left;
-    }
-
-    .tableClass {
-      page-break-after: always;
-    }
-
-    .tableData {
-      margin-left: 20%;
-    }
-
-    #table tbody {
-      display: table-row-group;
-
-      overflow: auto;
-
-      width: auto;
-
-      height: auto;
-    }
-
-    #table thead {
-      display: table-header-group;
-    }
-
-    #table th {
-      break-inside: avoid;
-    }
-  } */
-</style>
-
 <!-- New Custom Style -->
 <style>
   button#print {
     margin-top: 0;
     margin-left: 90%;
   }
+
+  form#check-boxes label {
+    /* color: red; */
+    margin: auto;
+    margin-left: 15px;
+    text-align: center;
+  }
+
+  table th,
+  table tbody {
+    text-align: center;
+  }
+
+  div.table-responsive {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+
+  /* fixed header for table with 6 columns */
+
+.table-fixed-6 thead {
+    width: calc(100% - 1em);
+}
+
+.table-fixed-6 tbody {
+    height: 250px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.table-fixed-6 thead,
+.table-fixed-6 tbody,
+.table-fixed-6 tr,
+.table-fixed-6 td,
+.table-fixed-6 th {
+    display: block;
+    overflow: auto;
+    /* width: 100%; */
+}
+
+.table-fixed-6 tbody td,
+.table-fixed-6 thead>tr>th {
+    float: left;
+    border-bottom-width: 0;
+    width: calc(100%/6);
+}
 </style>
 
 <!-- bootstrap dashboard style -->
