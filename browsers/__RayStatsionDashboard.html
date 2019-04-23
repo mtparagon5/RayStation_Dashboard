@@ -63,15 +63,18 @@
 
     <div class="container-fluid w-75">
       <div class="row">
-        <main role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4 ">
+        <main role="main" class="ml-sm-auto col-lg-12 px-4 ">
+          
+          <!-- NOTE: have to get chart to resize propely in order to make printing worth while -->
+          <!-- NOTE: also re-size the table  -->
           <!-- print button -->
-          <button
+          <!-- <button
             id="print"
             class="btn btn-outline-info btn-sm mb-2 pl-5 pr-5"
             onclick="PrepareAndPrint()"
           >
             Print
-          </button>
+          </button> -->
           <!-- /print button -->
 
           <!-- Dashboard Header -->
@@ -89,26 +92,28 @@
             <!-- Patient and Plan Information Display / Can add other info e.g., Physician, approval status, etc. as desired -->
 
             <!--<p>Physician:<span class='tabPhysician'><label id="physician"></label></span></p>-->
-
-            <p>
-              Patient:<span class="tabPtName"
-                ><label id="patientName"></label
-              ></span>
-            </p>
-
-            <p>
-              MRN:<span class="tabMrn"><label id="mrn"></label></span>
-            </p>
-
-            <p>
-              Plan:<span class="tabPlanName"><label id="planId"></label></span>
-            </p>
-
-            <p>
-              Beamset:<span class="tabBeamSetName"
-                ><label id="BeamSetName"></label
-              ></span>
-            </p>
+            <div class="row">
+              <div class="col-md-3 text-center">
+                <label><b>Patient</b></label>
+                <hr>
+                <label id="patientName"></label>
+              </div>
+              <div class="col-md-3 text-center">
+                <label><b>MRN</b></label>
+                <hr>
+                <label id="mrn"></label>
+              </div>
+              <div class="col-md-3 text-center">
+                <label><b>Plan</b></label>
+                <hr>
+                <label id="planId"></label>
+              </div>
+              <div class="col-md-3 text-center">
+                <label><b>Beamset</b></label>
+                <hr>
+                <label id="BeamSetName"></label>
+              </div>
+            </div>
 
             <!--<p>ApprovalStatus:<span class='tabPlanStatus'><label id="approvalStatus"></label></span></p>-->
           </div>
@@ -116,7 +121,7 @@
 
           <!-- Placeholder for the DVH -->
           <div class="row">
-            <div class="dvh col-md-12 m-auto h-100" id="dvh"></div>
+            <div class="dvh col-md-9 m-auto h-100" id="dvh"></div>
           </div>
           <div class="row">
             <div class="m-auto ">
@@ -166,6 +171,11 @@
                     <tbody id="plan-params-tbody"></tbody>
                   </table>
                 </div>
+              </div>
+            </div class="row ">
+            <div class="row ">
+              <div class="col-md-12">
+
 
                 <!-- //     "<tr>" +
                     //     '<th rowspan="1" align="center">Range [%]</th>' +
@@ -182,7 +192,7 @@
 
                 <!-- <table id="table" cellpadding="8" cellspacing="15"></table> -->
                 <h2>DVH Statistics</h2>
-                <div class="table-responsive">
+                <div class="table-responsive dvh-table">
                   <table
                     class="table table-striped table-sm table-fixed-6 "
                     id="dvh-stats-table"
@@ -247,7 +257,7 @@
         </div> -->
         
         </main>
-        <footer class="w-100 text-center mt-5">&copy;Copyright 2019</footer>
+        <footer class="w-100 text-center my-5">&copy;Copyright 2019</footer>
     </div>
 
     <!-- jQuery -->
@@ -591,15 +601,13 @@
 
           //console.log(jsonArray.planData[0].structureData[0].dvh);
 
-          document.getElementById("patientName").innerHTML =
-            jsonArray.patientName;
+          document.getElementById("patientName").innerHTML = jsonArray.patientName;
 
           document.getElementById("mrn").innerHTML = jsonArray.patientId;
 
           document.getElementById("planId").innerHTML = jsonArray.planName;
 
-          document.getElementById("BeamSetName").innerHTML =
-            jsonArray.BeamSetName;
+          document.getElementById("BeamSetName").innerHTML = jsonArray.BeamSetName;
 
           var structureID = []; //save all the contour names in the JSON file
 
@@ -649,7 +657,9 @@
                   if (nomData[i][3] == 0) {
                     //d95Ratio = "Nominal is 0";
 
-                    d95Ratio = -1; //JZ changed so that all are numbers
+                    // d95Ratio = -1; //JZ changed so that all are numbers
+                    
+                    // d95Ratio = '--';
                   } else {
                     d95Ratio = (
                       ((D95Gy - nomData[i][3]) / Math.abs(nomData[i][3])) *
@@ -775,10 +785,10 @@
                     "</td><td>" +
                     data[i][3] +
                     "</td><td>" +
-                    data[i][4] +
-                    "</td><td>" +
-                    data[i][5] +
-                    "</td></tr>"
+                    // data[i][4] + // don't need d95/d95% for non-targets
+                    "--</td><td>" +
+                    // data[i][5] + // don't need d95/d95% for non-targets
+                    "--</td></tr>"
                 );
               } else if (
                 Math.abs(parseFloat(data[i][5])) > 3.0 ||
@@ -1317,9 +1327,9 @@
               category => category.name === checkbox.id
             );
             
-            $("#dvh-stats-table tr").filter(function() {
-              $(this).toggle($(this).text().toLowerCase().indexOf(category.name.toLowerCase()) > -1)
-            });
+            // $("#dvh-stats-table tr").filter(function() {
+            //   $(this).toggle($(this).text().toLowerCase().indexOf(category.name.toLowerCase()) > -1)
+            // });
           });
 
           var chart = $("#dvh").highcharts();
@@ -1336,6 +1346,8 @@
           //   chart.series[0].remove(false);  //I think false means don't redraw, which increase speed
 
           // }
+
+          
 
           var series_index = 0;
 
@@ -1407,7 +1419,7 @@
 
           $.each(contourCategories, function(i, cat) {
             var box =
-              '<label><input type="checkbox" id="' +
+              '<label><input type="checkbox" onChange="filterDvhTable()" id="' +
               String(cat.name) +
               '" name="' +
               String(cat.name) +
@@ -1788,22 +1800,49 @@
     }
   }
 
-  // When printing, remove various buttons
-
-  function PrepareAndPrint() {
-    $("#print").remove();
-
-    $(".Buttons").remove();
-
-    $(".loadPt").remove();
-
-    $("#main-nav").remove();
-
-    window.print();
+  // filter the dvh table when structures are selected/unselected
+  function filterDvhTable() {
+    // adapted from https://stackoverflow.com/questions/28063963/how-to-filter-records-based-on-key-click
+    if($('input[type="checkbox"]:checked').length > 0) {
+      // Get ids of all checked boxes
+      var ids = $('input[type="checkbox"]:checked').map(function() {
+        return this.id;
+      }).get();
+      // Here we do two things to table rows
+      // 1. We hide all
+      // 2. Then we filter, show those whose value in first <td> matches checkbox value
+      // Change: only hiding rows in the tbody, to keep header rows
+      $('#dvh-stats-tbody tr')
+      .hide()    // 1
+      .filter(function() {    // 2
+        return ids.indexOf($(this).find('td:first').text()) > -1;
+      }).show();
+    } else {
+      // Hide all
+      $('#dvh-stats-tbody tr').hide();
+    }
   }
-</script>
 
-<!-- Sample Style -->
+  /* ----- need to be able to re-size the dvh chart and the table to make printing worth while ----- */
+  // in progress...
+
+  // When printing, remove various buttons
+  // function PrepareAndPrint() {
+  //   $("#print").remove();
+
+  //   $(".Buttons").remove();
+
+  //   $(".loadPt").remove();
+
+  //   $("#main-nav").remove();
+
+  //   // $('#dvh').css('max-width', '500px');
+  //   // var chart = $("#dvh").highcharts();
+  //   // chart.redraw();
+
+  //   window.print();
+  // }
+</script>
 
 <!-- New Custom Style -->
 <style>
@@ -1824,11 +1863,6 @@
     text-align: center;
   }
 
-  div.table-responsive {
-    max-height: 300px;
-    overflow-y: auto;
-  }
-
   /* fixed header for table with 6 columns */
 
 .table-fixed-6 thead {
@@ -1836,7 +1870,7 @@
 }
 
 .table-fixed-6 tbody {
-    height: 250px;
+    height: 600px;
     overflow-y: auto;
     width: 100%;
 }
@@ -1857,6 +1891,12 @@
     border-bottom-width: 0;
     width: calc(100%/6);
 }
+
+table tbody tr:nth-child(even):hover,
+table tbody tr:nth-child(odd):hover {
+  background-color: #ccc;
+}
+
 </style>
 
 <!-- bootstrap dashboard style -->
