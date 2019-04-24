@@ -5,132 +5,110 @@
 <!DOCTYPE html>
 
 <html>
-  <head>
-    <meta charset="utf-8" />
 
-    <!-- You can use a separate style sheet and reference it here. I've added the initial style used at the end of this file -->
+<head>
+  <meta charset="utf-8" />
 
-    <!--<link rel='stylesheet' type='text/css' href='path_to_style_sheet_here.css'>-->
+  <!-- You can use a separate style sheet and reference it here. I've added the initial style used at the end of this file -->
 
-    <!-- Tab Title here -->
+  <!--<link rel='stylesheet' type='text/css' href='path_to_style_sheet_here.css'>-->
 
-    <title>DVH Perturbations</title>
+  <!-- Tab Title here -->
 
-    <!-- google fonts -->
-    <link
-      href="https://fonts.googleapis.com/css?family=PT+Sans"
-      rel="stylesheet"
-    />
+  <title>DVH Perturbations</title>
 
-    <!-- bootstrap -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-  </head>
+  <!-- google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
 
-  <body >
-    <div
-      id="main-nav"
-      class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm "
-    >
-      <h6 class="my-0 mr-md-auto font-weight-normal">RayStation Dashboard</h6>
-      <nav class="my-2 my-md-0 mr-md-3">
-        <!-- <a class="p-2 text-dark" href="#"></a> -->
-        <div
-          id=""
-          name="jsonFile"
-          enctype="multipart/form-data"
-          method="post"
-          class=""
-        >
-          <h6 id="instructionLabel" class="my-0 mr-md-auto font-weight-normal">
-            Select the patient file you would like to review:
-            <span
-              ><input
-                class=""
-                type="file"
-                id="fileinput"
-                value=""
-                onchange="loadFile();"
-            /></span>
-          </h6>
-        </div>
-      </nav>
-    </div>
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+</head>
 
-    <div class="container-fluid w-75">
-      <div class="row">
-        <main role="main" class="ml-sm-auto col-lg-12 px-4 ">
-          
-          <!-- NOTE: have to get chart to resize propely in order to make printing worth while -->
-          <!-- NOTE: also re-size the table  -->
-          <!-- print button -->
-          <!-- <button
+<body>
+  <div id="main-nav"
+    class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm ">
+    <h6 class="my-0 mr-md-auto font-weight-normal">RayStation Dashboard</h6>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <!-- <a class="p-2 text-dark" href="#"></a> -->
+      <div id="" name="jsonFile" enctype="multipart/form-data" method="post" class="">
+        <h6 id="instructionLabel" class="my-0 mr-md-auto font-weight-normal">
+          Select the patient file you would like to review:
+          <span><input class="" type="file" id="fileinput" value="" onchange="loadFile();" /></span>
+        </h6>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container-fluid w-75">
+    <div class="row">
+      <main role="main" class="ml-sm-auto col-lg-12 px-4 ">
+
+        <!-- NOTE: have to get chart to resize propely in order to make printing worth while -->
+        <!-- NOTE: also re-size the table  -->
+        <!-- print button -->
+        <!-- <button
             id="print"
             class="btn btn-outline-info btn-sm mb-2 pl-5 pr-5"
             onclick="PrepareAndPrint()"
           >
             Print
           </button> -->
-          <!-- /print button -->
+        <!-- /print button -->
 
-          <!-- Dashboard Header -->
-          <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
-          >
-            <h2>Robust Plan Review</h2>
-          </div>
-          <!-- /Dashboard Header -->
+        <!-- Dashboard Header -->
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h2>Robust Plan Review</h2>
+        </div>
+        <!-- /Dashboard Header -->
 
-          <!-- Patient Information Display -->
-          <div class="mb-1" id="ptBlockDislay">
-            <!-- Print Button -->
+        <!-- Patient Information Display -->
+        <div class="mb-1" id="ptBlockDislay">
+          <!-- Print Button -->
 
-            <!-- Patient and Plan Information Display / Can add other info e.g., Physician, approval status, etc. as desired -->
+          <!-- Patient and Plan Information Display / Can add other info e.g., Physician, approval status, etc. as desired -->
 
-            <!--<p>Physician:<span class='tabPhysician'><label id="physician"></label></span></p>-->
-            <div class="row">
-              <div class="col-md-3 text-center">
-                <label><b>Patient</b></label>
-                <hr>
-                <label id="patientName"></label>
-              </div>
-              <div class="col-md-3 text-center">
-                <label><b>MRN</b></label>
-                <hr>
-                <label id="mrn"></label>
-              </div>
-              <div class="col-md-3 text-center">
-                <label><b>Plan</b></label>
-                <hr>
-                <label id="planId"></label>
-              </div>
-              <div class="col-md-3 text-center">
-                <label><b>Beamset</b></label>
-                <hr>
-                <label id="BeamSetName"></label>
-              </div>
+          <!--<p>Physician:<span class='tabPhysician'><label id="physician"></label></span></p>-->
+          <div class="row">
+            <div class="col-md-3 text-center">
+              <label><b>Patient</b></label>
+              <hr>
+              <label id="patientName"></label>
             </div>
-
-            <!--<p>ApprovalStatus:<span class='tabPlanStatus'><label id="approvalStatus"></label></span></p>-->
+            <div class="col-md-3 text-center">
+              <label><b>MRN</b></label>
+              <hr>
+              <label id="mrn"></label>
+            </div>
+            <div class="col-md-3 text-center">
+              <label><b>Plan</b></label>
+              <hr>
+              <label id="planId"></label>
+            </div>
+            <div class="col-md-3 text-center">
+              <label><b>Beamset</b></label>
+              <hr>
+              <label id="BeamSetName"></label>
+            </div>
           </div>
-          <!-- /Patient Information Display -->
 
-          <!-- Placeholder for the DVH -->
-          <div class="row">
-            <div class="dvh col-md-9 m-auto h-100" id="dvh"></div>
-          </div>
-          <div class="row">
-            <div class="m-auto ">
-              <h6 class="text-center">Available Contours</h6>
-              <hr />
-              <form class="" id="check-boxes">
-                <!-- <fieldset> -->
-                <!-- labels are populated dynamically, don't think this is needed -->
-                <!-- <label
+          <!--<p>ApprovalStatus:<span class='tabPlanStatus'><label id="approvalStatus"></label></span></p>-->
+        </div>
+        <!-- /Patient Information Display -->
+
+        <!-- Placeholder for the DVH -->
+        <div class="row">
+          <div class="dvh col-md-9 m-auto h-100" id="dvh"></div>
+        </div>
+        <div class="row">
+          <div class="m-auto ">
+            <h6 class="text-center">Available Contours</h6>
+            <hr />
+            <form class="" id="check-boxes">
+              <!-- <fieldset> -->
+              <!-- labels are populated dynamically, don't think this is needed -->
+              <!-- <label
                         ><input
                           id="CTV"
                           name="CTV"
@@ -140,44 +118,39 @@
                         />CTV</label
                       > -->
 
-                <!-- </fieldset> -->
-              </form>
+              <!-- </fieldset> -->
+            </form>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col-md-12">
+            <!-- <div class="col-md-12 tableData" id="tableData"> -->
+            <!-- Plan Parameters Table -->
+            <h2>Robust Planning Parameters</h2>
+            <div class="table-responsive">
+              <table class="table table-striped table-sm" id="plan-params-table" cellpadding="8" cellspacing="15">
+                <thead>
+                  <tr>
+                    <th>Range [%]</th>
+                    <th>Left [cm]</th>
+                    <th>Right [cm]</th>
+                    <th>Ant [cm]</th>
+                    <th>Post [cm]</th>
+                    <th>Sup [cm]</th>
+                    <th>Inf [cm]</th>
+                    <th>Ind. Beams?</th>
+                  </tr>
+                </thead>
+                <tbody id="plan-params-tbody"></tbody>
+              </table>
             </div>
           </div>
-          <div class="row ">
-            <div class="col-md-12">
-                <!-- <div class="col-md-12 tableData" id="tableData"> -->
-                <!-- Plan Parameters Table -->
-                <h2>Robust Planning Parameters</h2>
-                <div class="table-responsive">
-                  <table
-                    class="table table-striped table-sm"
-                    id="plan-params-table"
-                    cellpadding="8"
-                    cellspacing="15"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Range [%]</th>
-                        <th>Left [cm]</th>
-                        <th>Right [cm]</th>
-                        <th>Ant [cm]</th>
-                        <th>Post [cm]</th>
-                        <th>Sup [cm]</th>
-                        <th>Inf [cm]</th>
-                        <th>Ind. Beams?</th>
-                      </tr>
-                    </thead>
-                    <tbody id="plan-params-tbody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div class="row ">
-            <div class="row ">
-              <div class="col-md-12">
+        </div class="row ">
+        <div class="row ">
+          <div class="col-md-12">
 
 
-                <!-- //     "<tr>" +
+            <!-- //     "<tr>" +
                     //     '<th rowspan="1" align="center">Range [%]</th>' +
                     //     '<th rowspan="1" align="center">Left [cm]</th>' +
                     //     '<th rowspan="1" align="center">Right [cm]</th>' +
@@ -188,34 +161,31 @@
                     //     '<th rowspan="1" align="center">Ind. Beams?</th>' +
                     //     "</tr></thead>" -->
 
-                <!-- DVH Stats Table -->
+            <!-- DVH Stats Table -->
 
-                <!-- <table id="table" cellpadding="8" cellspacing="15"></table> -->
-                <h2>DVH Statistics</h2>
-                <div class="table-responsive dvh-table">
-                  <table
-                    class="table table-striped table-sm table-fixed-6 "
-                    id="dvh-stats-table"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Structure</th>
-                        <th>Plan</th>
-                        <th>Max Dose (Gy)</th>
-                        <th>Max %&#916;</th>
-                        <th>D95 (Gy)</th>
-                        <th>D95 %&#916;</th>
-                      </tr>
-                    </thead>
-                    <tbody id="dvh-stats-tbody"></tbody>
-                  </table>
-                </div>
-                <!-- </div> -->
+            <!-- <table id="table" cellpadding="8" cellspacing="15"></table> -->
+            <h2>DVH Statistics</h2>
+            <div class="table-responsive dvh-table">
+              <table class="table table-striped table-sm table-fixed-6 " id="dvh-stats-table">
+                <thead>
+                  <tr>
+                    <th>Structure</th>
+                    <th>Plan</th>
+                    <th>Max Dose (Gy)</th>
+                    <th>Max %&#916;</th>
+                    <th>D95 (Gy)</th>
+                    <th>D95 %&#916;</th>
+                  </tr>
+                </thead>
+                <tbody id="dvh-stats-tbody"></tbody>
+              </table>
             </div>
+            <!-- </div> -->
           </div>
+        </div>
 
-            <!-- Placeholder for Table Data -->
-            
+        <!-- Placeholder for Table Data -->
+
 
         <table style="display:none;">
           <tr>
@@ -224,20 +194,12 @@
             </td>
 
             <td>
-              <div
-                id="highchartsContainer"
-                style="width:700px;height:400px;"
-              ></div>
+              <div id="highchartsContainer" style="width:700px;height:400px;"></div>
             </td>
           </tr>
         </table>
 
-        <canvas style="display:none;"
-          class="my-4 w-100 mb-10"
-          id="myChart"
-          width="900"
-          height="380"
-        ></canvas>
+        <canvas style="display:none;" class="my-4 w-100 mb-10" id="myChart" width="900" height="380"></canvas>
 
         <!-- <h2>DVH Statistics</h2>
         <div class="table-responsive col-md-5">
@@ -255,27 +217,21 @@
             <tbody></tbody>
           </table>
         </div> -->
-        
-        </main>
-        <footer class="w-100 text-center my-5">&copy;Copyright 2019</footer>
+
+      </main>
+      <footer class="w-100 text-center my-5">&copy;Copyright 2019</footer>
     </div>
 
     <!-- jQuery -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
     <!-- Scripts used to reference highcharts and jquery -->
 
     <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -284,17 +240,15 @@
 
     <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>-->
 
-    <link
-      href="https://cdn.webdatarocks.com/latest/webdatarocks.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.webdatarocks.com/latest/webdatarocks.min.css" rel="stylesheet" />
 
     <script src="https://cdn.webdatarocks.com/latest/webdatarocks.toolbar.min.js"></script>
 
     <script src="https://cdn.webdatarocks.com/latest/webdatarocks.js"></script>
 
     <script src="https://cdn.webdatarocks.com/latest/webdatarocks.highcharts.js"></script>
-  </body>
+</body>
+
 </html>
 
 <script type="text/javascript">
@@ -357,7 +311,7 @@
 
       // for documentation: https://www.highcharts.com/
 
-      $(document).ready(function() {
+      $(document).ready(function () {
         // constructors
 
         function Category(name) {
@@ -380,8 +334,7 @@
           toolbar: true,
 
           report: {
-            conditions: [
-              {
+            conditions: [{
                 formula: "#value > 3.0",
 
                 format: {
@@ -422,17 +375,14 @@
               }
             },
 
-            formats: [
-              {
-                name: "rating",
+            formats: [{
+              name: "rating",
 
-                decimalPlaces: 2
-              }
-            ],
+              decimalPlaces: 2
+            }],
 
             slice: {
-              rows: [
-                {
+              rows: [{
                   uniqueName: "Structure"
                 },
 
@@ -457,8 +407,7 @@
 
               columns: [],
 
-              measures: [
-                {
+              measures: [{
                   uniqueName: "Delta D95",
 
                   aggregation: "min",
@@ -477,7 +426,7 @@
             }
           },
 
-          reportcomplete: function() {
+          reportcomplete: function () {
             pivot.off("reportcomplete");
 
             createChart();
@@ -485,32 +434,25 @@
         });
 
         function createChart() {
-          pivot.highcharts.getData(
-            {
+          pivot.highcharts.getData({
               type: "column",
 
               //type: "boxplot",
 
               slice: {
-                rows: [
-                  {
-                    uniqueName: "Structure"
-                  }
-                ],
+                rows: [{
+                  uniqueName: "Structure"
+                }],
 
-                columns: [
-                  {
-                    uniqueName: "[Measures]"
-                  }
-                ],
+                columns: [{
+                  uniqueName: "[Measures]"
+                }],
 
-                measures: [
-                  {
-                    uniqueName: "D95",
+                measures: [{
+                  uniqueName: "D95",
 
-                    aggregation: "average"
-                  }
-                ],
+                  aggregation: "average"
+                }],
 
                 sorting: {
                   column: {
@@ -611,11 +553,11 @@
 
           var structureID = []; //save all the contour names in the JSON file
 
-          planData[0].structureData.forEach(function(element, i) {
+          planData[0].structureData.forEach(function (element, i) {
             structureID.push(new Category(element.structureId));
           });
 
-          contourCategories = structureID.map(function(cat, i) {
+          contourCategories = structureID.map(function (cat, i) {
             cat.index = i;
 
             return cat;
@@ -623,7 +565,7 @@
 
           //push all the pert types in all plan data (different pertubation serials) into pertTypes2 list
 
-          planData.forEach(function(element, i) {
+          planData.forEach(function (element, i) {
             if (!pertTypes2.includes(planData[i].perturbationType)) {
               pertTypes2.push(planData[i].perturbationType);
             }
@@ -633,8 +575,8 @@
 
           buildCheckBoxes();
 
-          planData.forEach(function(element, i) {
-            element.structureData.forEach(function(childElement, j) {
+          planData.forEach(function (element, i) {
+            element.structureData.forEach(function (childElement, j) {
               if (element.perturbationType == "Nominal") {
                 nomData.push([
                   childElement.structureId,
@@ -646,7 +588,7 @@
 
               // JSON_Data.push({"PlanID":element.planId, "PerturbType":element.perturbationType, "Structure":childElement.structureId, "Type":childElement.structureType, "MaxDose": parseFloat(childElement.structureMaxDose), "Delta Max": 0, "D95": parseFloat(childElement.structureD95), "Delta D95": 0});
 
-              nomData.forEach(function(val, i) {
+              nomData.forEach(function (val, i) {
                 if (nomData[i][0] == childElement.structureId) {
                   var d95Ratio = 0;
 
@@ -658,7 +600,7 @@
                     //d95Ratio = "Nominal is 0";
 
                     // d95Ratio = -1; //JZ changed so that all are numbers
-                    
+
                     // d95Ratio = '--';
                   } else {
                     d95Ratio = (
@@ -712,7 +654,7 @@
 
             processedParamsArr = processedParams.split(",");
 
-            processedParamsArr.forEach(function(val, i) {
+            processedParamsArr.forEach(function (val, i) {
               robustShiftsArr.push(parseFloat(val));
             });
 
@@ -741,10 +683,10 @@
               "<td>" +
               robustShiftsArr[1].toFixed(1) +
               "</td>" /*inf*/ +
-                "<td>" +
-                jsonArray.indBeams.replace('"', "") +
-                "</td>" +
-                "</tr>"
+              "<td>" +
+              jsonArray.indBeams.replace('"', "") +
+              "</td>" +
+              "</tr>"
             );
           }
 
@@ -757,7 +699,7 @@
           // don't think this is necessary anymore
           // $("#table tbody").empty();
 
-          data.forEach(function(arr, i) {
+          data.forEach(function (arr, i) {
             JSON_Data.push({
               Structure: data[i][0],
               PlanID: data[i][1],
@@ -777,18 +719,18 @@
               if (data[i][1] == nomData[0][1]) {
                 $("#dvh-stats-tbody").append(
                   '<tr style="font-weight:bold;color:green;"><td>' +
-                    data[i][0] +
-                    "</td><td>" +
-                    data[i][1] +
-                    "</td><td>" +
-                    data[i][2] +
-                    "</td><td>" +
-                    data[i][3] +
-                    "</td><td>" +
-                    // data[i][4] + // don't need d95/d95% for non-targets
-                    "--</td><td>" +
-                    // data[i][5] + // don't need d95/d95% for non-targets
-                    "--</td></tr>"
+                  data[i][0] +
+                  "</td><td>" +
+                  data[i][1] +
+                  "</td><td>" +
+                  data[i][2] +
+                  "</td><td>" +
+                  data[i][3] +
+                  "</td><td>" +
+                  // data[i][4] + // don't need d95/d95% for non-targets
+                  "--</td><td>" +
+                  // data[i][5] + // don't need d95/d95% for non-targets
+                  "--</td></tr>"
                 );
               } else if (
                 Math.abs(parseFloat(data[i][5])) > 3.0 ||
@@ -805,34 +747,38 @@
 
                 $("#dvh-stats-tbody").append(
                   "<tr><td>" +
-                    data[i][0] +
-                    "</td><td>" +
-                    data[i][1] +
-                    "</td><td>" +
-                    data[i][2] +
-                    "</td><td " +
-                    maxStyle +
-                    ">" +
-                    data[i][3] +
-                    "</td><td>" +
-                    /*data[i][4] +*/ "</td><td " +
-                    d95Style +
-                    ">" +
-                    /*data[i][5] +*/ "</td></tr>"
+                  data[i][0] +
+                  "</td><td>" +
+                  data[i][1] +
+                  "</td><td>" +
+                  data[i][2] +
+                  "</td><td " +
+                  maxStyle +
+                  ">" +
+                  data[i][3] +
+                  "</td><td>" +
+                  /*data[i][4] +*/
+                  "</td><td " +
+                  d95Style +
+                  ">" +
+                  /*data[i][5] +*/
+                  "</td></tr>"
                 );
               } else {
                 $("#dvh-stats-tbody").append(
                   "<tr><td>" +
-                    data[i][0] +
-                    "</td><td>" +
-                    data[i][1] +
-                    "</td><td>" +
-                    data[i][2] +
-                    "</td><td>" +
-                    data[i][3] +
-                    "</td><td>--" +
-                    /*data[i][4] +*/ "</td><td>--" +
-                    /*data[i][5] +*/ "</td></tr>"
+                  data[i][0] +
+                  "</td><td>" +
+                  data[i][1] +
+                  "</td><td>" +
+                  data[i][2] +
+                  "</td><td>" +
+                  data[i][3] +
+                  "</td><td>--" +
+                  /*data[i][4] +*/
+                  "</td><td>--" +
+                  /*data[i][5] +*/
+                  "</td></tr>"
                 );
               }
             }
@@ -852,18 +798,18 @@
               if (data[i][1] == nomData[0][1]) {
                 $("#dvh-stats-tbody").append(
                   '<tr style="font-weight:bold;color:green;"><td>' +
-                    data[i][0] +
-                    "</td><td>" +
-                    data[i][1] +
-                    "</td><td>" +
-                    data[i][2] +
-                    "</td><td>" +
-                    data[i][3] +
-                    "</td><td>" +
-                    d95 +
-                    "</td><td>" +
-                    data[i][5] +
-                    "</td></tr>"
+                  data[i][0] +
+                  "</td><td>" +
+                  data[i][1] +
+                  "</td><td>" +
+                  data[i][2] +
+                  "</td><td>" +
+                  data[i][3] +
+                  "</td><td>" +
+                  d95 +
+                  "</td><td>" +
+                  data[i][5] +
+                  "</td></tr>"
                 );
               } else if (
                 Math.abs(parseFloat(data[i][3])) > 3.0 ||
@@ -880,38 +826,38 @@
 
                 $("#dvh-stats-tbody").append(
                   "<tr><td>" +
-                    data[i][0] +
-                    "</td><td>" +
-                    data[i][1] +
-                    "</td><td>" +
-                    data[i][2] +
-                    "</td><td " +
-                    maxStyle +
-                    ">" +
-                    data[i][3] +
-                    "</td><td>" +
-                    data[i][4] +
-                    "</td><td " +
-                    d95Style +
-                    ">" +
-                    data[i][5] +
-                    "</td></tr>"
+                  data[i][0] +
+                  "</td><td>" +
+                  data[i][1] +
+                  "</td><td>" +
+                  data[i][2] +
+                  "</td><td " +
+                  maxStyle +
+                  ">" +
+                  data[i][3] +
+                  "</td><td>" +
+                  data[i][4] +
+                  "</td><td " +
+                  d95Style +
+                  ">" +
+                  data[i][5] +
+                  "</td></tr>"
                 );
               } else {
                 $("#dvh-stats-tbody").append(
                   "<tr><td>" +
-                    data[i][0] +
-                    "</td><td>" +
-                    data[i][1] +
-                    "</td><td>" +
-                    data[i][2] +
-                    "</td><td>" +
-                    data[i][3] +
-                    "</td><td>" +
-                    data[i][4] +
-                    "</td><td>" +
-                    data[i][5] +
-                    "</td></tr>"
+                  data[i][0] +
+                  "</td><td>" +
+                  data[i][1] +
+                  "</td><td>" +
+                  data[i][2] +
+                  "</td><td>" +
+                  data[i][3] +
+                  "</td><td>" +
+                  data[i][4] +
+                  "</td><td>" +
+                  data[i][5] +
+                  "</td></tr>"
                 );
               }
             }
@@ -1014,8 +960,11 @@
             },
 
             tooltip: {
-              positioner: function() {
-                return { x: 100, y: 0 };
+              positioner: function () {
+                return {
+                  x: 100,
+                  y: 0
+                };
               },
 
               shared: true,
@@ -1030,7 +979,7 @@
               //   '<tr><td style="color:#282827;">{series.name}: </td><td></td><td style="text-align: left; color:#282827">V{point.x} cGy = {point.y:.3f} cc</td></tr>',
 
               // footerFormat: "</table>"
-              formatter: function() {
+              formatter: function () {
                 var s =
                   '<table><strong style="color:#0a114a;">V' +
                   this.x +
@@ -1040,15 +989,15 @@
                 //     return a.y > b.y ? -1 : a.y < b.y ? 1 : 0;
                 // });
 
-                var sortedPoints = this.points.sort(function(a, b) {
-                  return a.series.name < b.series.name
-                    ? -1
-                    : a.series.name > b.series.name
-                    ? 1
-                    : 0;
+                var sortedPoints = this.points.sort(function (a, b) {
+                  return a.series.name < b.series.name ?
+                    -1 :
+                    a.series.name > b.series.name ?
+                    1 :
+                    0;
                 });
 
-                $.each(sortedPoints, function(i, point) {
+                $.each(sortedPoints, function (i, point) {
                   if (point.y < 100 && point.y > 0) {
                     var last_ = point.series.name.lastIndexOf("_");
                     var plan = point.series.name.slice(0, last_);
@@ -1177,13 +1126,13 @@
           chart = new Highcharts.Chart(options);
         }
 
-        $(document).on("click", "#check-boxes input", function(e) {
+        $(document).on("click", "#check-boxes input", function (e) {
           //send the chart object and the chartData object
 
           rebuildData();
         });
 
-        $(document).on("click", "#loadPatientDiv input", function(e) {
+        $(document).on("click", "#loadPatientDiv input", function (e) {
           //send the chart object and the chartData object
 
           //alert('ok')
@@ -1200,7 +1149,7 @@
 
           var seriesOptionsHere = [];
 
-          pertTypes2.forEach(function(ptype, h) {
+          pertTypes2.forEach(function (ptype, h) {
             seriesOptionsHere.push({
               id: pertTypes2[h],
 
@@ -1220,8 +1169,8 @@
             });
           });
 
-          planData.forEach(function(element, i) {
-            element.structureData.forEach(function(childElement, j) {
+          planData.forEach(function (element, i) {
+            element.structureData.forEach(function (childElement, j) {
               var category = cat.find(
                 category => category.name === childElement.structureId
               );
@@ -1233,7 +1182,7 @@
               seriesOptionsHere.push({
                 name: element.planId + "_" + childElement.structureId,
 
-                data: childElement.dvh.sort(function(a, b) {
+                data: childElement.dvh.sort(function (a, b) {
                   return a[0] - b[0];
                 }),
 
@@ -1266,7 +1215,7 @@
         function filterCategories() {
           var filteredCategories = [];
 
-          $.each(contourCategories, function(i, category) {
+          $.each(contourCategories, function (i, category) {
             if (category.visible) {
               // push name only - chart.xAxis.categories requires array of String objects
 
@@ -1282,7 +1231,7 @@
         function filterSeries() {
           var filteredSeries = [];
 
-          $.each(seriesOptions2, function(i, serie) {
+          $.each(seriesOptions2, function (i, serie) {
             // serie options are merged during update,
 
             // so it's enough to initialize serie object only with data property
@@ -1291,7 +1240,7 @@
               data: []
             };
 
-            $.each(serie.data, function(i, point) {
+            $.each(serie.data, function (i, point) {
               if (point.category.visible) {
                 newSerie.data.push(point);
               }
@@ -1306,7 +1255,7 @@
         //rebuild the chart data
 
         function rebuildData() {
-          $.each($("#check-boxes input"), function(i, box) {
+          $.each($("#check-boxes input"), function (i, box) {
             var checkbox = this;
 
             //var category = originalCategories.find((category) => category.name === checkbox.id);
@@ -1316,24 +1265,24 @@
             );
 
             category.visible = checkbox.checked;
-            
+
 
           });
 
-          $('#check-boxes input').click(function(){
+          $('#check-boxes input').click(function () {
             var checkbox = this;
 
             var category = contourCategories.find(
               category => category.name === checkbox.id
             );
-            
+
             // $("#dvh-stats-table tr").filter(function() {
             //   $(this).toggle($(this).text().toLowerCase().indexOf(category.name.toLowerCase()) > -1)
             // });
           });
 
           var chart = $("#dvh").highcharts();
-          
+
           // // var value = checkbox.val().toLowerCase();
           // $("#dvh-stats-table tr").filter(function() {
           //   $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
@@ -1347,18 +1296,18 @@
 
           // }
 
-          
+
 
           var series_index = 0;
 
           //first a couple of the series are empty, for perterb types only
 
-          pertTypes2.forEach(function(ptype, h) {
+          pertTypes2.forEach(function (ptype, h) {
             series_index++;
           });
 
-          planData.forEach(function(element, i) {
-            element.structureData.forEach(function(childElement, j) {
+          planData.forEach(function (element, i) {
+            element.structureData.forEach(function (childElement, j) {
               if (series_index < chart.series.length) {
                 var category = contourCategories.find(
                   category => category.name === childElement.structureId
@@ -1417,7 +1366,7 @@
         function buildCheckBoxes() {
           $("#check-boxes ").empty();
 
-          $.each(contourCategories, function(i, cat) {
+          $.each(contourCategories, function (i, cat) {
             var box =
               '<label><input type="checkbox" onChange="filterDvhTable()" id="' +
               String(cat.name) +
@@ -1803,9 +1752,9 @@
   // filter the dvh table when structures are selected/unselected
   function filterDvhTable() {
     // adapted from https://stackoverflow.com/questions/28063963/how-to-filter-records-based-on-key-click
-    if($('input[type="checkbox"]:checked').length > 0) {
+    if ($('input[type="checkbox"]:checked').length > 0) {
       // Get ids of all checked boxes
-      var ids = $('input[type="checkbox"]:checked').map(function() {
+      var ids = $('input[type="checkbox"]:checked').map(function () {
         return this.id;
       }).get();
       // Here we do two things to table rows
@@ -1813,10 +1762,10 @@
       // 2. Then we filter, show those whose value in first <td> matches checkbox value
       // Change: only hiding rows in the tbody, to keep header rows
       $('#dvh-stats-tbody tr')
-      .hide()    // 1
-      .filter(function() {    // 2
-        return ids.indexOf($(this).find('td:first').text()) > -1;
-      }).show();
+        .hide() // 1
+        .filter(function () { // 2
+          return ids.indexOf($(this).find('td:first').text()) > -1;
+        }).show();
     } else {
       // Hide all
       $('#dvh-stats-tbody tr').hide();
@@ -1865,38 +1814,37 @@
 
   /* fixed header for table with 6 columns */
 
-.table-fixed-6 thead {
+  .table-fixed-6 thead {
     width: calc(100% - 1em);
-}
+  }
 
-.table-fixed-6 tbody {
+  .table-fixed-6 tbody {
     height: 600px;
     overflow-y: auto;
     width: 100%;
-}
+  }
 
-.table-fixed-6 thead,
-.table-fixed-6 tbody,
-.table-fixed-6 tr,
-.table-fixed-6 td,
-.table-fixed-6 th {
+  .table-fixed-6 thead,
+  .table-fixed-6 tbody,
+  .table-fixed-6 tr,
+  .table-fixed-6 td,
+  .table-fixed-6 th {
     display: block;
     overflow: auto;
     /* width: 100%; */
-}
+  }
 
-.table-fixed-6 tbody td,
-.table-fixed-6 thead>tr>th {
+  .table-fixed-6 tbody td,
+  .table-fixed-6 thead>tr>th {
     float: left;
     border-bottom-width: 0;
     width: calc(100%/6);
-}
+  }
 
-table tbody tr:nth-child(even):hover,
-table tbody tr:nth-child(odd):hover {
-  background-color: #ccc;
-}
-
+  table tbody tr:nth-child(even):hover,
+  table tbody tr:nth-child(odd):hover {
+    background-color: #ccc;
+  }
 </style>
 
 <!-- bootstrap dashboard style -->
@@ -1920,8 +1868,10 @@ table tbody tr:nth-child(odd):hover {
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 100; /* Behind the navbar */
-    padding: 48px 0 0; /* Height of navbar */
+    z-index: 100;
+    /* Behind the navbar */
+    padding: 48px 0 0;
+    /* Height of navbar */
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
   }
 
@@ -1931,7 +1881,8 @@ table tbody tr:nth-child(odd):hover {
     height: calc(100vh - 48px);
     padding-top: 0.5rem;
     overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
   }
 
   @supports ((position: -webkit-sticky) or (position: sticky)) {
@@ -1970,12 +1921,14 @@ table tbody tr:nth-child(odd):hover {
  */
 
   [role="main"] {
-    padding-top: 133px; /* Space for fixed navbar */
+    padding-top: 133px;
+    /* Space for fixed navbar */
   }
 
   @media (min-width: 768px) {
     [role="main"] {
-      padding-top: 48px; /* Space for fixed navbar */
+      padding-top: 48px;
+      /* Space for fixed navbar */
     }
   }
 
