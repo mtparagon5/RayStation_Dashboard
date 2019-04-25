@@ -105,6 +105,7 @@
           <div class="m-auto ">
             <h6 class="text-center">Available Contours</h6>
             <hr />
+            <!-- <button onclick="getVisibleSeries()">Check Visibility</button> -->
             <form class="" id="check-boxes">
               <!-- <fieldset> -->
               <!-- labels are populated dynamically, don't think this is needed -->
@@ -288,9 +289,9 @@
     // This function will read the text in the file that is loaded, manipulate it, and create the graphs/tables
 
     function receivedText(e) {
-      let lines = e.target.result;
+      // let lines = e.target.result;
 
-      var PlanJSONArray = JSON.parse(lines);
+      var PlanJSONArray = JSON.parse(e.target.result);
 
       var pertTypes2 = [];
 
@@ -314,10 +315,12 @@
       $(document).ready(function () {
         // constructors
 
-        function Category(name) {
+        function Category(name, pertType) {
           this.name = name;
-
           this.visible = true;
+
+          this.pert = pertType;
+          // this.pertIsVisible = true;
         }
 
         function Point(category, y) {
@@ -553,8 +556,10 @@
 
           var structureID = []; //save all the contour names in the JSON file
 
-          planData[0].structureData.forEach(function (element, i) {
-            structureID.push(new Category(element.structureId));
+          planData.forEach(function (element, i) {
+            element.structureData.forEach(function (childElement, j) {
+              structureID.push(new Category(childElement.structureId, element.perturbationType));
+            });
           });
 
           contourCategories = structureID.map(function (cat, i) {
@@ -1157,7 +1162,8 @@
 
               data: [],
 
-              dashStyle: dashStyles[0],
+              // dashStyle: dashStyles[0],
+              dashStyle: 'Solid',
 
               visible: true,
 
@@ -1175,8 +1181,22 @@
                 category => category.name === childElement.structureId
               );
 
+
               if (!category.visible) {
                 return;
+              }
+
+              let lineStyle = '';
+              if (element.perturbationType == 'Nominal') {
+                lineStyle = 'Solid';
+              } else if (element.perturbationType.includes('Shift')) {
+                lineStyle = 'LongDashDotDot';
+              } else if (element.perturbationType.includes('Range')) {
+                lineStyle = 'DashDot';
+              } else if (element.perturbationType.includes('Rotation')) {
+                lineStyle = 'LongDash';
+              } else {
+                lineStyle = 'ShortDash';
               }
 
               seriesOptionsHere.push({
@@ -1186,7 +1206,8 @@
                   return a[0] - b[0];
                 }),
 
-                dashStyle: dashStyles[i],
+                // dashStyle: dashStyles[i],
+                dashStyle: lineStyle,
 
                 visible: true,
 
@@ -1255,6 +1276,8 @@
         //rebuild the chart data
 
         function rebuildData() {
+          var chart = $("#dvh").highcharts();
+
           $.each($("#check-boxes input"), function (i, box) {
             var checkbox = this;
 
@@ -1263,10 +1286,7 @@
             var category = contourCategories.find(
               category => category.name === checkbox.id
             );
-
             category.visible = checkbox.checked;
-
-
           });
 
           $('#check-boxes input').click(function () {
@@ -1275,13 +1295,9 @@
             var category = contourCategories.find(
               category => category.name === checkbox.id
             );
-
-            // $("#dvh-stats-table tr").filter(function() {
-            //   $(this).toggle($(this).text().toLowerCase().indexOf(category.name.toLowerCase()) > -1)
-            // });
           });
 
-          var chart = $("#dvh").highcharts();
+
 
           // // var value = checkbox.val().toLowerCase();
           // $("#dvh-stats-table tr").filter(function() {
@@ -1296,8 +1312,6 @@
 
           // }
 
-
-
           var series_index = 0;
 
           //first a couple of the series are empty, for perterb types only
@@ -1309,16 +1323,47 @@
           planData.forEach(function (element, i) {
             element.structureData.forEach(function (childElement, j) {
               if (series_index < chart.series.length) {
+
                 var category = contourCategories.find(
                   category => category.name === childElement.structureId
                 );
+                category.pert = chart.series[series_index].name;
+                category.pertIsVisible = chart.series[series_index].visible;
+                // // console.log(category)
 
-                if (!category.visible) {
+                // if (category.visible) {
+                //   console.log(category.pert + " : " + category.pertIsVisible)
+                // }
+
+
+
+                if (category.visible) {
                   chart.series[series_index].setVisible(false, false);
+                  // console.log(category.name + " : " + chart.series[series_index].visible)
+                  // console.log(category.pert + " : " + category.pertIsVisible)
+                  // console.log('-------------------------------------------------------------------')
                 } else {
-                  chart.series[series_index].setVisible(true, false);
+                  if (category.pertIsVisible) {
+                    chart.series[series_index].setVisible(true, false);
+                    console.log(category.name + " : " + chart.series[series_index].visible)
+                    console.log(category.pert + " : " + category.pertIsVisible)
+                    console.log('-------------------------------------------------------------------')
+                  }
+                  // chart.series[series_index].setVisible(true, false);
+                  // console.log(category.name + " : " + chart.series[series_index].visible)
+                  // console.log(category.pert + " : " + category.pertIsVisible)
+                  // console.log('-------------------------------------------------------------------')
                 }
 
+                // console.log(category)
+
+
+                // console.log(chart.series[series_index])
+                // if (!category.visible) {
+                //   chart.series[series_index].setVisible(false, false);
+                // } else {
+                //   chart.series[series_index].setVisible(true, false);
+                // }
                 series_index++;
               }
             });
@@ -1354,6 +1399,8 @@
 
           // });
 
+
+
           chart.redraw();
 
           //chart = new Highcharts.Chart(options);
@@ -1365,20 +1412,24 @@
 
         function buildCheckBoxes() {
           $("#check-boxes ").empty();
-
+          added_cbs = []
           $.each(contourCategories, function (i, cat) {
-            var box =
-              '<label><input type="checkbox" onChange="filterDvhTable()" id="' +
-              String(cat.name) +
-              '" name="' +
-              String(cat.name) +
-              '" val="' +
-              String(cat.name) +
-              '" checked="checked" />' +
-              String(cat.name) +
-              "</label>";
+            if (!added_cbs.includes(cat.name)) {
+              var box =
+                '<label><input type="checkbox" onChange="filterDvhTable()" id="' +
+                String(cat.name) +
+                '" name="' +
+                String(cat.name) +
+                '" val="' +
+                String(cat.name) +
+                '" checked="checked" />' +
+                String(cat.name) +
+                "</label>";
 
-            $("#check-boxes ").append(box);
+              $("#check-boxes ").append(box);
+            }
+            added_cbs.push(cat.name);
+
           });
         }
       });
@@ -1387,365 +1438,6 @@
 
       // there is likely an easier way to write this code
 
-      var dashStyles = [
-        "Solid",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash",
-
-        "ShortDash"
-
-        //'ShortDash',
-
-        //'ShortDot',
-
-        //'ShortDashDot',
-
-        //'ShortDashDotDot',
-
-        //'Dot',
-
-        //'Dash',
-
-        //'LongDash',
-
-        //'DashDot',
-
-        //'LongDashDot',
-
-        //'LongDashDotDot'
-      ];
     }
   }
 
@@ -1770,6 +1462,35 @@
       // Hide all
       $('#dvh-stats-tbody tr').hide();
     }
+
+
+  }
+
+
+  function getVisibleSeries() {
+    let chart = $("#dvh").highcharts();
+
+    let visibleSeries = [];
+    $.each(chart.series, function (i, series) {
+      if (series.userOptions.visible == true) {
+        visibleSeries.push(series.userOptions.name);
+      }
+    });
+    // console.log(visibleSeries);
+    return visibleSeries;
+
+    // let visibility = {};
+
+    // $.each(chart.series, function (i, series) {
+    //   visibility[i] = {
+    //     "series": series.userOptions.name,
+    //     "visible": series.userOptions.visible
+    //   }
+    //   // console.log(series.userOptions.visible);
+    //   // series.userOptions.visible = false;
+    //   // console.log(series.visible);
+    // });
+    // console.log(visibility);
   }
 
   /* ----- need to be able to re-size the dvh chart and the table to make printing worth while ----- */
