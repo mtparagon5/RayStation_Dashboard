@@ -23,8 +23,11 @@
   <!-- bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <!-- datatables -->
+  <link rel="stylesheet" href="assets/DataTables/datatables.min.css">
 
-
+  <!-- custom css -->
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
 
 <body>
@@ -100,7 +103,7 @@
         <!-- /Patient Information Display -->
 
         <!-- Placeholder for the DVH -->
-        <div class="row">
+        <div class="row" style="display: none;">
           <div class="dvh col-md-9 m-auto h-100" id="dvh"></div>
         </div>
         <!-- contour checkboxes -->
@@ -137,10 +140,10 @@
           </div>
         </div class="row ">
         <div class="row ">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <!-- DVH Stats Table -->
             <h2>DVH Statistics</h2>
-            <div class="table-responsive dvh-table">
+            <div class="table-responsive dvh-table" style="display: none;">
               <table class="table table-striped table-sm table-fixed-6 " id="dvh-stats-table">
                 <thead>
                   <tr>
@@ -156,11 +159,12 @@
               </table>
             </div>
           </div>
-          <div class="col-md-6">
-            <table id="datatables-table"></table>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <table id="datatables-table" class="text-center table table-striped hover"></table>
           </div>
         </div>
-
         <!-- Placeholder for Table Data -->
 
 
@@ -208,6 +212,15 @@
 
     <!-- highcharts -->
     <script src="assets/js/highcharts/highcharts.js"></script>
+
+    <!-- webdatarocks -->
+    <!-- <script src="assets/WebDataRocks/webdatarocks.js"></script> -->
+
+    <!-- datatables js -->
+    <script src="assets/DataTables/datatables.min.js"></script>
+
+    <!-- custom js -->
+    <script src="assets/js/fill-table-data.js"></script>
 
 </body>
 
@@ -269,6 +282,7 @@
 
       var JSON_Data = [];
 
+
       // create the dvh chart settings using highcharts
 
       // for documentation: https://www.highcharts.com/
@@ -292,165 +306,165 @@
 
         init();
 
-        var pivot = new WebDataRocks({
-          container: "#wdr-component",
+        // var pivot = new WebDataRocks({
+        //   container: "#wdr-component",
 
-          toolbar: true,
+        //   toolbar: true,
 
-          report: {
-            conditions: [{
-              formula: "#value > 3.0",
+        //   report: {
+        //     conditions: [{
+        //       formula: "#value > 3.0",
 
-              format: {
-                backgroundColor: "#FFEB3B",
+        //       format: {
+        //         backgroundColor: "#FFEB3B",
 
-                color: "#000000",
+        //         color: "#000000",
 
-                fontFamily: "Arial",
+        //         fontFamily: "Arial",
 
-                fontSize: "12px"
-              }
-            },
+        //         fontSize: "12px"
+        //       }
+        //     },
 
-            {
-              formula: "#value < -3.0",
+        //     {
+        //       formula: "#value < -3.0",
 
-              format: {
-                backgroundColor: "#03A9F4",
+        //       format: {
+        //         backgroundColor: "#03A9F4",
 
-                color: "#000000",
+        //         color: "#000000",
 
-                fontFamily: "Arial",
+        //         fontFamily: "Arial",
 
-                fontSize: "12px"
-              }
-            }
-            ],
+        //         fontSize: "12px"
+        //       }
+        //     }
+        //     ],
 
-            dataSource: {
-              dataSourceType: "json",
+        //     dataSource: {
+        //       dataSourceType: "json",
 
-              data: getJSONData()
-            },
+        //       data: getJSONData()
+        //     },
 
-            options: {
-              grid: {
-                //showGrandTotals: false  //when use, the chart show repeat itself
-              }
-            },
+        //     options: {
+        //       grid: {
+        //         //showGrandTotals: false  //when use, the chart show repeat itself
+        //       }
+        //     },
 
-            formats: [{
-              name: "rating",
+        //     formats: [{
+        //       name: "rating",
 
-              decimalPlaces: 2
-            }],
+        //       decimalPlaces: 2
+        //     }],
 
-            slice: {
-              rows: [{
-                uniqueName: "Structure"
-              },
+        //     slice: {
+        //       rows: [{
+        //         uniqueName: "Structure"
+        //       },
 
-              {
-                uniqueName: "Type"
-              }
-              ],
+        //       {
+        //         uniqueName: "Type"
+        //       }
+        //       ],
 
-              // columns: [{
+        //       // columns: [{
 
-              //         uniqueName: "PerturbType"
+        //       //         uniqueName: "PerturbType"
 
-              //     },
+        //       //     },
 
-              //     {
+        //       //     {
 
-              //         uniqueName: "Delta D95"
+        //       //         uniqueName: "Delta D95"
 
-              //     }
+        //       //     }
 
-              // ],
+        //       // ],
 
-              columns: [],
+        //       columns: [],
 
-              measures: [{
-                uniqueName: "Delta D95",
+        //       measures: [{
+        //         uniqueName: "Delta D95",
 
-                aggregation: "min",
+        //         aggregation: "min",
 
-                format: "rating"
-              },
+        //         format: "rating"
+        //       },
 
-              {
-                uniqueName: "Delta Max",
+        //       {
+        //         uniqueName: "Delta Max",
 
-                aggregation: "max",
+        //         aggregation: "max",
 
-                format: "rating"
-              }
-              ]
-            }
-          },
+        //         format: "rating"
+        //       }
+        //       ]
+        //     }
+        //   },
 
-          reportcomplete: function () {
-            pivot.off("reportcomplete");
+        //   reportcomplete: function () {
+        //     pivot.off("reportcomplete");
 
-            createChart();
-          }
-        });
+        //     createChart();
+        //   }
+        // });
 
-        function createChart() {
-          pivot.highcharts.getData({
-            type: "column",
+        // function createChart() {
+        //   pivot.highcharts.getData({
+        //     type: "column",
 
-            //type: "boxplot",
+        //     //type: "boxplot",
 
-            slice: {
-              rows: [{
-                uniqueName: "Structure"
-              }],
+        //     slice: {
+        //       rows: [{
+        //         uniqueName: "Structure"
+        //       }],
 
-              columns: [{
-                uniqueName: "[Measures]"
-              }],
+        //       columns: [{
+        //         uniqueName: "[Measures]"
+        //       }],
 
-              measures: [{
-                uniqueName: "D95",
+        //       measures: [{
+        //         uniqueName: "D95",
 
-                aggregation: "average"
-              }],
+        //         aggregation: "average"
+        //       }],
 
-              sorting: {
-                column: {
-                  type: "desc",
+        //       sorting: {
+        //         column: {
+        //           type: "desc",
 
-                  tuple: [],
+        //           tuple: [],
 
-                  measure: "D95"
-                }
-              }
-            }
-          },
-            createAndUpdate,
-            createAndUpdate
-          );
-        }
+        //           measure: "D95"
+        //         }
+        //       }
+        //     }
+        //   },
+        //     createAndUpdate,
+        //     createAndUpdate
+        //   );
+        // }
 
-        function createAndUpdate(data, rawData) {
-          if (data.series != undefined) {
-            data.series[data.series.length - 1].type = "spline";
-          }
+        // function createAndUpdate(data, rawData) {
+        //   if (data.series != undefined) {
+        //     data.series[data.series.length - 1].type = "spline";
+        //   }
 
-          data.tooltip = {
-            headerFormat: "<b>{series.name}</b><br/>",
+        //   data.tooltip = {
+        //     headerFormat: "<b>{series.name}</b><br/>",
 
-            pointFormat: pivot.highcharts.getPointYFormat(
-              rawData.meta.formats[0]
-            )
-          };
+        //     pointFormat: pivot.highcharts.getPointYFormat(
+        //       rawData.meta.formats[0]
+        //     )
+        //   };
 
-          //data.chart.type = 'boxplot';
+        //   //data.chart.type = 'boxplot';
 
-          Highcharts.chart("highchartsContainer", data);
-        }
+        //   Highcharts.chart("highchartsContainer", data);
+        // }
 
         function getJSONData() {
           return JSON_Data;
@@ -492,6 +506,7 @@
           contourCategories = [];
 
           var jsonArray = PlanJSONArray[0];
+          // console.log(jsonArray);
 
           //document.getElementById('physician').innerHTML = jsonArray.primaryPhysician;
 
@@ -516,6 +531,8 @@
           document.getElementById("BeamSetName").innerHTML = jsonArray.BeamSetName;
 
           var structureID = []; //save all the contour names in the JSON file
+
+
 
           planData.forEach(function (element, i) {
             element.structureData.forEach(function (childElement, j) {
@@ -665,21 +682,45 @@
           // don't think this is necessary anymore
           // $("#table tbody").empty();
 
-          data.forEach(function (arr, i) {
-            JSON_Data.push({
-              Structure: data[i][0],
-              PlanID: data[i][1],
-              MaxDose: data[i][2],
-              "Delta Max": data[i][3],
-              D95: data[i][4],
-              "Delta D95": data[i][5],
-              PerturbType: data[i][6],
-              Type: data[i][7]
-            });
 
-            // If the structure is not a "Target", only populate id, plan, max dose, and max % diff (omit D95 and D95 % diff)
+          data.forEach(function (arr, i) {
+            // JSON_Data.push({
+            //   Structure: data[i][0],
+            //   PlanID: data[i][1],
+            //   MaxDose: data[i][2],
+            //   "Delta Max": data[i][3],
+            //   D95: data[i][4],
+            //   "Delta D95": data[i][5],
+            //   PerturbType: data[i][6],
+            //   Type: data[i][7]
+            // });
+            if (data[i][7] == "Organ") {
+
+              // If the structure is not a "Target", only populate id, plan, max dose, and max % diff (omit D95 and D95 % diff)
+              dataTablesData.push([
+                data[i][0],
+                data[i][1],
+                data[i][2],
+                data[i][3],
+                "--",
+                "--"
+              ]);
+            } else {
+              dataTablesData.push([
+                data[i][0],
+                data[i][1],
+                data[i][2],
+                data[i][3],
+                data[i][4],
+                data[i][5]
+              ]);
+            }
+
+
+
 
             // I left them there in place in the event they need to be added back.
+            // console.log(data[i])
 
             if (data[i][7] == "Organ") {
               if (data[i][1] == nomData[0][1]) {
@@ -828,6 +869,7 @@
               }
             }
           });
+          fillDataTables(dataTable, dataTablesData);
 
           // the options are defined in a dictionary object essentially and then loaded after to simplify the code that creates the chart
 
@@ -1299,16 +1341,16 @@
 
 
                 if (category.visible) {
-                  chart.series[series_index].setVisible(false, false);
+                  // chart.series[series_index].setVisible(false, true);
                   // console.log(category.name + " : " + chart.series[series_index].visible)
                   // console.log(category.pert + " : " + category.pertIsVisible)
                   // console.log('-------------------------------------------------------------------')
                 } else {
                   if (category.pertIsVisible) {
-                    chart.series[series_index].setVisible(true, false);
-                    console.log(category.name + " : " + chart.series[series_index].visible)
-                    console.log(category.pert + " : " + category.pertIsVisible)
-                    console.log('-------------------------------------------------------------------')
+                    // chart.series[series_index].setVisible(true, false);
+                    // console.log(category.name + " : " + chart.series[series_index].visible)
+                    // console.log(category.pert + " : " + category.pertIsVisible)
+                    // console.log('-------------------------------------------------------------------')
                   }
                   // chart.series[series_index].setVisible(true, false);
                   // console.log(category.name + " : " + chart.series[series_index].visible)
@@ -1412,12 +1454,27 @@
 
   // filter the dvh table when structures are selected/unselected
   function filterDvhTable() {
+
+    getVisibleSeries();
     // adapted from https://stackoverflow.com/questions/28063963/how-to-filter-records-based-on-key-click
     if ($('input[type="checkbox"]:checked').length > 0) {
       // Get ids of all checked boxes
       var ids = $('input[type="checkbox"]:checked').map(function () {
         return this.id;
       }).get();
+
+      console.log(ids)
+
+      var newTableData = [];
+
+      dataTablesData.forEach((d) => {
+        if (ids.includes(d[0])) {
+          newTableData.push(d);
+        }
+      });
+      // fillDataTables(dataTable, newTableData)
+
+
       // Here we do two things to table rows
       // 1. We hide all
       // 2. Then we filter, show those whose value in first <td> matches checkbox value
@@ -1445,7 +1502,7 @@
         visibleSeries.push(series.userOptions.name);
       }
     });
-    // console.log(visibleSeries);
+    console.log(visibleSeries);
     return visibleSeries;
 
     // let visibility = {};
