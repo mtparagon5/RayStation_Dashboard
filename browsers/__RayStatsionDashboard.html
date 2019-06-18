@@ -48,19 +48,6 @@
   <div class="container-fluid w-75">
     <div class="row">
       <main role="main" class="ml-sm-auto col-lg-12 px-4 ">
-
-        <!-- NOTE: have to get chart to resize propely in order to make printing worth while -->
-        <!-- NOTE: also re-size the table  -->
-        <!-- print button -->
-        <!-- <button
-            id="print"
-            class="btn btn-outline-info btn-sm mb-2 pl-5 pr-5"
-            onclick="PrepareAndPrint()"
-          >
-            Print
-          </button> -->
-        <!-- /print button -->
-
         <!-- Dashboard Header -->
         <div
           class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -70,11 +57,7 @@
 
         <!-- Patient Information Display -->
         <div class="mb-1" id="ptBlockDislay">
-          <!-- Print Button -->
-
           <!-- Patient and Plan Information Display / Can add other info e.g., Physician, approval status, etc. as desired -->
-
-          <!--<p>Physician:<span class='tabPhysician'><label id="physician"></label></span></p>-->
           <div class="row">
             <div class="col-md-3 text-center">
               <label><b>Patient</b></label>
@@ -97,8 +80,6 @@
                 <label id="BeamSetName"></label>
             </div>
           </div>
-
-          <!--<p>ApprovalStatus:<span class='tabPlanStatus'><label id="approvalStatus"></label></span></p>-->
         </div>
         <!-- /Patient Information Display -->
 
@@ -115,10 +96,9 @@
             </form>
           </div>
         </div>
+        <!-- Plan Parameters Table -->
         <div class="row ">
           <div class="col-md-12">
-            <!-- <div class="col-md-12 tableData" id="tableData"> -->
-            <!-- Plan Parameters Table -->
             <h2>Robust Planning Parameters</h2>
             <div class="table-responsive">
               <table class="table table-striped table-sm" id="plan-params-table" cellpadding="8" cellspacing="15">
@@ -138,12 +118,15 @@
               </table>
             </div>
           </div>
-        </div class="row ">
+        </div>
+        <!-- /Plan Parameters Table -->
+        <!-- Table Data -->
         <div class="row ">
           <div class="col-md-12">
             <!-- DVH Stats Table -->
             <h2>DVH Statistics</h2>
-            <div class="table-responsive dvh-table" style="display: none;">
+            <!-- original table removed -- can add back if prefer original over new table -->
+            <!-- <div class="table-responsive dvh-table" style="display: none;">
               <table class="table table-striped table-sm table-fixed-6 " id="dvh-stats-table">
                 <thead>
                   <tr>
@@ -157,48 +140,13 @@
                 </thead>
                 <tbody id="dvh-stats-tbody"></tbody>
               </table>
+            </div> -->
+            <div class="col-md-12">
+              <table id="datatables-table" class="text-center table table-striped hover"></table>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-12">
-            <table id="datatables-table" class="text-center table table-striped hover"></table>
-          </div>
-        </div>
-        <!-- Placeholder for Table Data -->
-
-
-        <!-- <table style="display:none;">
-          <tr>
-            <td style="width: 800px;">
-              <div id="wdr-component"></div>
-            </td>
-
-            <td>
-              <div id="highchartsContainer" style="width:700px;height:400px;"></div>
-            </td>
-          </tr>
-        </table> -->
-
-        <!-- <canvas style="display:none;" class="my-4 w-100 mb-10" id="myChart" width="900" height="380"></canvas> -->
-
-        <!-- <h2>DVH Statistics</h2>
-        <div class="table-responsive col-md-5">
-          <table class="table table-striped table-sm">
-            <thead>
-              <tr>
-                <th>Structure</th>
-                <th>Plan</th>
-                <th>Max Dose (Gy)</th>
-                <th>Max %&#916;</th>
-                <th>D95 (Gy)</th>
-                <th>D95 %&#916;</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div> -->
-
+        <!-- /Table Data -->
       </main>
       <footer class="w-100 text-center my-5">&copy;Copyright 2019</footer>
     </div>
@@ -212,9 +160,6 @@
 
     <!-- highcharts -->
     <script src="assets/js/highcharts/highcharts.js"></script>
-
-    <!-- webdatarocks -->
-    <!-- <script src="assets/WebDataRocks/webdatarocks.js"></script> -->
 
     <!-- datatables js -->
     <script src="assets/DataTables/datatables.min.js"></script>
@@ -263,25 +208,15 @@
     // This function will read the text in the file that is loaded, manipulate it, and create the graphs/tables
 
     function receivedText(e) {
-      // let lines = e.target.result;
-
+      // variables
       var PlanJSONArray = JSON.parse(e.target.result);
-
-      var pertTypes2 = [];
-
-      var seriesOptions2 = [];
-
       var planData = PlanJSONArray[0].planData;
-
-      var contourCategories = [];
-
       var chart;
-
       var data = [],
-        nomData = [];
-
-      // var JSON_Data = [];
-
+        nomData = [],
+        pertTypes = [],
+        seriesOptions = [],
+        contourCategories = [];
 
       // create the dvh chart settings using highcharts
 
@@ -506,33 +441,14 @@
           contourCategories = [];
 
           var jsonArray = PlanJSONArray[0];
-          // console.log(jsonArray);
 
-          //document.getElementById('physician').innerHTML = jsonArray.primaryPhysician;
-
-          //document.getElementById('approvalStatus').innerHTML = jsonArray.planData[0].approvalStatus;
-
-          // you can use the console.log() function to write information to the console (F12 Develepor Tools in your browser) as a test
-
-          // NOTE: ensure you remove any console.log() functions that write PHI to the console as anyone can access a browsers console.
-
-          // examples
-
-          //console.log(jsonArray.planData);
-
-          //console.log(jsonArray.planData[0].structureData[0].dvh);
-
+          // define plan info labels
           document.getElementById("patientName").innerHTML = jsonArray.patientName;
-
           document.getElementById("mrn").innerHTML = jsonArray.patientId;
-
           document.getElementById("planId").innerHTML = jsonArray.planName;
-
           document.getElementById("BeamSetName").innerHTML = jsonArray.BeamSetName;
 
           var structureID = []; //save all the contour names in the JSON file
-
-
 
           planData.forEach(function (element, i) {
             element.structureData.forEach(function (childElement, j) {
@@ -546,18 +462,22 @@
             return cat;
           });
 
-          //push all the pert types in all plan data (different pertubation serials) into pertTypes2 list
+          //push all the pert types in all plan data (different pertubation serials) into pertTypes list
 
+          // get pert types
           planData.forEach(function (element, i) {
-            if (!pertTypes2.includes(planData[i].perturbationType)) {
-              pertTypes2.push(planData[i].perturbationType);
+            if (!pertTypes.includes(planData[i].perturbationType)) {
+              pertTypes.push(planData[i].perturbationType);
             }
           });
 
-          seriesOptions2 = fill_seriesOptions(contourCategories);
+          // get series options
+          seriesOptions = fill_seriesOptions(contourCategories);
 
+          // add checkboxes for each structure
           buildCheckBoxes();
 
+          // collect data for tables
           planData.forEach(function (element, i) {
             element.structureData.forEach(function (childElement, j) {
               if (element.perturbationType == "Nominal") {
@@ -568,7 +488,7 @@
                   parseFloat(childElement.structureD95) / 100.0
                 ]); //Dmax and D95 in Gy
               }
-
+              // calculate deltas relative to nominal data
               nomData.forEach(function (val, i) {
                 if (nomData[i][0] == childElement.structureId) {
                   var d95Ratio = 0;
@@ -598,7 +518,6 @@
                     element.planId,
                     maxDose,
                     maxRatio,
-
                     D95Gy,
                     d95Ratio,
                     element.perturbationType,
@@ -609,9 +528,7 @@
             });
           });
 
-          // not sure this is necessary
-          // $("#plan-params-table tbody").empty();
-
+          // fill plan parameters table
           if (jsonArray.optShifts != null) {
             // this processes the robust shift information
 
@@ -619,11 +536,7 @@
 
             var params = jsonArray.optShifts.replace(" ", "");
 
-            //console.log(params);
-
             var processedParams = params.slice(params.indexOf(":") + 2);
-
-            //console.log(processedParams);
 
             var processedParamsArr = new Array();
 
@@ -666,26 +579,12 @@
           }
 
           // sorting data alphabetically by structure
-
-          data = data.sort();
+          data.sort();
 
           // Create DVH Stats Table
 
-          // don't think this is necessary anymore
-          // $("#table tbody").empty();
-
           // get data for table
           data.forEach(function (arr, i) {
-            // JSON_Data.push({
-            //   Structure: data[i][0],
-            //   PlanID: data[i][1],
-            //   MaxDose: data[i][2],
-            //   "Delta Max": data[i][3],
-            //   D95: data[i][4],
-            //   "Delta D95": data[i][5],
-            //   PerturbType: data[i][6],
-            //   Type: data[i][7]
-            // });
             if (data[i][7] == "Organ") {
 
               // If the structure is not a "Target", only populate id, plan, max dose, and max % diff (omit D95 and D95 % diff)
@@ -707,8 +606,6 @@
                 data[i][5]
               ]);
             }
-
-
 
             // keeping in case other table is preferred
             // I left them there in place in the event they need to be added back.
@@ -865,9 +762,8 @@
           //  fill data tables
           fillDataTables(dataTablesData);
 
-          // the options are defined in a dictionary object essentially and then loaded after to simplify the code that creates the chart
-
-          var options = {
+          // chart options
+          var chartOptions = {
             chart: {
               renderTo: "dvh",
 
@@ -972,15 +868,10 @@
               shared: true,
 
               useHTML: true,
-
-              // headerFormat: "<table>",
-
-              // pointFormat:
-              //   // original
-              //   // '<tr><td style="color:{series.color}; text-shadow: -1px 0 #353839, 0 1px #353839, 1px 0 #353839, 0 -1px #353839;">{series.name}: </td><td style="text-align: left; color:#282827">V{point.x} cGy = {point.y:.3f} cc</td></tr>',
-              //   '<tr><td style="color:#282827;">{series.name}: </td><td></td><td style="text-align: left; color:#282827">V{point.x} cGy = {point.y:.3f} cc</td></tr>',
-
-              // footerFormat: "</table>"
+              // tooltip on chart hover
+              // NOTE: only one point is shown on hover because the x values are different for each series
+              // this is because the dose at volume is collected as opposed to volume at dose
+              // if you want each of the values to show on hover, simply collect volume at dose instead
               formatter: function () {
                 var s =
                   '<table><strong style="color:#0a114a;">V' +
@@ -1004,13 +895,7 @@
                     var last_ = point.series.name.lastIndexOf("_");
                     var plan = point.series.name.slice(0, last_);
                     var structure = point.series.name.slice(last_ + 1);
-                    // s += '<tr><td style=\"color:' + point.series.color + '; text-shadow: -1px 0 #353839, 0 1px #353839, 1px 0 #353839, 0 -1px #353839;\">' + point.series.name + ': </td><td style=\"text-align: left; color:#282827\">&nbsp;&nbsp;&nbsp;&nbsp;' + Highcharts.numberFormat(point.y, 3, '.') + ' %</td></tr>';
                     s +=
-                      // '<tr><td style="color:#0a114a;">' +
-                      // point.series.name +
-                      // ': </td><td style="text-align: left; color:#0a114a">&nbsp;&nbsp;&nbsp;&nbsp;' +
-                      // Highcharts.numberFormat(point.y, 2, ".") +
-                      // " %</td></tr>";
                       '<tr><td style="color:#0a114a;">' +
                       plan +
                       '</td><td style="color:#0a114a;">&nbsp;&nbsp;&nbsp;&nbsp;' +
@@ -1023,38 +908,6 @@
                 s += "</table>";
                 return s;
               }
-
-              // NOTE: You can use the formatter toolip to format the data while hovering over various points. See documentation.
-
-              //      I decided to sort them a different way but left this code as another example.
-
-              //formatter: function() {
-
-              //    var s = '<table><strong>V' + this.x + ' cGy:</strong>';
-
-              //    var sortedPoints = this.points.sort(function (a, b) {
-
-              //        return ((a.y > b.y) ? -1 : ((a.y < b.y) ? 1 : 0));
-
-              //    });
-
-              //    $.each(sortedPoints, function (i, point) {
-
-              //        s += '<tr><td style=\"color:' + point.series.color + '; text-shadow: -1px 0 #353839, 0 1px #353839, 1px 0 #353839, 0 -1px #353839;\">' +
-
-              //            point.series.name + ': </td><td style=\"text-align: left; color:#282827\">V' +
-
-              //            point.x + ' cGy = ' + Highcharts.numberFormat(point.y, 1, '.') + ' %</td></tr>';
-
-              //    });
-
-              //    s += '</table>';
-
-              //    return s;
-
-              //}
-
-              //<!--valueDecimals: 1-->
             },
 
             title: {
@@ -1081,94 +934,72 @@
                 color: "red"
               }
             },
-            // legend: {
-            //   align: "right",
-            //   verticalAlign: "top",
-            //   layout: "vertical",
-            //   x: 0,
-            //   y: 250,
-            //   itemDistance: 50,
-            //   itemStyle: {
-            //     color: "#0a114a",
-            //     fontWeight: "regular"
-            //   },
-            //   itemHiddenStyle: {
-            //     color: "red"
-            //   }
-            // },
-            // legend: {
-            //   layout: "horizontal",
-
-            //   align: "center",
-
-            //   verticalAlign: "bottom",
-
-            //   borderWidth: 0,
-
-            //   floating: false,
-
-            //   width: 420,
-
-            //   itemWidth: 210,
-
-            //   itemStyle: {
-            //     width: 205
-            //   },
-
-            //   itemHiddenStyle: {
-            //     color: "#ff4d4d"
-            //   }
-            // },
 
             // the settings for the individual series are defined below but loaded here
 
-            series: seriesOptions2
+            series: seriesOptions
           };
 
-          chart = new Highcharts.Chart(options);
+          chart = new Highcharts.Chart(chartOptions);
         }
 
         $(document).on("click", "#check-boxes input", function (e) {
-          //send the chart object and the chartData object
+          // toggle series visibility
+          $.each(chart.series, function (i, series) {
+            if (series.userOptions.name.includes(e.target.id)) {
+              if (series.userOptions.visible == true) {
+                series.setVisible(false);
+              } else {
+                series.setVisible(true);
+              }
+            }
+          });
+          // filter data table
+          var newTableData = [];
+          var checkedIds = getCheckedIds();
+          dataTablesData.forEach((d) => {
+            if (checkedIds.includes(d[0])) {
+              newTableData.push(d);
+            }
+          });
+          // destroy existing table
+          $("#datatables-table").DataTable().destroy();
+          // build new table
+          fillDataTables(newTableData);
+
           // getVisibleSeries();
           // rebuildData();
         });
 
-        $(document).on("click", "#loadPatientDiv input", function (e) {
-          //send the chart object and the chartData object
+        // $(document).on("click", "#loadPatientDiv input", function (e) {
+        //   //send the chart object and the chartData object
 
-          //alert('ok')
+        //   // alert('ok')
 
-          init();
+        //   // init();
 
-          buildCheckBoxes();
+        //   // buildCheckBoxes();
 
-          //rebuildData();
-        });
+        //   //rebuildData();
+        // });
 
         function fill_seriesOptions(cat) {
-          // body...
-
           var seriesOptionsHere = [];
 
-          pertTypes2.forEach(function (ptype, h) {
+          pertTypes.forEach(function (ptype, h) {
             seriesOptionsHere.push({
-              id: pertTypes2[h],
+              id: pertTypes[h],
 
-              name: pertTypes2[h],
+              name: pertTypes[h],
 
               data: [],
 
-              // dashStyle: dashStyles[0],
               dashStyle: 'Solid',
 
               visible: true,
 
               color: "white"
 
-              // linkedTo example: See Documentation
-
-              //linkedTo: ':previous'
             });
           });
 
@@ -1246,7 +1077,7 @@
         function filterSeries() {
           var filteredSeries = [];
 
-          $.each(seriesOptions2, function (i, serie) {
+          $.each(seriesOptions, function (i, serie) {
             // serie options are merged during update,
 
             // so it's enough to initialize serie object only with data property
@@ -1310,7 +1141,7 @@
 
           //first a couple of the series are empty, for perterb types only
 
-          pertTypes2.forEach(function (ptype, h) {
+          pertTypes.forEach(function (ptype, h) {
             series_index++;
           });
 
@@ -1445,16 +1276,16 @@
       var ids = getCheckedIds();
 
       // filter data for datatable
-      var newTableData = [];
-      dataTablesData.forEach((d) => {
-        if (ids.includes(d[0])) {
-          newTableData.push(d);
-        }
-      });
-      // destroy existing table
-      $("#datatables-table").DataTable().destroy();
-      // build new table
-      fillDataTables(newTableData);
+      // var newTableData = [];
+      // dataTablesData.forEach((d) => {
+      //   if (ids.includes(d[0])) {
+      //     newTableData.push(d);
+      //   }
+      // });
+      // // destroy existing table
+      // $("#datatables-table").DataTable().destroy();
+      // // build new table
+      // fillDataTables(newTableData);
 
       // keeping in case Other Table is preferred
       //   // Here we do two things to table rows
@@ -1491,21 +1322,32 @@
     let chart = $("#dvh").highcharts();
     let visibleSeries = [];
 
-    checkedIds.forEach((id) => {
-      $.each(chart.series, function (i, series) {
-        if (series.userOptions.name.includes(id)) {
-          series.userOptions.visible = true;
-        } else {
-          series.userOptions.visible = false;
-        }
-        if (series.userOptions.visible == true) {
-          visibleSeries.push(series.userOptions);
-        }
-      });
-    });
-    chart.update({ chart: { data: visibleSeries } })
+    console.log(checkedIds)
 
-    console.log(visibleSeries);
+    // checkedIds.forEach((id) => {
+    //   $.each(chart.series, function (i, series) {
+    //     if (series.userOptions.name.includes(id)) {
+    //       // series.visible = true;
+    //       if (series.userOptions.visible == true) {
+    //         series.setVisible(false);
+    //         console.log(series.userOptions.name)
+    //       } else {
+    //         series.setVisible(true);
+    //       }
+    //     } else {
+    //       // series.visible = false;
+    //       // series.setVisible();
+    //     }
+    //     if (series.userOptions.visible == true) {
+    //       visibleSeries.push(series.userOptions);
+    //     }
+    //   });
+    // });
+    // chart.update({ chart: { series: visibleSeries } })
+
+    // init();
+
+    // console.log(visibleSeries);
     return visibleSeries;
 
     // let visibility = {};
@@ -1525,7 +1367,7 @@
   /* ----- need to be able to re-size the dvh chart and the table to make printing worth while ----- */
   // in progress...
 
-  // When printing, remove various buttons
+  // // When printing, remove various buttons
   // function PrepareAndPrint() {
   //   $("#print").remove();
 
