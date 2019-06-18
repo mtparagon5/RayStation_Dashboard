@@ -241,202 +241,6 @@
 
         init();
 
-        // var pivot = new WebDataRocks({
-        //   container: "#wdr-component",
-
-        //   toolbar: true,
-
-        //   report: {
-        //     conditions: [{
-        //       formula: "#value > 3.0",
-
-        //       format: {
-        //         backgroundColor: "#FFEB3B",
-
-        //         color: "#000000",
-
-        //         fontFamily: "Arial",
-
-        //         fontSize: "12px"
-        //       }
-        //     },
-
-        //     {
-        //       formula: "#value < -3.0",
-
-        //       format: {
-        //         backgroundColor: "#03A9F4",
-
-        //         color: "#000000",
-
-        //         fontFamily: "Arial",
-
-        //         fontSize: "12px"
-        //       }
-        //     }
-        //     ],
-
-        //     dataSource: {
-        //       dataSourceType: "json",
-
-        //       data: getJSONData()
-        //     },
-
-        //     options: {
-        //       grid: {
-        //         //showGrandTotals: false  //when use, the chart show repeat itself
-        //       }
-        //     },
-
-        //     formats: [{
-        //       name: "rating",
-
-        //       decimalPlaces: 2
-        //     }],
-
-        //     slice: {
-        //       rows: [{
-        //         uniqueName: "Structure"
-        //       },
-
-        //       {
-        //         uniqueName: "Type"
-        //       }
-        //       ],
-
-        //       // columns: [{
-
-        //       //         uniqueName: "PerturbType"
-
-        //       //     },
-
-        //       //     {
-
-        //       //         uniqueName: "Delta D95"
-
-        //       //     }
-
-        //       // ],
-
-        //       columns: [],
-
-        //       measures: [{
-        //         uniqueName: "Delta D95",
-
-        //         aggregation: "min",
-
-        //         format: "rating"
-        //       },
-
-        //       {
-        //         uniqueName: "Delta Max",
-
-        //         aggregation: "max",
-
-        //         format: "rating"
-        //       }
-        //       ]
-        //     }
-        //   },
-
-        //   reportcomplete: function () {
-        //     pivot.off("reportcomplete");
-
-        //     createChart();
-        //   }
-        // });
-
-        // function createChart() {
-        //   pivot.highcharts.getData({
-        //     type: "column",
-
-        //     //type: "boxplot",
-
-        //     slice: {
-        //       rows: [{
-        //         uniqueName: "Structure"
-        //       }],
-
-        //       columns: [{
-        //         uniqueName: "[Measures]"
-        //       }],
-
-        //       measures: [{
-        //         uniqueName: "D95",
-
-        //         aggregation: "average"
-        //       }],
-
-        //       sorting: {
-        //         column: {
-        //           type: "desc",
-
-        //           tuple: [],
-
-        //           measure: "D95"
-        //         }
-        //       }
-        //     }
-        //   },
-        //     createAndUpdate,
-        //     createAndUpdate
-        //   );
-        // }
-
-        // function createAndUpdate(data, rawData) {
-        //   if (data.series != undefined) {
-        //     data.series[data.series.length - 1].type = "spline";
-        //   }
-
-        //   data.tooltip = {
-        //     headerFormat: "<b>{series.name}</b><br/>",
-
-        //     pointFormat: pivot.highcharts.getPointYFormat(
-        //       rawData.meta.formats[0]
-        //     )
-        //   };
-
-        //   //data.chart.type = 'boxplot';
-
-        //   Highcharts.chart("highchartsContainer", data);
-        // }
-
-        // function getJSONData() {
-        //   return JSON_Data;
-
-        //   // return [
-
-        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"CTV54", "structureColor":"rgb(238,0,255)", "Type":"CTV", "MaxDose":5714.76, "D95":5458.97, "Delta Max": 3.8, "Delta D95": 4},
-
-        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal","Structure":"BrainStem", "structureColor":"rgb(255,210,0)", "Type":"Organ", "MaxDose":5244.33, "D95":3.42, "Delta Max": 3.8, "Delta D95": -4},
-
-        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"Chiasm", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":5436.73, "D95":4210.53, "Delta Max": -3.8, "Delta D95": 5},
-
-        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"Globe_L", "structureColor":"rgb(128,0,255)", "Type":"Organ", "MaxDose":3495.08, "D95":41.89, "Delta Max": 2.8, "Delta D95": 6},
-
-        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"Globe_R", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":3129.7, "D95":122.57, "Delta Max": 3.8, "Delta D95": 8},
-
-        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"OpticNerve_L", "structureColor":"rgb(255,186,172)", "Type":"Organ", "MaxDose":5674.02, "D95":1255.11, "Delta Max": -2.8, "Delta D95": 4.8},
-
-        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"OpticNerve_R", "structureColor":"rgb(186,53,0)", "Type":"Organ", "MaxDose":5450.99, "D95":1760.7, "Delta Max": 3.8, "Delta D95": 9},
-
-        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"CTV54", "structureColor":"rgb(238,0,255)", "Type":"CTV", "MaxDose":5720.14, "D95":5456.85, "Delta Max": -6.8, "Delta D95": 4},
-
-        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"BrainStem", "structureColor":"rgb(255,210,0)", "Type":"Organ", "MaxDose":4469.54, "D95":1.22, "Delta Max": 3.8, "Delta D95": 7},
-
-        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"Chiasm", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":5265.35, "D95":2161.13, "Delta Max": 8, "Delta D95": 4},
-
-        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"Globe_L", "structureColor":"rgb(128,0,255)", "Type":"Organ", "MaxDose":3278.34, "D95":29.26, "Delta Max": -3.5, "Delta D95": 7},
-
-        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"Globe_R", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":"3055.89", "D95":"98.86", "Delta Max": 5.8, "Delta D95": 4.5},
-
-        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"OpticNerve_L", "structureColor":"rgb(255,186,172)", "Type":"Organ", "MaxDose":5126.97, "D95":727.17, "Delta Max": -3.3, "Delta D95": 6.2},
-
-        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"OpticNerve_R", "structureColor":"rgb(186,53,0)", "Type":"Organ", "MaxDose":5312.96, "D95":1681.18, "Delta Max": 4.8, "Delta D95": -4}
-
-        //   // ]
-        // }
-
         function init() {
           contourCategories = [];
 
@@ -944,18 +748,51 @@
         }
         // checkbox toggle logic for filtering chart and data table
         $(document).on("click", "#check-boxes input", function (e) {
+
+          var checkbox = e.target;
+
+          //var category = originalCategories.find((category) => category.name === checkbox.id);
+
+          // var category = contourCategories.find(
+          //   category => category.name === checkbox.id
+          // );
+          // category.visible = checkbox.checked;
+          var cats = filterCategories();
+          // console.log(cats)
+
+
           // toggle series visibility
           $.each(chart.series, function (i, series) {
             if (series.userOptions.name.includes(e.target.id)) {
               if (!e.target.checked) {
-                // series.userOptions.visible == false;
-                series.setVisible(false);
+                Array(series.userOptions).forEach((d) => {
+                  if (d.visible) {
+                    d.visible = false;
+                    console.log(d)
+                    // cats.forEach((c) => {
+                    //   if (c.pert == d.linkedTo) {
+                    //     console.log(d.linkedTo + ' -- ' + c.pert)
+                    //   }
+                    // });
+                  }
+                });
+                series.setVisible(false, true);
               } else {
-                // series.userOptions.visible == true;
-                series.setVisible(true);
+                Array(series.userOptions).forEach((d) => {
+                  if (!d.visible) {
+                    d.visible = true;
+                    console.log(d)
+
+                  }
+                });
+                series.setVisible(true, true);
               }
             }
           });
+          // chart.update({
+          //   series: newSeriesData
+          // });
+
           // filter data table
           var newTableData = [];
           var checkedIds = getCheckedIds();
@@ -1042,6 +879,76 @@
           return seriesOptionsHere;
         }
 
+        // filter series data
+        function filter_seriesOptions(cat) {
+          var seriesOptionsHere = [];
+
+          pertTypes.forEach(function (ptype, h) {
+            seriesOptionsHere.push({
+              id: pertTypes[h],
+
+              name: pertTypes[h],
+
+              data: [],
+
+              dashStyle: 'Solid',
+
+              visible: true,
+
+              color: "white"
+
+            });
+          });
+
+          planData.forEach(function (pdata, i) {
+            pdata.structureData.forEach(function (sdata, j) {
+              var category = cat.find(
+                category => category.name === sdata.structureId
+              );
+              if (!category.visible) {
+                return;
+              }
+              let lineStyle = '';
+              if (pdata.perturbationType == 'Nominal') {
+                lineStyle = 'Solid';
+              } else if (pdata.perturbationType.includes('Shift')) {
+                lineStyle = 'LongDashDotDot';
+              } else if (pdata.perturbationType.includes('Range')) {
+                lineStyle = 'DashDot';
+              } else if (pdata.perturbationType.includes('Rotation')) {
+                lineStyle = 'LongDash';
+              } else {
+                lineStyle = 'ShortDash';
+              }
+
+              seriesOptionsHere.push({
+                name: pdata.planId + "_" + sdata.structureId,
+
+                data: sdata.dvh.sort(function (a, b) {
+                  return a[0] - b[0];
+                }),
+
+                // dashStyle: dashStyles[i],
+                dashStyle: lineStyle,
+
+                visible: true,
+
+                color: sdata.structureColor,
+
+                // here we can link each line to the same perturbationType defined in the JSON format
+
+                // this allows us to turn on/off all the structures for a given perturbation type with one click
+
+                // this was there is only one series for each pert type
+
+                linkedTo: pdata.perturbationType
+              });
+            });
+          });
+
+          return seriesOptionsHere;
+        }
+
         //this part is used to display the series categories, used for linkedTo, mush keep
 
         // data variables
@@ -1103,15 +1010,6 @@
             );
             category.visible = checkbox.checked;
           });
-
-          $('#check-boxes input').click(function () {
-            var checkbox = this;
-
-            var category = contourCategories.find(
-              category => category.name === checkbox.id
-            );
-          });
-
 
 
           // // var value = checkbox.val().toLowerCase();
@@ -1231,7 +1129,7 @@
           $.each(contourCategories, function (i, cat) {
             if (!added_cbs.includes(cat.name)) {
               var box =
-                '<label class="ml-5 text-center"><input type="checkbox" onChange="filterDvhTable()" id="' +
+                '<label class="ml-5 text-center"><input type="checkbox" onChange="" id="' +
                 String(cat.name) +
                 '" name="' +
                 String(cat.name) +
@@ -1312,7 +1210,7 @@
     let chart = $("#dvh").highcharts();
     let visibleSeries = [];
 
-    console.log(checkedIds)
+    // console.log(checkedIds)
 
     // checkedIds.forEach((id) => {
     //   $.each(chart.series, function (i, series) {
