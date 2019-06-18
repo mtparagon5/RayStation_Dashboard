@@ -616,6 +616,9 @@
                 marker: {
                   enabled: false
                 },
+                events: {
+                  legendItemClick: seriesShowFunction
+                },
 
                 allowPointSelect: true,
 
@@ -746,6 +749,49 @@
 
           chart = new Highcharts.Chart(chartOptions);
         }
+        function seriesShowFunction(e) {
+          var structuresToIgnore = [];
+          $.each($("#check-boxes input"), function (i, box) {
+            var checkbox = this;
+            if (!checkbox.checked && !structuresToIgnore.includes(checkbox.name)) {
+              structuresToIgnore.push(checkbox.name)
+            }
+          });
+
+          console.log(this)
+          structuresToIgnore.forEach((s) => {
+            e.target.chart.userOptions.series.forEach((series) => {
+              console.log(series);
+            })
+            if (e.target.chart.userOptions.name.includes(s)) {
+              console.log(e.target.chart.userOptions.series)
+              // e.target.chart.userOptions.series.setVisible(false, false);
+
+
+              // $.each(chart.series, function (i, series) {
+              // if (series.userOptions.name.includes(s)) {
+              // if not checked
+              // hide series
+
+              // e.target.chart.series.setVisible(false, false);
+            } else { // if checked
+              // // if linkedTo series visible
+              // if (!toIgnore.includes(series.userOptions.linkedTo)) {
+              // e.target.chart.series.setVisible(true, false);
+              // } else { // if linkedTo series not visible
+              // series.setVisible(false, false);
+              // }
+            }
+            // });
+            // }
+          });
+
+
+        }
+
+        function filterDVH() { }
+
+
         // checkbox toggle logic for filtering chart and data table
         $(document).on("click", "#check-boxes input", function (e) {
 
@@ -757,41 +803,35 @@
           //   category => category.name === checkbox.id
           // );
           // category.visible = checkbox.checked;
-          var cats = filterCategories();
+          // var cats = filterCategories();
           // console.log(cats)
+          var toIgnore = [];
 
+          $.each(chart.series, function (i, series) {
+
+            if (series.data.length == 0 && series.visible == false) {
+              toIgnore.push(series.userOptions.name);
+            }
+          });
 
           // toggle series visibility
           $.each(chart.series, function (i, series) {
             if (series.userOptions.name.includes(e.target.id)) {
+              // if not checked
               if (!e.target.checked) {
-                Array(series.userOptions).forEach((d) => {
-                  if (d.visible) {
-                    d.visible = false;
-                    console.log(d)
-                    // cats.forEach((c) => {
-                    //   if (c.pert == d.linkedTo) {
-                    //     console.log(d.linkedTo + ' -- ' + c.pert)
-                    //   }
-                    // });
-                  }
-                });
-                series.setVisible(false, true);
-              } else {
-                Array(series.userOptions).forEach((d) => {
-                  if (!d.visible) {
-                    d.visible = true;
-                    console.log(d)
+                // hide series
 
-                  }
-                });
-                series.setVisible(true, true);
+                series.setVisible(false, false);
+              } else { // if checked
+                // if linkedTo series visible
+                if (!toIgnore.includes(series.userOptions.linkedTo)) {
+                  series.setVisible(true, false);
+                } else { // if linkedTo series not visible
+                  series.setVisible(false, false);
+                }
               }
             }
           });
-          // chart.update({
-          //   series: newSeriesData
-          // });
 
           // filter data table
           var newTableData = [];
