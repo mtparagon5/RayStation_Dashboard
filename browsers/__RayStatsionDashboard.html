@@ -942,14 +942,16 @@
 
           chart = new Highcharts.Chart(chartOptions);
         }
-
+        // checkbox toggle logic for filtering chart and data table
         $(document).on("click", "#check-boxes input", function (e) {
           // toggle series visibility
           $.each(chart.series, function (i, series) {
             if (series.userOptions.name.includes(e.target.id)) {
-              if (series.userOptions.visible == true) {
+              if (!e.target.checked) {
+                // series.userOptions.visible == false;
                 series.setVisible(false);
               } else {
+                // series.userOptions.visible == true;
                 series.setVisible(true);
               }
             }
@@ -970,18 +972,6 @@
           // getVisibleSeries();
           // rebuildData();
         });
-
-        // $(document).on("click", "#loadPatientDiv input", function (e) {
-        //   //send the chart object and the chartData object
-
-        //   // alert('ok')
-
-        //   // init();
-
-        //   // buildCheckBoxes();
-
-        //   //rebuildData();
-        // });
 
         function fill_seriesOptions(cat) {
           var seriesOptionsHere = [];
