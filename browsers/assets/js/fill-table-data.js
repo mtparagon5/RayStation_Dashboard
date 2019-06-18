@@ -2,12 +2,10 @@
 var dataTablesData = [];
 
 
-function fillDataTables(dataTable, data) {
-
-  dataTable.destroy();
+function fillDataTables(d) {
   // fill tables
-  dataTable.DataTable({
-    data: data,
+  $("#datatables-table").DataTable({
+    data: d,
     columns: [
       // structure
       // Structure: data[i][0],

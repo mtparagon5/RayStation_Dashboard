@@ -103,7 +103,7 @@
         <!-- /Patient Information Display -->
 
         <!-- Placeholder for the DVH -->
-        <div class="row" style="display: none;">
+        <div class="row" style="display: visible;">
           <div class="dvh col-md-9 m-auto h-100" id="dvh"></div>
         </div>
         <!-- contour checkboxes -->
@@ -280,7 +280,7 @@
       var data = [],
         nomData = [];
 
-      var JSON_Data = [];
+      // var JSON_Data = [];
 
 
       // create the dvh chart settings using highcharts
@@ -466,41 +466,41 @@
         //   Highcharts.chart("highchartsContainer", data);
         // }
 
-        function getJSONData() {
-          return JSON_Data;
+        // function getJSONData() {
+        //   return JSON_Data;
 
-          // return [
+        //   // return [
 
-          //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"CTV54", "structureColor":"rgb(238,0,255)", "Type":"CTV", "MaxDose":5714.76, "D95":5458.97, "Delta Max": 3.8, "Delta D95": 4},
+        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"CTV54", "structureColor":"rgb(238,0,255)", "Type":"CTV", "MaxDose":5714.76, "D95":5458.97, "Delta Max": 3.8, "Delta D95": 4},
 
-          //   {"PlanID":"NominalPlan", "PerturbType":"Nominal","Structure":"BrainStem", "structureColor":"rgb(255,210,0)", "Type":"Organ", "MaxDose":5244.33, "D95":3.42, "Delta Max": 3.8, "Delta D95": -4},
+        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal","Structure":"BrainStem", "structureColor":"rgb(255,210,0)", "Type":"Organ", "MaxDose":5244.33, "D95":3.42, "Delta Max": 3.8, "Delta D95": -4},
 
-          //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"Chiasm", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":5436.73, "D95":4210.53, "Delta Max": -3.8, "Delta D95": 5},
+        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"Chiasm", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":5436.73, "D95":4210.53, "Delta Max": -3.8, "Delta D95": 5},
 
-          //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"Globe_L", "structureColor":"rgb(128,0,255)", "Type":"Organ", "MaxDose":3495.08, "D95":41.89, "Delta Max": 2.8, "Delta D95": 6},
+        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"Globe_L", "structureColor":"rgb(128,0,255)", "Type":"Organ", "MaxDose":3495.08, "D95":41.89, "Delta Max": 2.8, "Delta D95": 6},
 
-          //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"Globe_R", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":3129.7, "D95":122.57, "Delta Max": 3.8, "Delta D95": 8},
+        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"Globe_R", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":3129.7, "D95":122.57, "Delta Max": 3.8, "Delta D95": 8},
 
-          //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"OpticNerve_L", "structureColor":"rgb(255,186,172)", "Type":"Organ", "MaxDose":5674.02, "D95":1255.11, "Delta Max": -2.8, "Delta D95": 4.8},
+        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"OpticNerve_L", "structureColor":"rgb(255,186,172)", "Type":"Organ", "MaxDose":5674.02, "D95":1255.11, "Delta Max": -2.8, "Delta D95": 4.8},
 
-          //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"OpticNerve_R", "structureColor":"rgb(186,53,0)", "Type":"Organ", "MaxDose":5450.99, "D95":1760.7, "Delta Max": 3.8, "Delta D95": 9},
+        //   //   {"PlanID":"NominalPlan", "PerturbType":"Nominal", "Structure":"OpticNerve_R", "structureColor":"rgb(186,53,0)", "Type":"Organ", "MaxDose":5450.99, "D95":1760.7, "Delta Max": 3.8, "Delta D95": 9},
 
-          //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"CTV54", "structureColor":"rgb(238,0,255)", "Type":"CTV", "MaxDose":5720.14, "D95":5456.85, "Delta Max": -6.8, "Delta D95": 4},
+        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"CTV54", "structureColor":"rgb(238,0,255)", "Type":"CTV", "MaxDose":5720.14, "D95":5456.85, "Delta Max": -6.8, "Delta D95": 4},
 
-          //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"BrainStem", "structureColor":"rgb(255,210,0)", "Type":"Organ", "MaxDose":4469.54, "D95":1.22, "Delta Max": 3.8, "Delta D95": 7},
+        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"BrainStem", "structureColor":"rgb(255,210,0)", "Type":"Organ", "MaxDose":4469.54, "D95":1.22, "Delta Max": 3.8, "Delta D95": 7},
 
-          //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"Chiasm", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":5265.35, "D95":2161.13, "Delta Max": 8, "Delta D95": 4},
+        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"Chiasm", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":5265.35, "D95":2161.13, "Delta Max": 8, "Delta D95": 4},
 
-          //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"Globe_L", "structureColor":"rgb(128,0,255)", "Type":"Organ", "MaxDose":3278.34, "D95":29.26, "Delta Max": -3.5, "Delta D95": 7},
+        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"Globe_L", "structureColor":"rgb(128,0,255)", "Type":"Organ", "MaxDose":3278.34, "D95":29.26, "Delta Max": -3.5, "Delta D95": 7},
 
-          //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"Globe_R", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":"3055.89", "D95":"98.86", "Delta Max": 5.8, "Delta D95": 4.5},
+        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"Globe_R", "structureColor":"rgb(0,255,255)", "Type":"Organ", "MaxDose":"3055.89", "D95":"98.86", "Delta Max": 5.8, "Delta D95": 4.5},
 
-          //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"OpticNerve_L", "structureColor":"rgb(255,186,172)", "Type":"Organ", "MaxDose":5126.97, "D95":727.17, "Delta Max": -3.3, "Delta D95": 6.2},
+        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"OpticNerve_L", "structureColor":"rgb(255,186,172)", "Type":"Organ", "MaxDose":5126.97, "D95":727.17, "Delta Max": -3.3, "Delta D95": 6.2},
 
-          //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"OpticNerve_R", "structureColor":"rgb(186,53,0)", "Type":"Organ", "MaxDose":5312.96, "D95":1681.18, "Delta Max": 4.8, "Delta D95": -4}
+        //   //   {"PlanID":"X_+3mm", "PerturbType":"3mm Shift", "Structure":"OpticNerve_R", "structureColor":"rgb(186,53,0)", "Type":"Organ", "MaxDose":5312.96, "D95":1681.18, "Delta Max": 4.8, "Delta D95": -4}
 
-          // ]
-        }
+        //   // ]
+        // }
 
         function init() {
           contourCategories = [];
@@ -569,8 +569,6 @@
                 ]); //Dmax and D95 in Gy
               }
 
-              // JSON_Data.push({"PlanID":element.planId, "PerturbType":element.perturbationType, "Structure":childElement.structureId, "Type":childElement.structureType, "MaxDose": parseFloat(childElement.structureMaxDose), "Delta Max": 0, "D95": parseFloat(childElement.structureD95), "Delta D95": 0});
-
               nomData.forEach(function (val, i) {
                 if (nomData[i][0] == childElement.structureId) {
                   var d95Ratio = 0;
@@ -579,13 +577,7 @@
                     parseFloat(childElement.structureD95) / 100.0
                   ).toFixed(2);
 
-                  if (nomData[i][3] == 0) {
-                    //d95Ratio = "Nominal is 0";
-
-                    // d95Ratio = -1; //JZ changed so that all are numbers
-
-                    // d95Ratio = '--';
-                  } else {
+                  if (nomData[i][3] != 0) {
                     d95Ratio = (
                       ((D95Gy - nomData[i][3]) / Math.abs(nomData[i][3])) *
                       100
@@ -682,7 +674,7 @@
           // don't think this is necessary anymore
           // $("#table tbody").empty();
 
-
+          // get data for table
           data.forEach(function (arr, i) {
             // JSON_Data.push({
             //   Structure: data[i][0],
@@ -718,158 +710,160 @@
 
 
 
-
+            // keeping in case other table is preferred
             // I left them there in place in the event they need to be added back.
             // console.log(data[i])
 
-            if (data[i][7] == "Organ") {
-              if (data[i][1] == nomData[0][1]) {
-                $("#dvh-stats-tbody").append(
-                  '<tr style="font-weight:bold;color:green;"><td>' +
-                  data[i][0] +
-                  "</td><td>" +
-                  data[i][1] +
-                  "</td><td>" +
-                  data[i][2] +
-                  "</td><td>" +
-                  data[i][3] +
-                  "</td><td>" +
-                  // data[i][4] + // don't need d95/d95% for non-targets
-                  "--</td><td>" +
-                  // data[i][5] + // don't need d95/d95% for non-targets
-                  "--</td></tr>"
-                );
-              } else if (
-                Math.abs(parseFloat(data[i][5])) > 3.0 ||
-                Math.abs(parseFloat(data[i][3])) > 3.0
-              ) {
-                var maxStyle = "";
-                var d95Style = "";
-                if (Math.abs(parseFloat(data[i][3])) > 10.0) {
-                  maxStyle = 'style="font-weight:bold;color:red"';
-                }
-                if (Math.abs(parseFloat(data[i][5])) > 3.0) {
-                  d95Style = 'style="font-weight:bold;color:red;"';
-                }
+            // if (data[i][7] == "Organ") {
+            //   if (data[i][1] == nomData[0][1]) {
+            //     $("#dvh-stats-tbody").append(
+            //       '<tr style="font-weight:bold;color:green;"><td>' +
+            //       data[i][0] +
+            //       "</td><td>" +
+            //       data[i][1] +
+            //       "</td><td>" +
+            //       data[i][2] +
+            //       "</td><td>" +
+            //       data[i][3] +
+            //       "</td><td>" +
+            //       // data[i][4] + // don't need d95/d95% for non-targets
+            //       "--</td><td>" +
+            //       // data[i][5] + // don't need d95/d95% for non-targets
+            //       "--</td></tr>"
+            //     );
+            //   } else if (
+            //     Math.abs(parseFloat(data[i][5])) > 3.0 ||
+            //     Math.abs(parseFloat(data[i][3])) > 3.0
+            //   ) {
+            //     var maxStyle = "";
+            //     var d95Style = "";
+            //     if (Math.abs(parseFloat(data[i][3])) > 10.0) {
+            //       maxStyle = 'style="font-weight:bold;color:red"';
+            //     }
+            //     if (Math.abs(parseFloat(data[i][5])) > 3.0) {
+            //       d95Style = 'style="font-weight:bold;color:red;"';
+            //     }
 
-                $("#dvh-stats-tbody").append(
-                  "<tr><td>" +
-                  data[i][0] +
-                  "</td><td>" +
-                  data[i][1] +
-                  "</td><td>" +
-                  data[i][2] +
-                  "</td><td " +
-                  maxStyle +
-                  ">" +
-                  data[i][3] +
-                  "</td><td>" +
-                  /*data[i][4] +*/
-                  "</td><td " +
-                  d95Style +
-                  ">" +
-                  /*data[i][5] +*/
-                  "</td></tr>"
-                );
-              } else {
-                $("#dvh-stats-tbody").append(
-                  "<tr><td>" +
-                  data[i][0] +
-                  "</td><td>" +
-                  data[i][1] +
-                  "</td><td>" +
-                  data[i][2] +
-                  "</td><td>" +
-                  data[i][3] +
-                  "</td><td>--" +
-                  /*data[i][4] +*/
-                  "</td><td>--" +
-                  /*data[i][5] +*/
-                  "</td></tr>"
-                );
-              }
-            }
+            //     $("#dvh-stats-tbody").append(
+            //       "<tr><td>" +
+            //       data[i][0] +
+            //       "</td><td>" +
+            //       data[i][1] +
+            //       "</td><td>" +
+            //       data[i][2] +
+            //       "</td><td " +
+            //       maxStyle +
+            //       ">" +
+            //       data[i][3] +
+            //       "</td><td>" +
+            //       /*data[i][4] +*/
+            //       "</td><td " +
+            //       d95Style +
+            //       ">" +
+            //       /*data[i][5] +*/
+            //       "</td></tr>"
+            //     );
+            //   } else {
+            //     $("#dvh-stats-tbody").append(
+            //       "<tr><td>" +
+            //       data[i][0] +
+            //       "</td><td>" +
+            //       data[i][1] +
+            //       "</td><td>" +
+            //       data[i][2] +
+            //       "</td><td>" +
+            //       data[i][3] +
+            //       "</td><td>--" +
+            //       /*data[i][4] +*/
+            //       "</td><td>--" +
+            //       /*data[i][5] +*/
+            //       "</td></tr>"
+            //     );
+            //   }
+            // }
 
-            // If the structure is a "Target", populate all data columns
-            else {
-              if (!data[i][4]) {
-                d95 = "--";
-              } else {
-                d95 = data[i][4];
-              }
-              if (!data[i][5]) {
-                delta_d95 = "--";
-              } else {
-                delta_d95 = data[i][5];
-              }
-              if (data[i][1] == nomData[0][1]) {
-                $("#dvh-stats-tbody").append(
-                  '<tr style="font-weight:bold;color:green;"><td>' +
-                  data[i][0] +
-                  "</td><td>" +
-                  data[i][1] +
-                  "</td><td>" +
-                  data[i][2] +
-                  "</td><td>" +
-                  data[i][3] +
-                  "</td><td>" +
-                  d95 +
-                  "</td><td>" +
-                  data[i][5] +
-                  "</td></tr>"
-                );
-              } else if (
-                Math.abs(parseFloat(data[i][3])) > 3.0 ||
-                Math.abs(parseFloat(data[i][5])) > 3.0
-              ) {
-                var maxStyle = "";
-                var d95Style = "";
-                if (Math.abs(parseFloat(data[i][3])) > 10.0) {
-                  maxStyle = 'style="font-weight:bold;color:red;"';
-                }
-                if (Math.abs(parseFloat(data[i][5])) > 3.0) {
-                  d95Style = 'style="font-weight:bold;color:red;"';
-                }
+            // // If the structure is a "Target", populate all data columns
+            // else {
+            //   if (!data[i][4]) {
+            //     d95 = "--";
+            //   } else {
+            //     d95 = data[i][4];
+            //   }
+            //   if (!data[i][5]) {
+            //     delta_d95 = "--";
+            //   } else {
+            //     delta_d95 = data[i][5];
+            //   }
+            //   if (data[i][1] == nomData[0][1]) {
+            //     $("#dvh-stats-tbody").append(
+            //       '<tr style="font-weight:bold;color:green;"><td>' +
+            //       data[i][0] +
+            //       "</td><td>" +
+            //       data[i][1] +
+            //       "</td><td>" +
+            //       data[i][2] +
+            //       "</td><td>" +
+            //       data[i][3] +
+            //       "</td><td>" +
+            //       d95 +
+            //       "</td><td>" +
+            //       data[i][5] +
+            //       "</td></tr>"
+            //     );
+            //   } else if (
+            //     Math.abs(parseFloat(data[i][3])) > 3.0 ||
+            //     Math.abs(parseFloat(data[i][5])) > 3.0
+            //   ) {
+            //     var maxStyle = "";
+            //     var d95Style = "";
+            //     if (Math.abs(parseFloat(data[i][3])) > 10.0) {
+            //       maxStyle = 'style="font-weight:bold;color:red;"';
+            //     }
+            //     if (Math.abs(parseFloat(data[i][5])) > 3.0) {
+            //       d95Style = 'style="font-weight:bold;color:red;"';
+            //     }
 
-                $("#dvh-stats-tbody").append(
-                  "<tr><td>" +
-                  data[i][0] +
-                  "</td><td>" +
-                  data[i][1] +
-                  "</td><td>" +
-                  data[i][2] +
-                  "</td><td " +
-                  maxStyle +
-                  ">" +
-                  data[i][3] +
-                  "</td><td>" +
-                  data[i][4] +
-                  "</td><td " +
-                  d95Style +
-                  ">" +
-                  data[i][5] +
-                  "</td></tr>"
-                );
-              } else {
-                $("#dvh-stats-tbody").append(
-                  "<tr><td>" +
-                  data[i][0] +
-                  "</td><td>" +
-                  data[i][1] +
-                  "</td><td>" +
-                  data[i][2] +
-                  "</td><td>" +
-                  data[i][3] +
-                  "</td><td>" +
-                  data[i][4] +
-                  "</td><td>" +
-                  data[i][5] +
-                  "</td></tr>"
-                );
-              }
-            }
+            //     $("#dvh-stats-tbody").append(
+            //       "<tr><td>" +
+            //       data[i][0] +
+            //       "</td><td>" +
+            //       data[i][1] +
+            //       "</td><td>" +
+            //       data[i][2] +
+            //       "</td><td " +
+            //       maxStyle +
+            //       ">" +
+            //       data[i][3] +
+            //       "</td><td>" +
+            //       data[i][4] +
+            //       "</td><td " +
+            //       d95Style +
+            //       ">" +
+            //       data[i][5] +
+            //       "</td></tr>"
+            //     );
+            //   } else {
+            //     $("#dvh-stats-tbody").append(
+            //       "<tr><td>" +
+            //       data[i][0] +
+            //       "</td><td>" +
+            //       data[i][1] +
+            //       "</td><td>" +
+            //       data[i][2] +
+            //       "</td><td>" +
+            //       data[i][3] +
+            //       "</td><td>" +
+            //       data[i][4] +
+            //       "</td><td>" +
+            //       data[i][5] +
+            //       "</td></tr>"
+            //     );
+            //   }
+            // }
           });
-          fillDataTables(dataTable, dataTablesData);
+
+          //  fill data tables
+          fillDataTables(dataTablesData);
 
           // the options are defined in a dictionary object essentially and then loaded after to simplify the code that creates the chart
 
@@ -1136,8 +1130,8 @@
 
         $(document).on("click", "#check-boxes input", function (e) {
           //send the chart object and the chartData object
-
-          rebuildData();
+          // getVisibleSeries();
+          // rebuildData();
         });
 
         $(document).on("click", "#loadPatientDiv input", function (e) {
@@ -1183,12 +1177,9 @@
               var category = cat.find(
                 category => category.name === childElement.structureId
               );
-
-
               if (!category.visible) {
                 return;
               }
-
               let lineStyle = '';
               if (element.perturbationType == 'Nominal') {
                 lineStyle = 'Solid';
@@ -1260,17 +1251,17 @@
 
             // so it's enough to initialize serie object only with data property
 
-            var newSerie = {
+            var newSeriesData = {
               data: []
             };
 
             $.each(serie.data, function (i, point) {
               if (point.category.visible) {
-                newSerie.data.push(point);
+                newSeriesData.data.push(point);
               }
             });
 
-            filteredSeries.push(newSerie);
+            filteredSeries.push(newSeriesData);
           });
 
           return filteredSeries;
@@ -1429,14 +1420,6 @@
                 String(cat.name) +
                 "</label>";
 
-
-              // form#check-boxes label {
-              //   /* color: red; */
-              //   margin: auto;
-              //   margin-left: 15px;
-              //   text-align: center;
-              // }
-
               $("#check-boxes ").append(box);
             }
             added_cbs.push(cat.name);
@@ -1455,53 +1438,73 @@
   // filter the dvh table when structures are selected/unselected
   function filterDvhTable() {
 
-    getVisibleSeries();
+    getVisibleSeries(getCheckedIds());
     // adapted from https://stackoverflow.com/questions/28063963/how-to-filter-records-based-on-key-click
     if ($('input[type="checkbox"]:checked').length > 0) {
       // Get ids of all checked boxes
-      var ids = $('input[type="checkbox"]:checked').map(function () {
-        return this.id;
-      }).get();
+      var ids = getCheckedIds();
 
-      console.log(ids)
-
+      // filter data for datatable
       var newTableData = [];
-
       dataTablesData.forEach((d) => {
         if (ids.includes(d[0])) {
           newTableData.push(d);
         }
       });
-      // fillDataTables(dataTable, newTableData)
+      // destroy existing table
+      $("#datatables-table").DataTable().destroy();
+      // build new table
+      fillDataTables(newTableData);
 
-
-      // Here we do two things to table rows
-      // 1. We hide all
-      // 2. Then we filter, show those whose value in first <td> matches checkbox value
-      // Change: only hiding rows in the tbody, to keep header rows
-      $('#dvh-stats-tbody tr')
-        .hide() // 1
-        .filter(function () { // 2
-          return ids.indexOf($(this).find('td:first').text()) > -1;
-        }).show();
-    } else {
-      // Hide all
-      $('#dvh-stats-tbody tr').hide();
+      // keeping in case Other Table is preferred
+      //   // Here we do two things to table rows
+      //   // 1. We hide all
+      //   // 2. Then we filter, show those whose value in first <td> matches checkbox value
+      //   // Change: only hiding rows in the tbody, to keep header rows
+      //   $('#dvh-stats-tbody tr')
+      //     .hide() // 1
+      //     .filter(function () { // 2
+      //       return ids.indexOf($(this).find('td:first').text()) > -1;
+      //     }).show();
+      // } else {
+      //   // Hide all
+      //   $('#dvh-stats-tbody tr').hide();
     }
 
 
   }
 
+  function getCheckedIds() {
+    let ids = [];
+    // adapted from https://stackoverflow.com/questions/28063963/how-to-filter-records-based-on-key-click
+    if ($('input[type="checkbox"]:checked').length > 0) {
+      // Get ids of all checked boxes
+      ids = $('input[type="checkbox"]:checked').map(function () {
+        return this.id;
+      }).get();
+    }
+    return ids;
+  }
 
-  function getVisibleSeries() {
+
+  function getVisibleSeries(checkedIds) {
     let chart = $("#dvh").highcharts();
-
     let visibleSeries = [];
-    $.each(chart.series, function (i, series) {
-      if (series.userOptions.visible == true) {
-        visibleSeries.push(series.userOptions.name);
-      }
+
+    checkedIds.forEach((id) => {
+      $.each(chart.series, function (i, series) {
+        if (series.userOptions.name.includes(id)) {
+          series.userOptions.visible = true;
+        } else {
+          series.userOptions.visible = false;
+        }
+        if (series.userOptions.visible == true) {
+          visibleSeries.push(series.userOptions);
+        }
+      });
     });
+    chart.update({ chart: { data: visibleSeries } })
+
     console.log(visibleSeries);
     return visibleSeries;
 
