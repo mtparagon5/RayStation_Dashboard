@@ -163,7 +163,7 @@
     <script src="assets/DataTables/datatables.min.js"></script>
 
     <!-- custom js -->
-    <script src="assets/js/fill-table-data.js"></script>
+    <!-- <script src="assets/js/fill-table-data.js"></script> -->
 
 </body>
 
@@ -214,6 +214,7 @@
         nomData = [],
         pertTypes = [],
         seriesOptions = [],
+        dataTablesData = [],
         contourCategories = [];
 
       // create the dvh chart settings using highcharts
@@ -768,6 +769,56 @@
             });
           });
         }
+
+
+        // fill data table
+        function fillDataTables(d) {
+          // fill tables
+          $("#datatables-table").DataTable({
+            data: d,
+            columns: [
+              // structure
+              // Structure: data[i][0],
+              // PlanID: data[i][1],
+              // MaxDose: data[i][2],
+              // "Delta Max": data[i][3],
+              // D95: data[i][4],
+              // "Delta D95": data[i][5],
+
+              // <th>Structure</th>
+              // <th>Plan</th>
+              // <th>Max Dose (Gy)</th>
+              // <th>Max %&#916;</th>
+              // <th>D95 (Gy)</th>
+              // <th>D95 %&#916;</th>
+
+              { title: "Structure" },
+              { title: "Plan" },
+              { title: "Max Dose [Gy]" },
+              { title: "Max %&#916" },
+              { title: "D95 [Gy]" },
+              { title: "D95 %&#916" }
+            ],
+            paging: true,
+            fixedHeader: {
+              header: true,
+              headerOffset: $('#fixed').height()
+            },
+            autoWidth: false,
+            pageLength: 50,
+            // change cell font color based on value
+            rowCallback: function (row, data, index) {
+              if (Math.abs(data[3]) > 10) {
+                $(row).find('td:eq(3)').css({ 'color': 'red', 'font-weight': "bold" });
+              }
+              if (Math.abs(data[5]) > 3) {
+                $(row).find('td:eq(5)').css({ 'color': 'red', 'font-weight': "bold" });
+              }
+            },
+
+          });
+        };
+
 
         // filter data table when structure check box is toggled
         function filterDataTable() {
