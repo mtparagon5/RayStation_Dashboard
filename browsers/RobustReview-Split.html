@@ -1,0 +1,175 @@
+<!-- V1.0 Matt Thomas, Emory University, 2018 -->
+
+<!-- V2.0 Jun restructured the whole scripts in October 2018, added contour selection, additonal Pilot table and highchart at the bottom. Jun Zhou, Emory Proton Center. jzhou995@gmail.com -->
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <meta charset="utf-8" />
+
+  <!-- You can use a separate style sheet and reference it here. I've added the initial style used at the end of this file -->
+
+  <!--<link rel='stylesheet' type='text/css' href='path_to_style_sheet_here.css'>-->
+
+  <!-- Tab Title here -->
+
+  <title>DVH Perturbations</title>
+
+  <!-- google fonts -->
+  <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
+
+  <!-- bootstrap -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <!-- datatables -->
+  <link rel="stylesheet" href="assets/DataTables/datatables.min.css">
+  <link rel="stylesheet" href="assets/DataTables/FixedHeader-3.1.4/css/fixedHeader.dataTables.min.css">
+
+</head>
+
+<body>
+  <div id="main-nav"
+    class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm ">
+    <h6 class="my-0 mr-md-auto font-weight-normal">RayStation Dashboard</h6>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <!-- <a class="p-2 text-dark" href="#"></a> -->
+      <div id="" name="jsonFile" enctype="multipart/form-data" method="post" class="">
+        <h6 id="instructionLabel" class="my-0 mr-md-auto font-weight-normal">
+          Select the patient file you would like to review:
+          <span><input class="" type="file" id="fileinput" value="" onchange="loadFile();" /></span>
+        </h6>
+      </div>
+    </nav>
+  </div>
+
+  <div class="container-fluid w-75">
+    <div class="row">
+      <main role="main" class="ml-sm-auto col-lg-12 px-4 ">
+        <!-- Dashboard Header -->
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h2>Robust Plan Review</h2>
+        </div>
+        <!-- /Dashboard Header -->
+
+        <!-- Patient Information Display -->
+        <div class="mb-1" id="ptBlockDislay">
+          <!-- Patient and Plan Information Display / Can add other info e.g., Physician, approval status, etc. as desired -->
+          <div class="row">
+            <div class="col-md-3 text-center">
+              <label><b>Patient</b></label>
+              <hr>
+              <label id="patientName"></label>
+            </div>
+            <div class="col-md-3 text-center">
+              <label><b>MRN</b></label>
+              <hr>
+              <label id="mrn"></label>
+            </div>
+            <div class="col-md-3 text-center">
+              <label><b>Plan</b></label>
+              <hr>
+              <label id="planId"></label>
+            </div>
+            <div class="col-md-3 text-center">
+              <la3bel><b>Beamset</b></label>
+                <hr>
+                <label id="BeamSetName"></label>
+            </div>
+          </div>
+        </div>
+        <!-- /Patient Information Display -->
+
+        <!-- Placeholder for the DVH -->
+        <div class="row">
+          <div class="dvh col-md-10 m-auto h-100" id="dvh"></div>
+        </div>
+        <!-- contour checkboxes -->
+        <div class="row">
+          <div class="m-auto ">
+            <h6 class="text-center">Available Contours</h6>
+            <hr />
+            <form class="" id="check-boxes">
+            </form>
+          </div>
+        </div>
+        <!-- Plan Parameters Table -->
+        <div class="row ">
+          <div class="col-md-12">
+            <h2>Robust Planning Parameters</h2>
+            <div class="table-responsive">
+              <table class="table table-hover" id="plan-params-table" cellpadding="8" cellspacing="15">
+                <thead>
+                  <tr>
+                    <th>Range [%]</th>
+                    <th>Left [cm]</th>
+                    <th>Right [cm]</th>
+                    <th>Ant [cm]</th>
+                    <th>Post [cm]</th>
+                    <th>Sup [cm]</th>
+                    <th>Inf [cm]</th>
+                    <th>Ind. Beams?</th>
+                  </tr>
+                </thead>
+                <tbody id="plan-params-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- /Plan Parameters Table -->
+        <!-- Table Data -->
+        <div class="row ">
+          <div class="col-md-12">
+            <!-- DVH Stats Table -->
+            <h2>DVH Statistics</h2>
+            <!-- original table removed -- can add back if prefer original over new table -->
+            <!-- <div class="table-responsive dvh-table" style="display: none;">
+              <table class="table table-striped table-sm table-fixed-6 " id="dvh-stats-table">
+                <thead>
+                  <tr>
+                    <th>Structure</th>
+                    <th>Plan</th>
+                    <th>Max Dose (Gy)</th>
+                    <th>Max %&#916;</th>
+                    <th>D95 (Gy)</th>
+                    <th>D95 %&#916;</th>
+                  </tr>
+                </thead>
+                <tbody id="dvh-stats-tbody"></tbody>
+              </table>
+            </div> -->
+            <div class="col-md-12">
+              <table id="datatables-table" class="display text-center table table-hover table-striped "></table>
+            </div>
+          </div>
+        </div>
+        <!-- /Table Data -->
+      </main>
+      <footer class="w-100 text-center my-5">&copy;Copyright 2019</footer>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+      </script>
+    <!-- bootstrap -->
+    <script src="assets/js/bootstrap/bootstrap.min.js"></script>
+
+    <!-- highcharts -->
+    <script src="assets/js/highcharts/highcharts.js"></script>
+
+    <!-- datatables js -->
+    <script src="assets/DataTables/datatables.min.js"></script>
+    <script src="assets/DataTables/FixedHeader-3.1.4/js/dataTables.fixedHeader.js"></script>
+
+    <!-- custom js -->
+    <script src="assets/js/variables.js"></script>
+    <script src="assets/js/constructors.js"></script>
+    <script src="assets/js/helper-functions.js"></script>
+    <script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
