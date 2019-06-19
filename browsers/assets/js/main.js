@@ -156,7 +156,20 @@ function loadFile() {
           });
 
           /*Robust Shift Order: [S, I, A, P, R, L]*/
-
+          $("#plan-params-table").append(
+            `<thead>
+                <tr>
+                  <th>Range [%]</th>
+                  <th>Left [cm]</th>
+                  <th>Right [cm]</th>
+                  <th>Ant [cm]</th>
+                  <th>Post [cm]</th>
+                  <th>Sup [cm]</th>
+                  <th>Inf [cm]</th>
+                  <th>Ind. Beams?</th>
+                </tr>
+              </thead>`
+          );
           $("#plan-params-tbody").append(
             '<tr class="paramsRow" align="center">' +
             "<td>" +
@@ -190,6 +203,61 @@ function loadFile() {
         // sorting data alphabetically by structure
         data.sort();
 
+        // separate target data for d95 agg data
+        var targetData = [];
+        data.forEach((d) => {
+          if (d[7] != "Organ") {
+            targetData.push(d);
+          }
+        });
+
+        // aggregate data summary
+        var aggData = [];
+        var maxDoseAggData = [];
+        var d95AggData = [];
+        var maxAggDataList = getMaxAggData(data);
+        var d95AggDataList = getD95AggData(targetData);
+        maxAggDataList.forEach(function (v) {
+          v.forEach(function (d) {
+            maxDoseAggData.push([
+              d.key,
+              d.value.max_maxDose, //1
+              d.value.min_maxDose, //2
+              d.value.range_maxDose, //3
+              // max dose avg
+              d.value.avg_maxDose, //4
+              // max dose deltas
+              d.value.max_maxDelta, //5
+              d.value.min_maxDelta, //6
+              d.value.range_maxDelta, //7
+              // max dose delta avg
+              d.value.avg_maxDelta, //8
+            ])
+          })
+        });
+        d95AggDataList.forEach(function (v) {
+          v.forEach(function (d) {
+            d95AggData.push([
+              d.key,
+              // d95 
+              d.value.max_d95, //1
+              d.value.min_d95, //2
+              d.value.range_d95, //3
+              // d95 avg
+              d.value.avg_d95, //4
+              // d95 deltas
+              d.value.max_d95Delta, //5
+              d.value.min_d95Delta, //6
+              d.value.range_d95Delta, //7
+              // d95 delta avg
+              d.value.avg_d95Delta, //8
+            ]);
+          });
+        });
+        aggData.push([maxDoseAggData, d95AggData]);
+
+        fillAggDataTables(aggData);
+
         // Create DVH Stats Table
 
         // get data for table
@@ -216,6 +284,12 @@ function loadFile() {
             ]);
           }
         });
+
+        //  fill dvh stats tables
+        fillDataTables(dataTablesData);
+
+        $('th').addClass('text-center font-weight-light');
+        $('td').addClass('text-center font-weight-light');
 
         // chart options
         var chartOptions = {
@@ -369,7 +443,7 @@ function loadFile() {
           },
 
           title: {
-            text: "DVH",
+            text: "",
 
             x: 0
           },
@@ -400,9 +474,6 @@ function loadFile() {
 
         // create chart
         chart = new Highcharts.Chart(chartOptions);
-
-        //  fill data tables
-        fillDataTables(dataTablesData);
       }
 
     });

@@ -77,7 +77,7 @@ function buildCheckBoxes() {
   $.each(contourCategories, function (i, cat) {
     if (!added_cbs.includes(cat.name)) {
       var box =
-        '<label class="ml-5 text-center"><input class="mr-1" type="checkbox" onChange="" id="' +
+        '<label class="m-3 text-center font-weight-light" style="cursor:pointer;"><input class="mr-1" style="display:none;" type="checkbox" onChange="" id="' +
         String(cat.name) +
         '" name="' +
         String(cat.name) +
@@ -125,6 +125,7 @@ function filterDataTable() {
       newTableData.push(d);
     }
   });
+
   // destroy existing table
   $("#datatables-table").DataTable().destroy();
   // build new table
@@ -190,6 +191,206 @@ function fillDataTables(d) {
 
   });
 };
+// aggregates max dose data (targets and oars)
+function getMaxAggData(allData) {
+  var structureAggData = d3.nest()
+    .key(function (d) { return d[0]; })
+    .rollup(function (v) {
+      return {
+        count: v.length,
+        // max dose 
+        max_maxDose: d3.max(v, function (d) { return parseFloat(d[2]); }).toFixed(2),
+        min_maxDose: d3.min(v, function (d) { return parseFloat(d[2]); }).toFixed(2),
+        range_maxDose: Math.abs(d3.max(v, function (d) { return parseFloat(d[2]); }) - d3.min(v, function (d) { return parseFloat(d[2]); })).toFixed(2),
+        // max dose avg
+        avg_maxDose: d3.mean(v, function (d) { return parseFloat(d[2]); }).toFixed(2),
+        // max dose deltas
+        max_maxDelta: d3.max(v, function (d) { return parseFloat(d[3]); }).toFixed(2),
+        min_maxDelta: d3.min(v, function (d) { return parseFloat(d[3]); }).toFixed(2),
+        range_maxDelta: Math.abs(d3.max(v, function (d) { return parseFloat(d[3]); }) - d3.min(v, function (d) { return parseFloat(d[3]); })).toFixed(2),
+        // max dose delta avg
+        avg_maxDelta: d3.mean(v, function (d) { return parseFloat(d[3]); }).toFixed(2),
+
+      };
+    })
+    .entries(allData);
+
+  var planAggData = d3.nest()
+    .key(function (d) { return d[6]; })
+    .rollup(function (v) {
+      return {
+        count: v.length,
+        // max dose 
+        max_maxDose: d3.max(v, function (d) { return parseFloat(d[2]); }).toFixed(2),
+        min_maxDose: d3.min(v, function (d) { return parseFloat(d[2]); }).toFixed(2),
+        range_maxDose: Math.abs(d3.max(v, function (d) { return parseFloat(d[2]); }) - d3.min(v, function (d) { return parseFloat(d[2]); })).toFixed(2),
+        // max dose avg
+        avg_maxDose: d3.mean(v, function (d) { return parseFloat(d[2]); }).toFixed(2),
+        // max dose deltas
+        max_maxDelta: d3.max(v, function (d) { return parseFloat(d[3]); }).toFixed(2),
+        min_maxDelta: d3.min(v, function (d) { return parseFloat(d[3]); }).toFixed(2),
+        range_maxDelta: Math.abs(d3.max(v, function (d) { return parseFloat(d[3]); }) - d3.min(v, function (d) { return parseFloat(d[3]); })).toFixed(2),
+        // max dose delta avg
+        avg_maxDelta: d3.mean(v, function (d) { return parseFloat(d[3]); }).toFixed(2),
+      };
+    })
+    .entries(allData);
+
+  return [structureAggData, planAggData];
+}
+// aggregates d95 data (targets only)
+function getD95AggData(targetData) {
+  var structureAggData = d3.nest()
+    .key(function (d) { return d[0]; })
+    .rollup(function (v) {
+      return {
+        count: v.length,
+        // d95 
+        max_d95: d3.max(v, function (d) { return parseFloat(d[4]); }).toFixed(2),
+        min_d95: d3.min(v, function (d) { return parseFloat(d[4]); }).toFixed(2),
+        range_d95: Math.abs(d3.max(v, function (d) { return parseFloat(d[4]); }) - d3.min(v, function (d) { return parseFloat(d[4]); })).toFixed(2),
+        // d95 avg
+        avg_d95: d3.mean(v, function (d) { return parseFloat(d[4]); }).toFixed(2),
+        // d95 deltas
+        max_d95Delta: d3.max(v, function (d) { return parseFloat(d[5]); }).toFixed(2),
+        min_d95Delta: d3.min(v, function (d) { return parseFloat(d[5]); }).toFixed(2),
+        range_d95Delta: Math.abs(d3.max(v, function (d) { return parseFloat(d[5]); }) - d3.min(v, function (d) { return parseFloat(d[5]); })).toFixed(2),
+        // d95 delta avg
+        avg_d95Delta: d3.mean(v, function (d) { return parseFloat(d[5]); }).toFixed(2),
+      };
+    })
+    .entries(targetData);
+
+  var planAggData = d3.nest()
+    .key(function (d) { return d[6]; })
+    .rollup(function (v) {
+      return {
+        count: v.length,
+        // d95 
+        max_d95: d3.max(v, function (d) { return parseFloat(d[4]); }).toFixed(2),
+        min_d95: d3.min(v, function (d) { return parseFloat(d[4]); }).toFixed(2),
+        range_d95: Math.abs(d3.max(v, function (d) { return parseFloat(d[4]); }) - d3.min(v, function (d) { return parseFloat(d[4]); })).toFixed(2),
+        // d95 avg
+        avg_d95: d3.mean(v, function (d) { return parseFloat(d[4]); }).toFixed(2),
+        // d95 deltas
+        max_d95Delta: d3.max(v, function (d) { return parseFloat(d[5]); }).toFixed(2),
+        min_d95Delta: d3.min(v, function (d) { return parseFloat(d[5]); }).toFixed(2),
+        range_d95Delta: Math.abs(d3.max(v, function (d) { return parseFloat(d[5]); }) - d3.min(v, function (d) { return parseFloat(d[5]); })).toFixed(2),
+        // d95 delta avg
+        avg_d95Delta: d3.mean(v, function (d) { return parseFloat(d[5]); }).toFixed(2),
+      };
+    })
+    .entries(targetData);
+
+  return [structureAggData, planAggData];
+}
+
+function fillAggDataTables(datalist) {
+  // fill tables
+  $("#max-agg-data-table").DataTable({
+    data: datalist[0][0],
+    columns: [
+      // structure
+      // d.key,
+      // d.value.max_maxDose, //1
+      // d.value.min_maxDose, //2
+      // d.value.range_maxDose, //3
+      // // max dose avg
+      // d.value.avg_maxDose, //4
+      // // max dose deltas
+      // d.value.max_maxDelta, //5
+      // d.value.min_maxDelta, //6
+      // d.value.range_maxDelta, //7
+      // // max dose delta avg
+      // d.value.avg_maxDelta, //8
+
+      { title: "Plan / Structure" },
+      { title: "Max [Max[Gy]]" },
+      { title: "Min [Max[Gy]]" },
+      { title: "Range [Max[Gy]]" },
+      { title: "Avg [Max[Gy]]" },
+      { title: "Max [Max[%&#916;]]" },
+      { title: "Min [Max[%&#916;]]" },
+      { title: "Range [Max[%&#916;]]" },
+      { title: "Avg [Max[%&#916;]]" }
+    ],
+    paging: true,
+    fixedHeader: {
+      header: false,
+      headerOffset: $('#fixed').height()
+    },
+    autoWidth: false,
+    pageLength: 10,
+    // change cell font color based on value
+    rowCallback: function (row, data, index) {
+      if (Math.abs(data[5]) > 3) {
+        $(row).find('td:eq(5)').css({ 'color': 'red', 'font-weight': "bold" });
+      }
+      if (Math.abs(data[6]) > 3) {
+        $(row).find('td:eq(6)').css({ 'color': 'red', 'font-weight': "bold" });
+      }
+      if (Math.abs(data[7]) > 3) {
+        $(row).find('td:eq(7)').css({ 'color': 'red', 'font-weight': "bold" });
+      }
+      if (Math.abs(data[8]) > 3) {
+        $(row).find('td:eq(8)').css({ 'color': 'red', 'font-weight': "bold" });
+      }
+    }
+
+  });
+
+  $("#d95-agg-data-table").DataTable({
+    data: datalist[0][1],
+    columns: [
+      // structure
+      // // d95 
+      // d.value.max_d95, //1
+      // d.value.min_d95, //2
+      // d.value.range_d95, //3
+      // // d95 avg
+      // d.value.avg_d95, //4
+      // // d95 deltas
+      // d.value.max_d95Delta, //5
+      // d.value.min_d95Delta, //6
+      // d.value.range_d95Delta, //7
+      // // d95 delta avg
+      // d.value.avg_d95Delta, //8
+
+      { title: "Plan / Structure" },
+      { title: "Max [D95[Gy]]" },
+      { title: "Min [D95[Gy]]" },
+      { title: "Range [D95[Gy]]" },
+      { title: "Avg [D95[Gy]]" },
+      { title: "Max [D95[%&#916;]]" },
+      { title: "Min [D95[%&#916;]]" },
+      { title: "Range [D95[%&#916;]]" },
+      { title: "Avg [D95[%&#916;]]" }
+    ],
+    paging: true,
+    fixedHeader: {
+      header: false,
+      headerOffset: $('#fixed').height()
+    },
+    autoWidth: false,
+    pageLength: 10,
+    // change cell font color based on value
+    rowCallback: function (row, data, index) {
+      if (Math.abs(data[5]) > 10) {
+        $(row).find('td:eq(5)').css({ 'color': 'red', 'font-weight': "bold" });
+      }
+      if (Math.abs(data[6]) > 10) {
+        $(row).find('td:eq(6)').css({ 'color': 'red', 'font-weight': "bold" });
+      }
+      if (Math.abs(data[7]) > 10) {
+        $(row).find('td:eq(7)').css({ 'color': 'red', 'font-weight': "bold" });
+      }
+      if (Math.abs(data[8]) > 10) {
+        $(row).find('td:eq(8)').css({ 'color': 'red', 'font-weight': "bold" });
+      }
+    }
+
+  });
+};
 
 // Event Listeners
 
@@ -203,6 +404,7 @@ $(document).on("click", "#check-boxes input", function (e) {
       toIgnore.push(series.userOptions.name);
     }
   });
+  $(e.target).parent().toggleClass("text-muted striked");
 
   // toggle series visibility
   $.each(chart.series, function (i, series) {
