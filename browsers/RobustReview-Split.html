@@ -132,6 +132,14 @@
         <h2 class="bg-info rounded text-center text-white p-3 mt-3 font-weight-light" onclick="hideNextElement(this)">
           DVH Overview</h2>
         <div>
+          <!-- DVH Stats Table -->
+          <div class="row ">
+            <h3 class="w-100 text-info text-center font-weight-light font-weight-light mt-3"
+              onclick="hideNextElement(this)">DVH Statistics</h3>
+            <div class="col-md-12">
+              <table id="datatables-table" class="display text-center table table-hover table-striped "></table>
+            </div>
+          </div>
           <!-- Max Dose Summary Statistics -->
           <div class="row ">
             <div class="col-md-12">
@@ -147,14 +155,6 @@
                 onclick="hideNextElement(this)">D95 Summary Statistics
               </h3>
               <table id="d95-agg-data-table" class="display text-center table table-hover table-striped "></table>
-            </div>
-          </div>
-          <!-- DVH Stats Table -->
-          <div class="row ">
-            <h3 class="w-100 text-info text-center font-weight-light font-weight-light mt-3"
-              onclick="hideNextElement(this)">DVH Statistics</h3>
-            <div class="col-md-12">
-              <table id="datatables-table" class="display text-center table table-hover table-striped "></table>
             </div>
           </div>
         </div>
