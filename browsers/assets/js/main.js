@@ -159,14 +159,14 @@ function loadFile() {
           $("#plan-params-table").append(
             `<thead>
                 <tr>
-                  <th>Range [%]</th>
-                  <th>Left [cm]</th>
-                  <th>Right [cm]</th>
-                  <th>Ant [cm]</th>
-                  <th>Post [cm]</th>
-                  <th>Sup [cm]</th>
-                  <th>Inf [cm]</th>
-                  <th>Ind. Beams?</th>
+                  <th class="font-weight-light text-center">Range [%]</th>
+                  <th class="font-weight-light text-center">Left [cm]</th>
+                  <th class="font-weight-light text-center">Right [cm]</th>
+                  <th class="font-weight-light text-center">Ant [cm]</th>
+                  <th class="font-weight-light text-center">Post [cm]</th>
+                  <th class="font-weight-light text-center">Sup [cm]</th>
+                  <th class="font-weight-light text-center">Inf [cm]</th>
+                  <th class="font-weight-light text-center">Ind. Beams?</th>
                 </tr>
               </thead>`
           );
@@ -286,10 +286,7 @@ function loadFile() {
         });
 
         //  fill dvh stats tables
-        fillDataTables(dataTablesData);
-
-        $('th').addClass('text-center font-weight-light');
-        $('td').addClass('text-center font-weight-light');
+        fillDVHStatsTable(dataTablesData);
 
         // chart options
         var chartOptions = {

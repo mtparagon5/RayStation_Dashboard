@@ -77,7 +77,7 @@ function buildCheckBoxes() {
   $.each(contourCategories, function (i, cat) {
     if (!added_cbs.includes(cat.name)) {
       var box =
-        '<label class="m-3 text-center font-weight-light" style="cursor:pointer;"><input class="mr-1" style="display:none;" type="checkbox" onChange="" id="' +
+        '<label class="ml-3 mr-3 text-center font-weight-light" style="cursor:pointer;"><input class="mr-1" style="display:none;" type="checkbox" onChange="" id="' +
         String(cat.name) +
         '" name="' +
         String(cat.name) +
@@ -129,7 +129,7 @@ function filterDataTable() {
   // destroy existing table
   $("#datatables-table").DataTable().destroy();
   // build new table
-  fillDataTables(newTableData);
+  fillDVHStatsTable(newTableData);
 }
 
 // get ids of structure checkboxes that are checked -- used to filter 
@@ -145,7 +145,7 @@ function getCheckedIds() {
   return ids;
 }
 
-function fillDataTables(d) {
+function fillDVHStatsTable(d) {
   // fill tables
   $("#datatables-table").DataTable({
     data: d,
@@ -190,6 +190,9 @@ function fillDataTables(d) {
     }
 
   });
+
+  $('#datatables-table th').addClass('text-center font-weight-light');
+  $('#datatables-table td').addClass('text-center font-weight-light');
 };
 // aggregates max dose data (targets and oars)
 function getMaxAggData(allData) {
@@ -339,6 +342,9 @@ function fillAggDataTables(datalist) {
 
   });
 
+  $('#max-agg-data-table th').addClass('text-center font-weight-light');
+  $('#max-agg-data-table td').addClass('text-center font-weight-light');
+
   $("#d95-agg-data-table").DataTable({
     data: datalist[0][1],
     columns: [
@@ -390,7 +396,14 @@ function fillAggDataTables(datalist) {
     }
 
   });
+
+  $('#d95-agg-data-table th').addClass('text-center font-weight-light');
+  $('#d95-agg-data-table td').addClass('text-center font-weight-light');
 };
+
+function hideNextElement(e) {
+  $(e).next().toggleClass('hidden')
+}
 
 // Event Listeners
 

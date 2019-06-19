@@ -32,6 +32,19 @@
     .striked {
       text-decoration: line-through;
     }
+
+    div table>tbody>tr:hover {
+      background-color: rgba(158, 205, 255, 0.5) !important;
+    }
+
+    h2,
+    h3 {
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 
@@ -54,7 +67,8 @@
     <div class="row">
       <main role="main" class="ml-sm-auto col-lg-12 px-4 ">
         <!-- Dashboard Header -->
-        <h2 class="bg-info rounded text-center text-white p-3 my-3 font-weight-light">Patient Information</h2>
+        <h2 class="bg-info rounded text-center text-white p-3 my-3 font-weight-light" onclick="hideNextElement(this)">
+          General Information</h2>
         <!-- /Dashboard Header -->
 
         <!-- Patient Information Display -->
@@ -86,21 +100,24 @@
         <!-- /Patient Information Display -->
 
         <!-- Placeholder for the DVH -->
-        <h2 class="bg-info rounded text-center text-white p-3 mt-3 font-weight-light">Interactive DVH</h2>
-        <div class="row">
-          <div class="dvh col-md-10 m-auto h-100" id="dvh"></div>
-        </div>
-        <!-- contour checkboxes -->
-        <div class="row">
-          <div class="m-auto col-md-12">
-            <h3 class="text-center font-weight-light text-info">Available Contours</h3>
-            <form class="text-center" id="check-boxes">
-            </form>
+        <h2 class="bg-info rounded text-center text-white p-3 mt-3 font-weight-light" onclick="hideNextElement(this)">
+          Interactive DVH</h2>
+        <div>
+          <div class="row">
+            <div class="dvh col-md-10 m-auto h-100" id="dvh"></div>
+          </div>
+          <!-- contour checkboxes -->
+          <div class="row">
+            <div class="col-md-12">
+              <h4 class="text-center font-weight-light text-info">Available Contours</h4>
+              <form class="text-center" id="check-boxes">
+              </form>
+            </div>
           </div>
         </div>
         <!-- Plan Parameters Table -->
-        <h2 class="bg-info rounded text-center text-white p-3 mt-3 font-weight-light">Robust Planning Parameters
-        </h2>
+        <h2 class="bg-info rounded text-center text-white p-3 mt-3 font-weight-light" onclick="hideNextElement(this)">
+          Robust Planning Parameters</h2>
         <div class="row ">
           <div class="col-md-12">
             <div class="table-responsive">
@@ -112,26 +129,33 @@
         </div>
         <!-- /Plan Parameters Table -->
         <!-- Table Data -->
-        <h2 class="bg-info rounded text-center text-white p-3 mt-3 font-weight-light">DVH Overview</h2>
-        <!-- Max Dose Summary Statistics -->
-        <div class="row ">
-          <div class="col-md-12">
-            <h3 class="w-100 text-info text-center font-weight-light mt-3">Max Dose Summary Statistics</h3>
-            <table id="max-agg-data-table" class="display text-center table table-hover table-striped "></table>
+        <h2 class="bg-info rounded text-center text-white p-3 mt-3 font-weight-light" onclick="hideNextElement(this)">
+          DVH Overview</h2>
+        <div>
+          <!-- Max Dose Summary Statistics -->
+          <div class="row ">
+            <div class="col-md-12">
+              <h3 class="w-100 text-info text-center font-weight-light mt-3" onclick="hideNextElement(this)">Max Dose
+                Summary Statistics</h3>
+              <table id="max-agg-data-table" class="display text-center table table-hover table-striped "></table>
+            </div>
           </div>
-        </div>
-        <!-- D95 Summary Statistics -->
-        <div class="row">
-          <div class="col-md-12">
-            <h3 class="w-100 text-info text-center font-weight-light font-weight-light mt-3">D95 Summary Statistics</h3>
-            <table id="d95-agg-data-table" class="display text-center table table-hover table-striped "></table>
+          <!-- D95 Summary Statistics -->
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="w-100 text-info text-center font-weight-light font-weight-light mt-3"
+                onclick="hideNextElement(this)">D95 Summary Statistics
+              </h3>
+              <table id="d95-agg-data-table" class="display text-center table table-hover table-striped "></table>
+            </div>
           </div>
-        </div>
-        <!-- DVH Stats Table -->
-        <div class="row ">
-          <h3 class="w-100 text-info text-center font-weight-light font-weight-light mt-3">DVH Statistics</h3>
-          <div class="col-md-12">
-            <table id="datatables-table" class="display text-center table table-hover table-striped "></table>
+          <!-- DVH Stats Table -->
+          <div class="row ">
+            <h3 class="w-100 text-info text-center font-weight-light font-weight-light mt-3"
+              onclick="hideNextElement(this)">DVH Statistics</h3>
+            <div class="col-md-12">
+              <table id="datatables-table" class="display text-center table table-hover table-striped "></table>
+            </div>
           </div>
         </div>
         <!-- /Table Data -->
