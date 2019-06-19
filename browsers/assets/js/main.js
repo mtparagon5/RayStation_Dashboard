@@ -368,9 +368,6 @@ function loadFile() {
           // }
         });
 
-        //  fill data tables
-        fillDataTables(dataTablesData);
-
         // chart options
         var chartOptions = {
           chart: {
@@ -554,6 +551,9 @@ function loadFile() {
 
         // create chart
         chart = new Highcharts.Chart(chartOptions);
+
+        //  fill data tables
+        fillDataTables(dataTablesData);
       }
 
     });
