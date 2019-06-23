@@ -402,7 +402,7 @@ function fillAggDataTables(datalist) {
 };
 
 function hideNextElement(e) {
-  $(e).next().toggleClass('hidden')
+  $(e).next().slideToggle(400);
 }
 
 // Event Listeners
