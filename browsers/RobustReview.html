@@ -128,32 +128,45 @@
           </div>
         </div>
         <!-- /Plan Parameters Table -->
+
         <!-- Table Data -->
         <h2 class="bg-info rounded text-center text-white p-3 mt-3 font-weight-light" onclick="hideNextElement(this)">
           DVH Overview</h2>
-        <div>
+        <div class="col-md-12">
           <!-- DVH Stats Table -->
           <div class="row ">
-            <h3 class="w-100 text-info text-center font-weight-light font-weight-light mt-3"
-              onclick="hideNextElement(this)">DVH Statistics</h3>
+            <h3 class="w-100 text-info text-center font-weight-light mt-3" onclick="hideNextElement(this)">DVH
+              Statistics</h3>
             <div class="col-md-12">
               <table id="datatables-table" class="display text-center table table-hover table-striped "></table>
             </div>
           </div>
+          <!-- Global Max Dose Summary Statistics -->
+          <div class="row ">
+            <h3 class="w-100 text-info text-center font-weight-light mt-3" onclick="hideNextElement(this)">Global Max
+              Dose
+              Summary Statistics</h3>
+            <div class="col-md-12">
+              <table id="global-max-agg-data-table" class="display text-center table table-hover table-striped ">
+              </table>
+            </div>
+          </div>
           <!-- Max Dose Summary Statistics -->
           <div class="row ">
+            <h3 class="w-100 text-info text-center font-weight-light mt-3" onclick="hideNextElement(this)">Structure Max
+              Dose
+              Summary Statistics</h3>
             <div class="col-md-12">
-              <h3 class="w-100 text-info text-center font-weight-light mt-3" onclick="hideNextElement(this)">Max Dose
-                Summary Statistics</h3>
-              <table id="max-agg-data-table" class="display text-center table table-hover table-striped "></table>
+              <table id="structure-max-agg-data-table" class="display text-center table table-hover table-striped ">
+              </table>
             </div>
           </div>
           <!-- D95 Summary Statistics -->
           <div class="row">
+            <h3 class="w-100 text-info text-center font-weight-light mt-3" onclick="hideNextElement(this)">D95 Summary
+              Statistics
+            </h3>
             <div class="col-md-12">
-              <h3 class="w-100 text-info text-center font-weight-light font-weight-light mt-3"
-                onclick="hideNextElement(this)">D95 Summary Statistics
-              </h3>
               <table id="d95-agg-data-table" class="display text-center table table-hover table-striped "></table>
             </div>
           </div>

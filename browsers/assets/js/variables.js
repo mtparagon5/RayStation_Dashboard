@@ -4,6 +4,7 @@ var chart;
 var data = [],
   nomData = [],
   pertTypes = [],
+  globalMaxData = [],
   seriesOptions = [],
   dataTablesData = [],
   contourCategories = [];

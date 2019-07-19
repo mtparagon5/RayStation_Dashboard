@@ -34,7 +34,6 @@ function loadFile() {
   // This function will read the text in the file that is loaded, manipulate it, and create the graphs/tables
 
   function receivedText(e) {
-
     PlanJSONArray = JSON.parse(e.target.result);
     planData = PlanJSONArray[0].planData;
 
@@ -42,7 +41,7 @@ function loadFile() {
 
     // for documentation: https://www.highcharts.com/
 
-    $(document).ready(function () {
+    $(document).ready(function() {
       // call init function
       init();
 
@@ -55,17 +54,22 @@ function loadFile() {
         var jsonArray = PlanJSONArray[0];
 
         // define plan parameters
-        document.getElementById("patientName").innerHTML = jsonArray.patientName;
+        document.getElementById("patientName").innerHTML =
+          jsonArray.patientName;
         document.getElementById("mrn").innerHTML = jsonArray.patientId;
         document.getElementById("planId").innerHTML = jsonArray.planName;
-        document.getElementById("BeamSetName").innerHTML = jsonArray.BeamSetName;
+        document.getElementById("BeamSetName").innerHTML =
+          jsonArray.BeamSetName;
 
         // data collection / processing
         var structureID = [];
-        planData.forEach(function (pdata, i) {
-          pdata.structureData.forEach(function (sdata, j) {
+        planData.forEach(function(pdata, i) {
+          let globalMax = pdata.globalMaxDose;
+          pdata.structureData.forEach(function(sdata, j) {
             // get categories
-            structureID.push(new Category(sdata.structureId, pdata.perturbationType));
+            structureID.push(
+              new Category(sdata.structureId, pdata.perturbationType)
+            );
 
             // collect data for tables
             // get nominal data
@@ -73,38 +77,46 @@ function loadFile() {
               nomData.push([
                 sdata.structureId,
                 pdata.planId,
+                parseFloat(globalMax) / 100.0,
                 parseFloat(sdata.structureMaxDose) / 100.0,
                 parseFloat(sdata.structureD95) / 100.0
               ]); //Dmax and D95 in Gy
             }
             // calculate deltas relative to nominal data
-            nomData.forEach(function (val, i) {
+            nomData.forEach(function(val, i) {
               if (nomData[i][0] == sdata.structureId) {
-                var d95Ratio = 0;
-
-                var D95Gy = (
-                  parseFloat(sdata.structureD95) / 100.0
+                // global max dose
+                var globalMaxDose = (parseFloat(globalMax) / 100.0).toFixed(3);
+                var globalMaxDoseRatio = (
+                  ((globalMaxDose - nomData[i][2]) / Math.abs(nomData[i][2])) *
+                  100
                 ).toFixed(2);
 
-                if (nomData[i][3] != 0) {
+                // structure max dose
+                var maxDose = (
+                  parseFloat(sdata.structureMaxDose) / 100.0
+                ).toFixed(3);
+
+                var maxRatio = (
+                  ((maxDose - nomData[i][3]) / Math.abs(nomData[i][3])) *
+                  100
+                ).toFixed(2);
+
+                // d95 ratio
+                var d95Ratio = 0;
+                var D95Gy = (parseFloat(sdata.structureD95) / 100.0).toFixed(3);
+                if (nomData[i][4] != 0) {
                   d95Ratio = (
-                    ((D95Gy - nomData[i][3]) / Math.abs(nomData[i][3])) *
+                    ((D95Gy - nomData[i][4]) / Math.abs(nomData[i][4])) *
                     100
                   ).toFixed(2);
                 }
 
-                var maxDose = (
-                  parseFloat(sdata.structureMaxDose) / 100.0
-                ).toFixed(2);
-
-                var maxRatio = (
-                  ((maxDose - nomData[i][2]) / Math.abs(nomData[i][2])) *
-                  100
-                ).toFixed(2);
-
                 data.push([
                   pdata.structureData[j].structureId,
                   pdata.planId,
+                  globalMaxDose,
+                  globalMaxDoseRatio,
                   maxDose,
                   maxRatio,
                   D95Gy,
@@ -120,11 +132,10 @@ function loadFile() {
           if (!pertTypes.includes(planData[i].perturbationType)) {
             pertTypes.push(planData[i].perturbationType);
           }
-
         });
 
         // fill contour categories and assign index
-        contourCategories = structureID.map(function (cat, i) {
+        contourCategories = structureID.map(function(cat, i) {
           // assign index
           cat.index = i;
 
@@ -151,7 +162,7 @@ function loadFile() {
 
           processedParamsArr = processedParams.split(",");
 
-          processedParamsArr.forEach(function (val, i) {
+          processedParamsArr.forEach(function(val, i) {
             robustShiftsArr.push(parseFloat(val));
           });
 
@@ -193,10 +204,10 @@ function loadFile() {
             "<td>" +
             robustShiftsArr[1].toFixed(1) +
             "</td>" /*inf*/ +
-            "<td>" +
-            jsonArray.indBeams.replace('"', "") +
-            "</td>" +
-            "</tr>"
+              "<td>" +
+              jsonArray.indBeams.replace('"', "") +
+              "</td>" +
+              "</tr>"
           );
         }
 
@@ -205,21 +216,63 @@ function loadFile() {
 
         // separate target data for d95 agg data
         var targetData = [];
-        data.forEach((d) => {
-          if (d[7] != "Organ") {
+        data.forEach(d => {
+          if (d[9] != "Organ") {
             targetData.push(d);
           }
         });
 
+        // get data for table
+        let tempPertTypeList = [];
+        data.forEach(function(arr, i) {
+          if (!tempPertTypeList.includes(data[i][8])) {
+            globalMaxData.push([data[i][8], data[i][2], data[i][3]]);
+            tempPertTypeList.push(data[i][8]);
+          }
+          if (data[i][9] == "Organ") {
+            // If the structure is not a "Target", only populate id, plan, max dose, and max % diff (omit D95 and D95 % diff)
+            dataTablesData.push([
+              data[i][0],
+              data[i][1],
+              data[i][2],
+              data[i][3],
+              data[i][4],
+              data[i][5],
+              "--",
+              "--"
+            ]);
+          } else {
+            dataTablesData.push([
+              data[i][0],
+              data[i][1],
+              data[i][2],
+              data[i][3],
+              data[i][4],
+              data[i][5],
+              data[i][6],
+              data[i][7]
+            ]);
+          }
+        });
+        console.log(data);
+
         // aggregate data summary
         var aggData = [];
-        var maxDoseAggData = [];
+        var globalMaxDoseAggData = [];
+        var structureMaxDoseAggData = [];
         var d95AggData = [];
-        var maxAggDataList = getMaxAggData(data);
+        // get global max agg data
+        var globalMaxAggDataList = getGlobalMaxAggData(globalMaxData);
+
+        // get structure max agg data
+        var structureMaxAggDataList = getMaxAggData(data);
+
+        // get d95 agg data
         var d95AggDataList = getD95AggData(targetData);
-        maxAggDataList.forEach(function (v) {
-          v.forEach(function (d) {
-            maxDoseAggData.push([
+
+        globalMaxAggDataList.forEach(function(v) {
+          v.forEach(function(d) {
+            globalMaxDoseAggData.push([
               d.key,
               d.value.max_maxDose, //1
               d.value.min_maxDose, //2
@@ -231,15 +284,67 @@ function loadFile() {
               d.value.min_maxDelta, //6
               d.value.range_maxDelta, //7
               // max dose delta avg
-              d.value.avg_maxDelta, //8
-            ])
-          })
+              d.value.avg_maxDelta //8
+            ]);
+          });
         });
-        d95AggDataList.forEach(function (v) {
-          v.forEach(function (d) {
+
+        // get location of global max
+        globalMaxDoseAggData.forEach(aggData => {
+          let maxInstances = [];
+          data.forEach(d => {
+            // if the plan type is same and max dose is same
+            if (aggData[1] == d[4]) {
+              // push structure id
+              maxInstances.push(" " + d[0]);
+            }
+          });
+          if (maxInstances.length == 0) {
+            aggData.splice(1, 0, "Outside Given Structures");
+          } else {
+            aggData.splice(1, 0, maxInstances);
+          }
+        });
+        structureMaxAggDataList.forEach(function(v) {
+          v.forEach(function(d) {
+            structureMaxDoseAggData.push([
+              d.key,
+              d.value.max_maxDose, //1
+              d.value.min_maxDose, //2
+              d.value.range_maxDose, //3
+              // max dose avg
+              d.value.avg_maxDose, //4
+              // max dose deltas
+              d.value.max_maxDelta, //5
+              d.value.min_maxDelta, //6
+              d.value.range_maxDelta, //7
+              // max dose delta avg
+              d.value.avg_maxDelta //8
+            ]);
+          });
+        });
+        // get structure location for plan max in structure and plan loc for structure max
+        structureMaxDoseAggData.forEach(aggData => {
+          let maxInstances = [];
+          data.forEach(d => {
+            // if the plan type is same and max dose is same
+            if (aggData[0] == d[8] && aggData[1] == d[4]) {
+              // push structure id
+              maxInstances.push(" " + d[0]);
+            }
+            // if the structure id is same and max dose is same
+            if (aggData[0] == d[0] && aggData[1] == d[4]) {
+              // push plan id
+              maxInstances.push(" " + d[1]);
+            }
+          });
+          aggData.splice(1, 0, maxInstances);
+        });
+        d95AggDataList.forEach(function(v) {
+          v.forEach(function(d) {
             d95AggData.push([
               d.key,
-              // d95 
+              // d95
               d.value.max_d95, //1
               d.value.min_d95, //2
               d.value.range_d95, //3
@@ -250,42 +355,39 @@ function loadFile() {
               d.value.min_d95Delta, //6
               d.value.range_d95Delta, //7
               // d95 delta avg
-              d.value.avg_d95Delta, //8
+              d.value.avg_d95Delta //8
             ]);
           });
         });
-        aggData.push([maxDoseAggData, d95AggData]);
+        // get structure location for plan max in structure and plan loc for structure max
+        d95AggData.forEach(aggData => {
+          let minInstances = [];
+          data.forEach(d => {
+            // if the plan type is same and max dose is same
+            if (aggData[0] == d[8] && aggData[2] == d[6]) {
+              // push structure id
+              // minInstances.push(" " + d[0]);
+            }
+            // if the structure id is same and max dose is same
+            if (aggData[0] == d[0] && aggData[2] == d[6]) {
+              // push plan id
+              minInstances.push(" " + d[1]);
+            }
+          });
+          aggData.splice(3, 0, minInstances);
+        });
 
+        // add agg data to array
+        aggData.push([
+          globalMaxDoseAggData,
+          structureMaxDoseAggData,
+          d95AggData
+        ]);
+
+        // fill agg data tables
         fillAggDataTables(aggData);
 
         // Create DVH Stats Table
-
-        // get data for table
-        data.forEach(function (arr, i) {
-          if (data[i][7] == "Organ") {
-
-            // If the structure is not a "Target", only populate id, plan, max dose, and max % diff (omit D95 and D95 % diff)
-            dataTablesData.push([
-              data[i][0],
-              data[i][1],
-              data[i][2],
-              data[i][3],
-              "--",
-              "--"
-            ]);
-          } else {
-            dataTablesData.push([
-              data[i][0],
-              data[i][1],
-              data[i][2],
-              data[i][3],
-              data[i][4],
-              data[i][5]
-            ]);
-          }
-        });
-
-        //  fill dvh stats tables
         fillDVHStatsTable(dataTablesData);
 
         // chart options
@@ -387,7 +489,7 @@ function loadFile() {
           },
 
           tooltip: {
-            positioner: function () {
+            positioner: function() {
               return {
                 x: 100,
                 y: 0
@@ -401,7 +503,7 @@ function loadFile() {
             // NOTE: only one point is shown on hover because the x values are different for each series
             // this is because the dose at volume is collected as opposed to volume at dose
             // if you want each of the values to show on hover, simply collect volume at dose instead
-            formatter: function () {
+            formatter: function() {
               var s =
                 '<table><strong style="color:#0a114a;">V' +
                 this.x +
@@ -411,15 +513,15 @@ function loadFile() {
               //     return a.y > b.y ? -1 : a.y < b.y ? 1 : 0;
               // });
 
-              var sortedPoints = this.points.sort(function (a, b) {
-                return a.series.name < b.series.name ?
-                  -1 :
-                  a.series.name > b.series.name ?
-                    1 :
-                    0;
+              var sortedPoints = this.points.sort(function(a, b) {
+                return a.series.name < b.series.name
+                  ? -1
+                  : a.series.name > b.series.name
+                  ? 1
+                  : 0;
               });
 
-              $.each(sortedPoints, function (i, point) {
+              $.each(sortedPoints, function(i, point) {
                 if (point.y < 100 && point.y > 0) {
                   var last_ = point.series.name.lastIndexOf("_");
                   var plan = point.series.name.slice(0, last_);
@@ -472,9 +574,6 @@ function loadFile() {
         // create chart
         chart = new Highcharts.Chart(chartOptions);
       }
-
     });
   }
-
 }
-
